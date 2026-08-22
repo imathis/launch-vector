@@ -79,9 +79,9 @@ Run from the workspace root, in this order, and fix failures caused by the
 change:
 
 ```bash
-bun run typecheck
-bun run lint
-bun run build
+just typecheck
+just lint
+just build
 ```
 
 Report the installed/generated files, package or CSS changes, verification

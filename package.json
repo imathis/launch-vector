@@ -4,9 +4,7 @@
   "private": true,
   "scripts": {
     "build": "bun run --filter '*' build",
-    "dev": "bun tooling/dev.ts",
-    "dev:apps": "bun run --filter './apps/*' dev",
-    "dev:portless": "portless",
+    "dev": "bun tooling/services.ts up",
     "lint": "bun run --filter '*' lint",
     "format": "bun run --filter '*' format",
     "typecheck": "tsc --noEmit && bun run --filter '*' typecheck"
@@ -19,7 +17,7 @@
   },
   "packageManager": "bun@1.4.0",
   "engines": {
-    "node": ">=20"
+    "node": ">=24"
   },
   "workspaces": [
     "apps/*",

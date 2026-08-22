@@ -6,39 +6,95 @@ component documentation, and disposable design experiments.
 The name is intentionally kept out of package APIs. Shared code uses the
 rename-safe `@workspace/*` scope.
 
-Root tasks run directly across Bun workspaces; no separate task runner is
-required.
+## How it works
 
-## Requirements
+- **Just** is the human-facing command runner.
+- **Bun** installs dependencies and runs workspace scripts.
+- **Process Compose** supervises native development servers.
+- **Portless** gives each server a stable local HTTPS name.
 
-- Bun 1.4+
-- Node.js 24+ for Portless
-- Portless: `npm install -g portless`
+The Vite applications run natively rather than in containers. If the workspace
+later needs Postgres, Redis, or other infrastructure, those services can be
+added through OrbStack without moving the frontend development servers.
 
-## Start everything
+## First-time setup
+
+Install Homebrew and Just, clone the repository, then run setup:
 
 ```bash
-bun install
-bun run dev
+brew install just
+just setup
 ```
 
-The dev command uses the `vector.dev` local TLD and first asks Portless for the
-standard HTTPS port. If another local proxy already owns it, every app
-automatically shares fallback port `2187`. Override these choices with
-`PORTLESS_TLD`, `PORTLESS_PORT`, or `PORTLESS_FALLBACK_PORT`.
+`just setup` uses Homebrew to install any missing system tools—Bun, Node.js,
+and Process Compose—installs Portless through npm, then installs all Bun
+workspace dependencies. Node.js 24 or newer is required by Portless.
 
-Portless serves the workspaces at stable local names:
+The first Portless run may request administrator access to trust its local CA
+and update `/etc/hosts`.
 
-- `https://demo.vector.dev`
-- `https://ui.vector.dev`
-- `https://lab.vector.dev`
+## Run the workspace
 
-On a machine using the fallback, append `:2187` to each URL. Portless remembers
-the selected proxy configuration, so this fallback happens once rather than
-assigning ports to individual apps. Run `portless doctor` if neither proxy can
-start. The first interactive run may request administrator access to trust its
-local certificate and map the custom domains. If a `vector.dev` name does not
-resolve while the apps are running, run `portless hosts sync` once.
+Start every application in the background:
+
+```bash
+just
+# or: just up
+```
+
+Start or stop one application independently:
+
+```bash
+just up lab
+just up docs
+just down lab
+```
+
+Selectors map to workspaces and Portless routes:
+
+| Selector | Workspace   | URL                       |
+| -------- | ----------- | ------------------------- |
+| `demo`   | `apps/web`  | `https://demo.vector.dev` |
+| `docs`   | `apps/docs` | `https://ui.vector.dev`   |
+| `lab`    | `apps/lab`  | `https://lab.vector.dev`  |
+
+Process Compose keeps the selected servers running after `just up` returns.
+Manage them from any terminal:
+
+```bash
+just status       # show all process states
+just logs lab     # follow one app; Ctrl-C only exits the log viewer
+just logs         # follow every app
+just attach       # open the interactive process dashboard
+just down docs    # stop one app
+just down         # stop the complete workspace supervisor
+```
+
+Portless first uses standard HTTPS port 443. If another local proxy owns it,
+all apps share fallback port `2187`, and the printed URLs include that port.
+Override the defaults with `PORTLESS_TLD`, `PORTLESS_PORT`, or
+`PORTLESS_FALLBACK_PORT`.
+
+If a `vector.dev` name does not resolve while its app is running, run
+`portless hosts sync` once. Use `portless doctor` for certificate, DNS, or proxy
+diagnostics.
+
+The Process Compose control socket lives at `.process-compose.sock` and is
+gitignored. `tooling/services.ts` owns lifecycle behavior; `process-compose.yaml`
+contains the actual app commands.
+
+## Common commands
+
+```bash
+just setup       # install missing tools and all workspace dependencies
+just install     # install Bun dependencies only
+just format      # format source
+just typecheck   # typecheck tooling and every workspace
+just lint        # lint every workspace
+just build       # build every workspace
+just check       # typecheck, lint, and build
+just --list      # show every recipe
+```
 
 ## Workspace
 
@@ -92,7 +148,5 @@ Lab shortcuts ignore editable controls:
 ## Verify
 
 ```bash
-bun run typecheck
-bun run lint
-bun run build
+just check
 ```

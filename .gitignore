@@ -14,6 +14,7 @@ dist-ssr
 
 # env files (can opt-in for committing if needed)
 .env*
+.process-compose.sock
 
 # Editor directories and files
 .vscode/*
