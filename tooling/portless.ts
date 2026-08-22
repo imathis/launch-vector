@@ -1,10 +1,19 @@
-export const portlessTld = process.env.PORTLESS_TLD ?? "vector.dev"
+export const portlessTld =
+  process.env.VECTOR_TLD ?? process.env.PORTLESS_TLD ?? "vector.localhost"
+export const portlessPort =
+  process.env.VECTOR_PORT ?? process.env.PORTLESS_PORT ?? "2187"
 
-const fallbackPort = process.env.PORTLESS_FALLBACK_PORT ?? "2187"
+const portNumber = Number(portlessPort)
+if (!Number.isInteger(portNumber) || portNumber < 1 || portNumber > 65535) {
+  throw new Error(`Invalid Vector port: ${portlessPort}`)
+}
 
 export const portlessEnv = {
   ...process.env,
+  VECTOR_TLD: portlessTld,
+  VECTOR_PORT: portlessPort,
   PORTLESS_TLD: portlessTld,
+  PORTLESS_PORT: portlessPort,
 }
 
 async function run(command: string[]) {
@@ -38,34 +47,42 @@ export async function ensurePortlessProxy() {
     throw new Error("Portless is required. Run: just setup")
   }
 
-  if (process.env.PORTLESS_PORT) {
-    const status = await run(["portless", "proxy", "start"])
-    if (status !== 0) throw new Error("Could not start the Portless proxy")
-    return
-  }
-
   const diagnosis = await inspectPortless()
-  if (diagnosis.includes("Proxy is responding on port")) return
+  const proxyMatches =
+    diagnosis.includes(`Proxy target: https://127.0.0.1:${portlessPort}`) &&
+    diagnosis.includes(`Mode: HTTPS, .${portlessTld}`) &&
+    diagnosis.includes("Proxy is responding on port")
+  if (proxyMatches) return
 
-  const standardPortConflict = diagnosis.includes(
-    "Port 443 is in use, but it is not a portless proxy."
-  )
-
-  if (standardPortConflict) {
+  const runningPort = diagnosis.match(
+    /Proxy target: https:\/\/127\.0\.0\.1:(\d+)/
+  )?.[1]
+  if (diagnosis.includes("Proxy is responding on port") && runningPort) {
     console.warn(
-      `Standard HTTPS port 443 is occupied; using shared fallback port ${fallbackPort}.`
+      `Restarting Portless with https://*.${portlessTld}:${portlessPort}.`
     )
-    const status = await run([
+    const stopStatus = await run([
       "portless",
       "proxy",
-      "start",
+      "stop",
       "--port",
-      fallbackPort,
+      runningPort,
     ])
-    if (status !== 0) throw new Error("Could not start the Portless proxy")
-    return
+    if (stopStatus !== 0) throw new Error("Could not reconfigure Portless")
   }
 
-  const status = await run(["portless", "proxy", "start"])
-  if (status !== 0) throw new Error("Could not start the Portless proxy")
+  const status = await run([
+    "portless",
+    "proxy",
+    "start",
+    "--port",
+    portlessPort,
+    "--tld",
+    portlessTld,
+  ])
+  if (status !== 0) {
+    throw new Error(
+      `Could not start Portless on port ${portlessPort} for .${portlessTld}`
+    )
+  }
 }

@@ -1,6 +1,13 @@
-import { startTransition, useEffect, useState, type MouseEvent } from "react"
+import {
+  startTransition,
+  useEffect,
+  useRef,
+  useState,
+  type MouseEvent,
+} from "react"
 
 import { ThemeToggle } from "@workspace/ui/theme/theme-toggle"
+import { useTheme } from "@workspace/ui/theme/theme-provider"
 
 import { PreviewSource } from "./components/preview-source"
 import {
@@ -23,14 +30,25 @@ function componentHref(slug: string) {
 }
 
 export function App() {
+  const { resolvedTheme } = useTheme()
   const [selectedSlug, setSelectedSlug] = useState(readComponentSlug)
   const selectedDoc = findComponentDoc(selectedSlug) ?? componentDocs[0]
+  const mobileNavigation = useRef<HTMLDetailsElement>(null)
 
   useEffect(() => {
     const handlePopState = () => setSelectedSlug(readComponentSlug())
     window.addEventListener("popstate", handlePopState)
     return () => window.removeEventListener("popstate", handlePopState)
   }, [])
+
+  useEffect(() => {
+    const themeColor = document.querySelector<HTMLMetaElement>(
+      'meta[name="theme-color"]'
+    )
+    if (themeColor) {
+      themeColor.content = resolvedTheme === "dark" ? "#1c1c1c" : "#ffffff"
+    }
+  }, [resolvedTheme])
 
   useEffect(() => {
     const requestedSlug = new URLSearchParams(window.location.search).get(
@@ -58,7 +76,8 @@ export function App() {
     event.preventDefault()
     window.history.pushState(null, "", componentHref(slug))
     startTransition(() => setSelectedSlug(slug))
-    window.scrollTo({ top: 0, behavior: "smooth" })
+    mobileNavigation.current?.removeAttribute("open")
+    window.scrollTo({ top: 0, behavior: "instant" })
   }
 
   if (!selectedDoc) {
@@ -66,32 +85,58 @@ export function App() {
   }
 
   return (
-    <div className="min-h-svh">
-      <header className="sticky top-0 z-10 border-b border-border bg-background">
-        <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-3 sm:px-6">
+    <div className="docs-shell min-h-svh overflow-x-hidden">
+      <a
+        className="fixed top-2 left-2 z-50 -translate-y-20 rounded-md bg-background px-4 py-3 font-medium shadow-md focus-visible:translate-y-0 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+        href="#content"
+      >
+        Skip to content
+      </a>
+
+      <header className="sticky top-0 z-30 border-b border-border bg-background pt-[env(safe-area-inset-top)]">
+        <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-4 px-4 sm:px-6 lg:px-8">
           <a
-            className="min-h-11 content-center font-semibold tracking-tight"
-            href="#top"
+            className="flex min-h-11 items-center gap-2 rounded-md font-semibold tracking-tight focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ring"
+            href="/"
           >
-            Vector docs
+            <span
+              className="grid size-7 place-items-center rounded-md bg-foreground text-xs font-bold text-background"
+              aria-hidden="true"
+            >
+              V
+            </span>
+            <span className="hidden min-[24rem]:inline">Vector Docs</span>
+            <span className="min-[24rem]:hidden">Docs</span>
           </a>
           <ThemeToggle />
         </div>
       </header>
 
-      <div className="mx-auto grid max-w-6xl gap-10 px-4 py-10 sm:px-6 md:grid-cols-[12rem_minmax(0,1fr)] md:py-14">
+      <details
+        ref={mobileNavigation}
+        className="docs-mobile-navigation group sticky z-20 border-b border-border bg-background lg:hidden"
+      >
+        <summary className="mx-auto flex min-h-14 max-w-7xl cursor-pointer list-none items-center justify-between gap-4 px-4 text-sm font-medium marker:content-none hover:bg-muted/40 focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-ring sm:px-6 [&::-webkit-details-marker]:hidden">
+          <span>
+            <span className="text-muted-foreground">Component:</span>{" "}
+            {selectedDoc.title}
+          </span>
+          <span
+            className="text-muted-foreground transition-transform group-open:rotate-180 motion-reduce:transition-none"
+            aria-hidden="true"
+          >
+            ↓
+          </span>
+        </summary>
         <nav
-          aria-label="Documentation"
-          className="md:sticky md:top-24 md:self-start"
+          aria-label="Mobile documentation"
+          className="docs-mobile-menu mx-auto max-w-7xl overflow-y-auto border-t border-border px-4 py-3 sm:px-6"
         >
-          <p className="mb-2 text-xs font-semibold tracking-widest text-muted-foreground uppercase">
-            Components
-          </p>
-          <div className="flex gap-1 overflow-x-auto pb-1 md:flex-col md:overflow-visible md:pb-0">
+          <div className="grid gap-1">
             {componentDocs.map((doc) => (
               <a
                 key={doc.slug}
-                className={`flex min-h-11 shrink-0 items-center rounded-lg px-3 text-sm font-medium ${doc.slug === selectedDoc.slug ? "bg-muted text-foreground" : "text-muted-foreground"}`}
+                className={`flex min-h-11 items-center border-l-2 px-3 text-sm font-medium transition-colors hover:bg-muted/60 hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring ${doc.slug === selectedDoc.slug ? "border-foreground text-foreground" : "border-transparent text-muted-foreground"}`}
                 href={componentHref(doc.slug)}
                 aria-current={
                   doc.slug === selectedDoc.slug ? "page" : undefined
@@ -103,33 +148,65 @@ export function App() {
             ))}
           </div>
         </nav>
+      </details>
 
-        <main id="top" className="min-w-0">
-          <article className="space-y-12">
-            <header className="space-y-4">
+      <div className="mx-auto grid max-w-7xl lg:grid-cols-[15rem_minmax(0,1fr)]">
+        <aside className="docs-sidebar sticky hidden border-r border-border lg:block">
+          <nav
+            aria-label="Documentation"
+            className="h-full overflow-y-auto px-5 py-8"
+          >
+            <p className="mb-3 px-3 text-xs font-semibold tracking-widest text-muted-foreground uppercase">
+              Components
+            </p>
+            <div className="grid gap-1">
+              {componentDocs.map((doc) => (
+                <a
+                  key={doc.slug}
+                  className={`flex min-h-11 items-center border-l-2 px-3 text-sm font-medium transition-colors hover:bg-muted/60 hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring ${doc.slug === selectedDoc.slug ? "border-foreground bg-muted/60 text-foreground" : "border-transparent text-muted-foreground"}`}
+                  href={componentHref(doc.slug)}
+                  aria-current={
+                    doc.slug === selectedDoc.slug ? "page" : undefined
+                  }
+                  onClick={(event) => selectComponent(event, doc.slug)}
+                >
+                  {doc.title}
+                </a>
+              ))}
+            </div>
+          </nav>
+        </aside>
+
+        <main
+          id="content"
+          className="min-w-0 scroll-mt-36 px-4 py-10 sm:px-8 sm:py-12 lg:scroll-mt-20 lg:px-12 lg:py-16 xl:px-16"
+        >
+          <article className="max-w-4xl space-y-14">
+            <header className="space-y-5 border-b border-border pb-10">
               <p className="text-sm font-medium text-muted-foreground">
-                Component
+                Components <span aria-hidden="true">/</span>{" "}
+                <span className="text-foreground">{selectedDoc.title}</span>
               </p>
-              <h1 className="text-4xl font-semibold tracking-tight sm:text-5xl">
+              <h1 className="text-4xl font-semibold tracking-tight text-pretty sm:text-5xl">
                 {selectedDoc.title}
               </h1>
-              <p className="max-w-2xl text-lg leading-8 text-muted-foreground">
+              <p className="max-w-2xl text-lg leading-8 text-pretty text-muted-foreground">
                 {selectedDoc.purpose}
               </p>
             </header>
 
             <section
               aria-label="Usage guidance"
-              className="grid gap-6 sm:grid-cols-2"
+              className="grid overflow-hidden rounded-xl border border-border bg-muted/25 sm:grid-cols-2"
             >
-              <div className="rounded-xl border border-border p-5">
-                <h2 className="mb-3 text-lg font-semibold">Use when</h2>
+              <div className="p-5 sm:p-6">
+                <h2 className="mb-3 text-lg font-semibold">Use When</h2>
                 <div className="leading-7 text-muted-foreground">
                   {selectedDoc.guidance.useWhen}
                 </div>
               </div>
-              <div className="rounded-xl border border-border p-5">
-                <h2 className="mb-3 text-lg font-semibold">Do not use when</h2>
+              <div className="border-t border-border p-5 sm:border-t-0 sm:border-l sm:p-6">
+                <h2 className="mb-3 text-lg font-semibold">Do Not Use When</h2>
                 <div className="leading-7 text-muted-foreground">
                   {selectedDoc.guidance.avoidWhen}
                 </div>
@@ -139,14 +216,16 @@ export function App() {
             <section aria-labelledby="examples" className="space-y-8">
               <h2
                 id="examples"
-                className="text-2xl font-semibold tracking-tight"
+                className="scroll-mt-36 text-2xl font-semibold tracking-tight lg:scroll-mt-24"
               >
                 Examples
               </h2>
               {selectedDoc.examples.map((example) => (
                 <div key={example.title} className="space-y-4">
                   <div>
-                    <h3 className="text-lg font-semibold">{example.title}</h3>
+                    <h3 className="text-lg font-semibold text-pretty">
+                      {example.title}
+                    </h3>
                     <p className="mt-2 leading-7 text-muted-foreground">
                       {example.description}
                     </p>
@@ -162,8 +241,11 @@ export function App() {
             </section>
 
             <section aria-labelledby="states" className="space-y-3">
-              <h2 id="states" className="text-2xl font-semibold tracking-tight">
-                Variants and states
+              <h2
+                id="states"
+                className="scroll-mt-36 text-2xl font-semibold tracking-tight lg:scroll-mt-24"
+              >
+                Variants & States
               </h2>
               <div className="max-w-3xl leading-7 text-muted-foreground">
                 {selectedDoc.variantsAndStates}
@@ -171,8 +253,11 @@ export function App() {
             </section>
 
             <section aria-labelledby="mobile" className="space-y-3">
-              <h2 id="mobile" className="text-2xl font-semibold tracking-tight">
-                Mobile guidance
+              <h2
+                id="mobile"
+                className="scroll-mt-36 text-2xl font-semibold tracking-tight lg:scroll-mt-24"
+              >
+                Mobile Guidance
               </h2>
               <div className="max-w-3xl leading-7 text-muted-foreground">
                 {selectedDoc.mobile}
@@ -182,7 +267,7 @@ export function App() {
             <section aria-labelledby="accessibility" className="space-y-3">
               <h2
                 id="accessibility"
-                className="text-2xl font-semibold tracking-tight"
+                className="scroll-mt-36 text-2xl font-semibold tracking-tight lg:scroll-mt-24"
               >
                 Accessibility
               </h2>

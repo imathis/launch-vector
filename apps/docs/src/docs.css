@@ -1,0 +1,72 @@
+.docs-shell {
+  padding-right: env(safe-area-inset-right);
+  padding-bottom: env(safe-area-inset-bottom);
+  padding-left: env(safe-area-inset-left);
+}
+
+.docs-shell :where(a, button, summary) {
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: color-mix(
+    in oklab,
+    var(--foreground) 12%,
+    transparent
+  );
+}
+
+.docs-sidebar {
+  top: calc(4rem + env(safe-area-inset-top));
+  height: calc(100svh - 4rem - env(safe-area-inset-top));
+}
+
+.docs-mobile-navigation {
+  top: calc(4rem + env(safe-area-inset-top));
+}
+
+.docs-mobile-menu {
+  max-height: calc(100svh - 7.5rem - env(safe-area-inset-top));
+  overscroll-behavior: contain;
+}
+
+.source-code .shiki,
+.source-code-fallback {
+  min-width: max-content;
+  margin: 0;
+  padding: 1.5rem;
+  background: transparent !important;
+  font-family: var(
+    --font-mono,
+    ui-monospace,
+    SFMono-Regular,
+    Menlo,
+    Monaco,
+    Consolas,
+    monospace
+  );
+  font-size: 0.875rem;
+  line-height: 1.75rem;
+}
+
+.source-code .shiki,
+.source-code .shiki span {
+  color: var(--shiki-light);
+  background-color: transparent !important;
+}
+
+.dark .source-code .shiki,
+.dark .source-code .shiki span {
+  color: var(--shiki-dark);
+}
+
+.source-code .line {
+  display: inline-block;
+  min-height: 1.75rem;
+}
+
+@media (max-width: 39.999rem) {
+  .source-code .shiki,
+  .source-code-fallback {
+    padding: 1rem;
+    font-size: 0.8125rem;
+    line-height: 1.625rem;
+  }
+}

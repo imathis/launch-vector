@@ -1,0 +1,33 @@
+version: 1
+
+project:
+  name: vector
+  tld: vector.localhost
+
+network:
+  port: 2187
+
+process_compose:
+  socket: .process-compose.sock
+
+lifecycle: [bun, tooling/services.ts]
+
+apps:
+  - name: demo
+    title: Demo
+    path: apps/web
+    route: demo
+    aliases: [web]
+  - name: docs
+    title: UI Docs
+    path: apps/docs
+    route: ui
+    aliases: [ui]
+  - name: lab
+    title: Prototype Lab
+    path: apps/lab
+    route: lab
+
+tasks:
+  check: [just, check]
+  doctor: [portless, doctor]

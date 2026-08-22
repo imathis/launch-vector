@@ -3,7 +3,10 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "portless": { "name": "ui", "script": "dev:app" },
+  "portless": {
+    "name": "ui",
+    "script": "dev:app"
+  },
   "scripts": {
     "dev": "portless",
     "dev:app": "vite",
@@ -14,6 +17,10 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@shikijs/core": "^4.4.3",
+    "@shikijs/engine-javascript": "^4.4.3",
+    "@shikijs/langs": "^4.4.3",
+    "@shikijs/themes": "^4.4.3",
     "@workspace/ui": "workspace:*",
     "react": "^19.2.6",
     "react-dom": "^19.2.6"

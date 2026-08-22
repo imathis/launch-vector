@@ -12,6 +12,7 @@ rename-safe `@workspace/*` scope.
 - **Bun** installs dependencies and runs workspace scripts.
 - **Process Compose** supervises native development servers.
 - **Portless** gives each server a stable local HTTPS name.
+- **Vector** provides the project-aware CLI and interactive terminal dashboard.
 
 The Vite applications run natively rather than in containers. If the workspace
 later needs Postgres, Redis, or other infrastructure, those services can be
@@ -27,11 +28,13 @@ just setup
 ```
 
 `just setup` uses Homebrew to install any missing system tools—Bun, Node.js,
-and Process Compose—installs Portless through npm, then installs all Bun
-workspace dependencies. Node.js 24 or newer is required by Portless.
+Go, and Process Compose—installs Portless through npm, installs all Bun
+workspace dependencies, and installs the `vector` command. Node.js 24 or newer
+is required by Portless.
 
-The first Portless run may request administrator access to trust its local CA
-and update `/etc/hosts`.
+The first Portless run may request approval to trust its local CA. Normal
+development uses `.localhost` names and unprivileged port `2187`, so starting
+and stopping apps does not require sudo or modify `/etc/hosts`.
 
 ## Run the workspace
 
@@ -52,11 +55,11 @@ just down lab
 
 Selectors map to workspaces and Portless routes:
 
-| Selector | Workspace   | URL                       |
-| -------- | ----------- | ------------------------- |
-| `demo`   | `apps/web`  | `https://demo.vector.dev` |
-| `docs`   | `apps/docs` | `https://ui.vector.dev`   |
-| `lab`    | `apps/lab`  | `https://lab.vector.dev`  |
+| Selector | Workspace   | URL                                    |
+| -------- | ----------- | -------------------------------------- |
+| `demo`   | `apps/web`  | `https://demo.vector.localhost:2187`   |
+| `docs`   | `apps/docs` | `https://ui.vector.localhost:2187`     |
+| `lab`    | `apps/lab`  | `https://lab.vector.localhost:2187`    |
 
 Process Compose keeps the selected servers running after `just up` returns.
 Manage them from any terminal:
@@ -70,18 +73,70 @@ just down docs    # stop one app
 just down         # stop the complete workspace supervisor
 ```
 
-Portless first uses standard HTTPS port 443. If another local proxy owns it,
-all apps share fallback port `2187`, and the printed URLs include that port.
-Override the defaults with `PORTLESS_TLD`, `PORTLESS_PORT`, or
-`PORTLESS_FALLBACK_PORT`.
+The one-time “Starting Process Compose in detached mode” message is expected.
+Detached mode is what lets the apps continue running after the command exits.
 
-If a `vector.dev` name does not resolve while its app is running, run
-`portless hosts sync` once. Use `portless doctor` for certificate, DNS, or proxy
-diagnostics.
+Portless serves HTTPS on port `2187` by default. Override the safe defaults with
+`VECTOR_TLD` and `VECTOR_PORT`; the underlying `PORTLESS_TLD` and
+`PORTLESS_PORT` variables also work. Port 443 may require elevation, while a
+custom TLD such as `vector.dev` may require `/etc/hosts` synchronization.
+Stop the workspace before changing either network setting, then start it with
+the new environment.
+
+Use `vector doctor` for certificate, DNS, route, or proxy diagnostics.
 
 The Process Compose control socket lives at `.process-compose.sock` and is
 gitignored. `tooling/services.ts` owns lifecycle behavior; `process-compose.yaml`
 contains the actual app commands.
+
+## Vector command center
+
+Run `vector` anywhere inside the repository to open the interactive dashboard:
+
+```bash
+vector
+```
+
+The first version shows app state, PID, uptime, memory, and routes. It can start,
+stop, restart, open, and follow logs for individual apps; control every app;
+run checks and diagnostics; or attach the underlying Process Compose dashboard.
+
+```text
+j/k or arrows   select app
+space           start or stop selected app
+u / U           start selected / all apps
+s / S           stop selected / all apps
+r / R           restart selected / all apps
+o               open selected route
+l or enter      expand mounted logs; Esc/l returns
+c / d           run checks / diagnostics in the output pane
+a               attach Process Compose
+?               expanded help
+q               close Vector; apps keep running
+```
+
+Logs are always shown in the lower dashboard pane and update with the selected
+app. Lifecycle actions, checks, and diagnostics also render there instead of
+temporarily replacing the terminal. Opening or quitting Vector never starts or
+stops an app.
+
+The same interface is available noninteractively:
+
+```bash
+vector up lab
+vector down docs
+vector restart demo
+vector status
+vector logs lab
+vector open docs
+vector check
+vector doctor
+```
+
+`vector.yaml` is the compatibility contract between the installed CLI and this
+workspace. It describes app names, paths, routes, lifecycle commands, tasks,
+and the Process Compose socket. This is also the foundation for a future
+`vector init` scaffolder; project creation is not implemented yet.
 
 ## Common commands
 
@@ -93,6 +148,8 @@ just typecheck   # typecheck tooling and every workspace
 just lint        # lint every workspace
 just build       # build every workspace
 just check       # typecheck, lint, and build
+just vector-check    # test and vet the Vector CLI
+just vector-install  # install the current CLI build
 just --list      # show every recipe
 ```
 

@@ -1,3 +1,4 @@
+import { lookup } from "node:dns/promises"
 import { unlink } from "node:fs/promises"
 import path from "node:path"
 
@@ -79,6 +80,14 @@ async function run(args: string[]) {
   if (exitCode !== 0) process.exit(exitCode)
 }
 
+async function runQuietly(args: string[]) {
+  const result = await capture(args)
+  if (result.exitCode === 0) return
+
+  const output = `${result.stderr}\n${result.stdout}`.trim()
+  throw new Error(output || "Process Compose command failed")
+}
+
 async function supervisorRunning() {
   const result = await capture(["list", "--output", "json"])
   return result.exitCode === 0
@@ -113,13 +122,60 @@ async function routeUrl(route: string) {
   return `https://${route}.${portlessTld}`
 }
 
+async function syncHosts(routes: string[]) {
+  if (portlessTld === "localhost" || portlessTld.endsWith(".localhost")) return
+
+  const resolved = await Promise.all(
+    routes.map(async (route) => {
+      try {
+        const addresses = await lookup(`${route}.${portlessTld}`, { all: true })
+        return addresses.some(
+          ({ address }) => address === "127.0.0.1" || address === "::1"
+        )
+      } catch {
+        return false
+      }
+    })
+  )
+  if (resolved.every(Boolean)) return
+
+  if (!process.stdin.isTTY) {
+    console.warn(
+      `Host synchronization needs an interactive terminal. Run: PORTLESS_TLD=${portlessTld} portless hosts sync`
+    )
+    return
+  }
+
+  const child = Bun.spawn(["portless", "hosts", "sync"], {
+    cwd: root,
+    env: portlessEnv,
+    stdin: "inherit",
+    stdout: "inherit",
+    stderr: "inherit",
+  })
+  const exitCode = await child.exited
+  if (exitCode !== 0) {
+    console.warn(
+      `Could not synchronize ${portlessTld} hostnames. Run: PORTLESS_TLD=${portlessTld} portless hosts sync`
+    )
+  }
+}
+
+async function printRoutes(selected: ServiceName[]) {
+  await syncHosts(selected.map((service) => services[service].route))
+  for (const service of selected) {
+    const route = services[service].route
+    console.log(`${service}: ${await routeUrl(route)}`)
+  }
+}
+
 async function up(name?: ServiceName) {
   await ensurePortlessProxy()
 
   if (!(await supervisorRunning())) {
     await unlink(socketPath).catch(() => undefined)
     const selected = name ? [name] : Object.keys(services)
-    await run([
+    await runQuietly([
       "up",
       "--config",
       configPath,
@@ -136,10 +192,21 @@ async function up(name?: ServiceName) {
   }
 
   const selected = name ? [name] : (Object.keys(services) as ServiceName[])
-  for (const service of selected) {
-    const route = services[service].route
-    console.log(`${service}: ${await routeUrl(route)}`)
+  await printRoutes(selected)
+}
+
+async function restart(name?: ServiceName) {
+  if (!(await supervisorRunning())) {
+    await up(name)
+    return
   }
+
+  const selected = name ? [name] : (Object.keys(services) as ServiceName[])
+  for (const service of selected) {
+    const result = await capture(["process", "restart", service])
+    if (result.exitCode !== 0) await start(service)
+  }
+  await printRoutes(selected)
 }
 
 async function down(name?: ServiceName) {
@@ -186,6 +253,9 @@ async function main() {
       break
     case "down":
       await down(name)
+      break
+    case "restart":
+      await restart(name)
       break
     case "status":
       await status()

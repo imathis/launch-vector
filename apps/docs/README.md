@@ -9,5 +9,5 @@ Run from the workspace root:
 just up docs
 ```
 
-Then open the URL printed for `ui.vector.dev`. See the root README and
+Then open the URL printed for `ui.vector.localhost`. See the root README and
 `src/content/_template.tsx` for the component workflow.

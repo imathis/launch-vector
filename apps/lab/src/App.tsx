@@ -1,7 +1,25 @@
-import { startTransition, useEffect, useState } from "react"
+import {
+  startTransition,
+  useEffect,
+  useEffectEvent,
+  useRef,
+  useState,
+  type MouseEventHandler,
+  type RefObject,
+} from "react"
+import {
+  Columns2,
+  Maximize2,
+  Minimize2,
+  Monitor,
+  Moon,
+  Square,
+  Sun,
+  type LucideIcon,
+} from "lucide-react"
 
 import { Button } from "@workspace/ui/components/button"
-import { ThemeToggle } from "@workspace/ui/theme/theme-toggle"
+import { useTheme, type Theme } from "@workspace/ui/theme/theme-provider"
 
 import { isExperimentDefinition, type ExperimentDefinition } from "./experiment"
 
@@ -13,6 +31,26 @@ type Selection = {
   scenario: string
   view: ViewMode
 }
+
+type IconOption<Value extends string> = {
+  value: Value
+  label: string
+  shortcut?: string
+  icon: LucideIcon
+}
+
+const viewOptions: readonly IconOption<ViewMode>[] = [
+  { value: "compare", label: "Compare", icon: Columns2 },
+  { value: "focus", label: "Focus", icon: Square },
+]
+
+const themeOptions: readonly IconOption<Theme>[] = [
+  { value: "light", label: "Light", icon: Sun },
+  { value: "dark", label: "Dark", icon: Moon },
+  { value: "system", label: "System", icon: Monitor },
+]
+
+const NUMBER_KEY_CODE = /^(?:Digit|Numpad)([0-9])$/
 
 const modules = import.meta.glob<ExperimentModule>([
   "./experiments/*/index.tsx",
@@ -60,6 +98,108 @@ function nextKey(record: Record<string, unknown>, current: string) {
   return keys[(index + 1) % keys.length] ?? current
 }
 
+function numberKeyIndex(code: string) {
+  const match = NUMBER_KEY_CODE.exec(code)
+  if (!match?.[1]) return null
+  const number = Number(match[1])
+  return number === 0 ? 9 : number - 1
+}
+
+function IconToggle<Value extends string>({
+  option,
+  selected,
+  onClick,
+}: {
+  option: IconOption<Value>
+  selected: boolean
+  onClick: MouseEventHandler<HTMLButtonElement>
+}) {
+  const Icon = option.icon
+  const title = option.shortcut
+    ? `${option.label} (${option.shortcut})`
+    : option.label
+
+  return (
+    <Button
+      type="button"
+      size="icon"
+      variant={selected ? "secondary" : "ghost"}
+      className={`size-11 rounded-lg ${selected ? "bg-background shadow-sm hover:bg-background" : "text-muted-foreground"}`}
+      aria-label={option.label}
+      aria-pressed={selected}
+      title={title}
+      onClick={onClick}
+    >
+      <Icon className="size-5" aria-hidden="true" />
+    </Button>
+  )
+}
+
+function DisplayControls({
+  selection,
+  onSelectionChange,
+  expandButtonRef,
+  onExpand,
+}: {
+  selection: Selection
+  onSelectionChange: (patch: Partial<Selection>) => void
+  expandButtonRef: RefObject<HTMLButtonElement | null>
+  onExpand: () => void
+}) {
+  const { theme, setTheme } = useTheme()
+
+  return (
+    <div
+      className="flex shrink-0 items-center justify-center gap-2"
+      role="toolbar"
+      aria-label="Lab display controls"
+    >
+      <div
+        className="flex rounded-xl border border-border bg-muted/80 p-1 shadow-sm"
+        role="group"
+        aria-label="Experiment view"
+      >
+        {viewOptions.map((option) => (
+          <IconToggle
+            key={option.value}
+            option={option}
+            selected={selection.view === option.value}
+            onClick={() => onSelectionChange({ view: option.value })}
+          />
+        ))}
+      </div>
+
+      <div
+        className="flex rounded-xl border border-border bg-muted/80 p-1 shadow-sm"
+        role="group"
+        aria-label="Color theme"
+      >
+        {themeOptions.map((option) => (
+          <IconToggle
+            key={option.value}
+            option={option}
+            selected={theme === option.value}
+            onClick={() => setTheme(option.value)}
+          />
+        ))}
+      </div>
+
+      <Button
+        ref={expandButtonRef}
+        type="button"
+        size="icon"
+        variant="outline"
+        className="size-11 rounded-xl bg-background shadow-sm"
+        aria-label="Enter presentation mode"
+        title="Enter presentation mode (H)"
+        onClick={onExpand}
+      >
+        <Maximize2 className="size-5" aria-hidden="true" />
+      </Button>
+    </div>
+  )
+}
+
 export function App() {
   const [selection, setSelection] = useState(readSelection)
   const [loaded, setLoaded] = useState<{
@@ -67,7 +207,10 @@ export function App() {
     experiment: ExperimentDefinition | null
     error: string
   }>({ id: "", experiment: null, error: "" })
-  const [dockVisible, setDockVisible] = useState(true)
+  const [immersive, setImmersive] = useState(false)
+  const expandButtonRef = useRef<HTMLButtonElement>(null)
+  const contractButtonRef = useRef<HTMLButtonElement>(null)
+  const previousImmersive = useRef(immersive)
   const isCurrentExperiment = loaded.id === selection.experiment
   const experiment = isCurrentExperiment ? loaded.experiment : null
   const loadError = isCurrentExperiment ? loaded.error : ""
@@ -162,87 +305,240 @@ export function App() {
   }, [experiment, selection.scenario, selection.variant])
 
   useEffect(() => {
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (
-        event.repeat ||
-        event.metaKey ||
-        event.ctrlKey ||
-        event.altKey ||
-        isEditableTarget(event.target)
-      ) {
-        return
-      }
+    if (previousImmersive.current === immersive) return
+    previousImmersive.current = immersive
+    if (immersive) contractButtonRef.current?.focus()
+    else expandButtonRef.current?.focus()
+  }, [immersive])
 
-      const key = event.key.toLowerCase()
-      if (key === "h") setDockVisible((visible) => !visible)
-      if (key === "c") {
-        updateSelection({
-          view: selection.view === "focus" ? "compare" : "focus",
-        })
-      }
-      if (key === "v" && experiment) {
-        updateSelection({
-          variant: nextKey(experiment.variants, selection.variant),
-        })
-      }
-      if (key === "s" && experiment) {
-        updateSelection({
-          scenario: nextKey(experiment.scenarios, selection.scenario),
-        })
-      }
+  const handleShortcut = useEffectEvent((event: KeyboardEvent) => {
+    if (
+      event.repeat ||
+      event.metaKey ||
+      event.ctrlKey ||
+      isEditableTarget(event.target)
+    ) {
+      return
     }
 
+    if (event.key === "Escape" && immersive) {
+      setImmersive(false)
+      return
+    }
+
+    const optionIndex = event.shiftKey ? null : numberKeyIndex(event.code)
+    if (optionIndex !== null && experiment) {
+      if (event.altKey) {
+        const scenario = Object.keys(experiment.scenarios)[optionIndex]
+        if (scenario) {
+          event.preventDefault()
+          updateSelection({ scenario })
+        }
+      } else {
+        const variant = Object.keys(experiment.variants)[optionIndex]
+        if (variant) {
+          event.preventDefault()
+          updateSelection({ variant, view: "focus" })
+        }
+      }
+      return
+    }
+
+    if (event.altKey) return
+
+    const key = event.key.toLowerCase()
+    if (key === "h") setImmersive((current) => !current)
+    if (key === "c") {
+      updateSelection({
+        view: selection.view === "focus" ? "compare" : "focus",
+      })
+    }
+    if (key === "v" && experiment) {
+      updateSelection({
+        variant: nextKey(experiment.variants, selection.variant),
+        view: "focus",
+      })
+    }
+    if (key === "s" && experiment) {
+      updateSelection({
+        scenario: nextKey(experiment.scenarios, selection.scenario),
+      })
+    }
+  })
+
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => handleShortcut(event)
     window.addEventListener("keydown", handleKeyDown)
     return () => window.removeEventListener("keydown", handleKeyDown)
-  }, [experiment, selection.scenario, selection.variant, selection.view])
+  }, [])
 
   const ExperimentView = experiment?.render
 
   return (
     <main
-      className={`min-h-svh px-4 pt-[max(1rem,env(safe-area-inset-top))] sm:px-6 ${dockVisible ? "pb-96 sm:pb-72" : "pb-8"}`}
+      className={
+        immersive
+          ? "fixed inset-0 z-40 min-h-svh overflow-x-hidden overflow-y-auto bg-background"
+          : "min-h-svh overflow-x-hidden bg-background"
+      }
     >
-      <header className="mx-auto flex max-w-7xl items-start justify-between gap-4">
-        <div>
-          <p className="text-sm font-semibold tracking-tight">Vector lab</p>
-          <p className="mt-1 text-sm text-muted-foreground">
-            Disposable prototypes, isolated by convention.
-          </p>
-        </div>
-        <span className="rounded-full bg-muted px-3 py-1 text-xs font-medium capitalize">
-          {selection.view}
-        </span>
-      </header>
+      {!immersive ? (
+        <header className="sticky top-0 z-30 border-b border-border bg-background/90 pt-[env(safe-area-inset-top)] backdrop-blur-xl supports-[backdrop-filter]:bg-background/75">
+          <div className="mx-auto grid max-w-7xl gap-2 px-2 py-2 sm:px-4 lg:grid-cols-[auto_minmax(0,1fr)_auto] lg:items-center lg:gap-4 lg:px-6">
+            <p className="hidden font-semibold tracking-tight whitespace-nowrap lg:block">
+              Vector Lab
+            </p>
 
-      <section className="mx-auto mt-8 max-w-7xl">
+            <div className="grid min-w-0 grid-cols-[minmax(0,1.15fr)_minmax(0,1fr)_minmax(0,1.15fr)] gap-2">
+              <label className="relative min-w-0">
+                <span className="pointer-events-none absolute top-1 left-3 z-10 text-[10px] leading-none font-medium text-muted-foreground">
+                  Experiment
+                </span>
+                <select
+                  name="experiment"
+                  autoComplete="off"
+                  aria-label="Experiment"
+                  className="h-12 w-full min-w-0 rounded-lg border border-input bg-background px-3 pt-3 text-sm font-medium text-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+                  value={selection.experiment}
+                  onChange={(event) =>
+                    updateSelection({
+                      experiment: event.target.value,
+                      variant: "",
+                      scenario: "",
+                    })
+                  }
+                >
+                  {experiments.map((item) => (
+                    <option key={item.id} value={item.id}>
+                      {item.id}
+                    </option>
+                  ))}
+                </select>
+              </label>
+
+              <label className="relative min-w-0">
+                <span className="pointer-events-none absolute top-1 left-3 z-10 text-[10px] leading-none font-medium text-muted-foreground">
+                  Variant · 1–0
+                </span>
+                <select
+                  name="variant"
+                  autoComplete="off"
+                  aria-label="Variant"
+                  aria-keyshortcuts="1 2 3 4 5 6 7 8 9 0 V"
+                  title="Variant (V to cycle, 1–0 to select)"
+                  className="h-12 w-full min-w-0 rounded-lg border border-input bg-background px-3 pt-3 text-sm font-medium text-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring disabled:opacity-50"
+                  value={selection.variant}
+                  disabled={!experiment || selection.view === "compare"}
+                  onChange={(event) =>
+                    updateSelection({ variant: event.target.value })
+                  }
+                >
+                  {experiment
+                    ? Object.entries(experiment.variants).map(
+                        ([key, value]) => (
+                          <option key={key} value={key}>
+                            {value.label}
+                          </option>
+                        )
+                      )
+                    : null}
+                </select>
+              </label>
+
+              <label className="relative min-w-0">
+                <span className="pointer-events-none absolute top-1 left-3 z-10 text-[10px] leading-none font-medium text-muted-foreground">
+                  Scenario · ⌥1–0
+                </span>
+                <select
+                  name="scenario"
+                  autoComplete="off"
+                  aria-label="Scenario"
+                  aria-keyshortcuts="Alt+1 Alt+2 Alt+3 Alt+4 Alt+5 Alt+6 Alt+7 Alt+8 Alt+9 Alt+0 S"
+                  title="Scenario (S to cycle, Alt+1–0 to select)"
+                  className="h-12 w-full min-w-0 rounded-lg border border-input bg-background px-3 pt-3 text-sm font-medium text-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring disabled:opacity-50"
+                  value={selection.scenario}
+                  disabled={!experiment}
+                  onChange={(event) =>
+                    updateSelection({ scenario: event.target.value })
+                  }
+                >
+                  {experiment
+                    ? Object.entries(experiment.scenarios).map(
+                        ([key, value]) => (
+                          <option key={key} value={key}>
+                            {value.label}
+                          </option>
+                        )
+                      )
+                    : null}
+                </select>
+              </label>
+            </div>
+
+            <DisplayControls
+              selection={selection}
+              onSelectionChange={updateSelection}
+              expandButtonRef={expandButtonRef}
+              onExpand={() => setImmersive(true)}
+            />
+          </div>
+        </header>
+      ) : null}
+
+      <section
+        className={
+          immersive
+            ? "min-h-svh min-w-0"
+            : "mx-auto max-w-7xl min-w-0 px-4 py-10 sm:px-6 lg:px-8 lg:py-14"
+        }
+        aria-label="Experiment canvas"
+      >
         {loading ? (
-          <p className="py-20 text-center text-muted-foreground" role="status">
-            Loading experiment...
+          <p
+            className={`grid place-items-center text-muted-foreground ${immersive ? "min-h-svh" : "min-h-[50svh]"}`}
+            role="status"
+          >
+            Loading experiment…
           </p>
         ) : loadError ? (
           <div
-            className="mx-auto max-w-lg rounded-xl border border-destructive/40 bg-destructive/10 p-5 text-destructive"
-            role="alert"
+            className={`grid place-items-center ${immersive ? "min-h-svh p-4" : "min-h-[50svh]"}`}
           >
-            <h1 className="font-semibold">Experiment unavailable</h1>
-            <p className="mt-2 text-sm">{loadError}</p>
+            <div
+              className="w-full max-w-lg rounded-xl border border-destructive/40 bg-destructive/10 p-5 text-destructive"
+              role="alert"
+            >
+              <h1 className="font-semibold">Experiment Unavailable</h1>
+              <p className="mt-2 text-sm">{loadError}</p>
+            </div>
           </div>
         ) : experiment && ExperimentView ? (
           <>
-            <div className="mb-8 text-center">
-              <h1 className="text-2xl font-semibold tracking-tight">
-                {experiment.metadata.title}
-              </h1>
-              <p className="mt-2 text-muted-foreground">
-                {experiment.metadata.description}
-              </p>
-            </div>
+            {!immersive ? (
+              <div className="mb-10 max-w-2xl">
+                <p className="text-sm font-medium text-muted-foreground">
+                  Experiment
+                </p>
+                <h1 className="mt-2 text-3xl font-semibold tracking-tight text-pretty">
+                  {experiment.metadata.title}
+                </h1>
+                <p className="mt-3 leading-7 text-pretty text-muted-foreground">
+                  {experiment.metadata.description}
+                </p>
+              </div>
+            ) : null}
+
             {selection.view === "compare" ? (
-              <div className="grid gap-5 lg:grid-cols-2">
+              <div
+                className={`grid lg:grid-cols-2 ${immersive ? "min-h-svh gap-px bg-border" : "gap-6"}`}
+              >
                 {Object.entries(experiment.variants).map(
                   ([variant, details]) => (
-                    <div key={variant} className="space-y-3">
-                      <p className="text-xs font-semibold tracking-widest text-muted-foreground uppercase">
+                    <div
+                      key={variant}
+                      className={`relative flex min-w-0 items-center justify-center [&>*]:min-w-0 ${immersive ? "min-h-[50svh] bg-background p-4 lg:min-h-svh" : "min-h-[50svh] rounded-xl border border-border p-4"}`}
+                    >
+                      <p className="absolute top-4 left-4 text-xs font-semibold tracking-widest text-muted-foreground uppercase">
                         {details.label}
                       </p>
                       <ExperimentView
@@ -254,7 +550,9 @@ export function App() {
                 )}
               </div>
             ) : (
-              <div className="flex min-h-[50svh] items-center justify-center">
+              <div
+                className={`flex min-w-0 items-center justify-center [&>*]:min-w-0 ${immersive ? "min-h-svh" : "min-h-[50svh]"}`}
+              >
                 <ExperimentView
                   variant={selection.variant}
                   scenario={selection.scenario}
@@ -265,114 +563,20 @@ export function App() {
         ) : null}
       </section>
 
-      {dockVisible ? (
-        <aside
-          className="fixed inset-x-3 bottom-[max(.75rem,env(safe-area-inset-bottom))] z-20 mx-auto max-h-[70svh] max-w-4xl overflow-auto rounded-2xl border border-border bg-background p-3 shadow-lg sm:p-4"
-          aria-label="Lab controls"
-        >
-          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
-            <label className="text-xs font-medium text-muted-foreground">
-              Experiment
-              <select
-                className="mt-1 block min-h-11 w-full rounded-lg border border-input bg-background px-3 text-sm text-foreground"
-                value={selection.experiment}
-                onChange={(event) =>
-                  updateSelection({
-                    experiment: event.target.value,
-                    variant: "",
-                    scenario: "",
-                  })
-                }
-              >
-                {experiments.map((item) => (
-                  <option key={item.id} value={item.id}>
-                    {item.id}
-                  </option>
-                ))}
-              </select>
-            </label>
-            <label className="text-xs font-medium text-muted-foreground">
-              Variant
-              <select
-                className="mt-1 block min-h-11 w-full rounded-lg border border-input bg-background px-3 text-sm text-foreground"
-                value={selection.variant}
-                disabled={!experiment || selection.view === "compare"}
-                onChange={(event) =>
-                  updateSelection({ variant: event.target.value })
-                }
-              >
-                {experiment
-                  ? Object.entries(experiment.variants).map(([key, value]) => (
-                      <option key={key} value={key}>
-                        {value.label}
-                      </option>
-                    ))
-                  : null}
-              </select>
-            </label>
-            <label className="text-xs font-medium text-muted-foreground">
-              Scenario
-              <select
-                className="mt-1 block min-h-11 w-full rounded-lg border border-input bg-background px-3 text-sm text-foreground"
-                value={selection.scenario}
-                disabled={!experiment}
-                onChange={(event) =>
-                  updateSelection({ scenario: event.target.value })
-                }
-              >
-                {experiment
-                  ? Object.entries(experiment.scenarios).map(([key, value]) => (
-                      <option key={key} value={key}>
-                        {value.label}
-                      </option>
-                    ))
-                  : null}
-              </select>
-            </label>
-            <div className="text-xs font-medium text-muted-foreground">
-              View
-              <div className="mt-1 flex rounded-xl bg-muted p-1">
-                {(["focus", "compare"] as const).map((view) => (
-                  <Button
-                    key={view}
-                    type="button"
-                    size="sm"
-                    variant={selection.view === view ? "secondary" : "ghost"}
-                    className="h-11 flex-1 capitalize"
-                    aria-pressed={selection.view === view}
-                    onClick={() => updateSelection({ view })}
-                  >
-                    {view}
-                  </Button>
-                ))}
-              </div>
-            </div>
-            <ThemeToggle className="self-end" />
-          </div>
-          <div className="mt-3 flex items-center justify-between gap-4 border-t border-border pt-3">
-            <p className="text-xs text-muted-foreground">
-              Keys: D theme, C view, V variant, S scenario, H controls
-            </p>
-            <Button
-              type="button"
-              variant="ghost"
-              className="min-h-11"
-              onClick={() => setDockVisible(false)}
-            >
-              Hide
-            </Button>
-          </div>
-        </aside>
-      ) : (
+      {immersive ? (
         <Button
+          ref={contractButtonRef}
           type="button"
+          size="icon"
           variant="outline"
-          className="fixed right-3 bottom-[max(.75rem,env(safe-area-inset-bottom))] z-20 min-h-11 bg-background shadow-md"
-          onClick={() => setDockVisible(true)}
+          className="fixed right-[max(.75rem,env(safe-area-inset-right))] bottom-[max(.75rem,env(safe-area-inset-bottom))] z-50 size-11 rounded-xl bg-background shadow-md"
+          aria-label="Exit presentation mode"
+          title="Exit presentation mode (Esc or H)"
+          onClick={() => setImmersive(false)}
         >
-          Show controls
+          <Minimize2 className="size-5" aria-hidden="true" />
         </Button>
-      )}
+      ) : null}
     </main>
   )
 }

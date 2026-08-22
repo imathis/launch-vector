@@ -3,7 +3,10 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "portless": { "name": "lab", "script": "dev:app" },
+  "portless": {
+    "name": "lab",
+    "script": "dev:app"
+  },
   "scripts": {
     "dev": "portless",
     "dev:app": "vite",
@@ -15,6 +18,7 @@
   },
   "dependencies": {
     "@workspace/ui": "workspace:*",
+    "lucide-react": "^1.33.0",
     "react": "^19.2.6",
     "react-dom": "^19.2.6"
   },

@@ -4,9 +4,10 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <meta name="description" content="Vector component documentation" />
-    <title>Vector docs</title>
+    <meta name="theme-color" content="#ffffff" />
+    <title>Vector Docs</title>
     <script>
-      (() => { const key = "workspace:theme"; let theme = "system"; try { const stored = localStorage.getItem(key); if (stored === "light" || stored === "dark" || stored === "system") theme = stored; } catch {} const resolved = theme === "system" ? (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light") : theme; const root = document.documentElement; root.classList.remove("light", "dark"); root.classList.add(resolved); root.dataset.theme = resolved; root.dataset.themeMode = theme; root.style.colorScheme = resolved; })();
+      (() => { const key = "workspace:theme"; let theme = "system"; try { const stored = localStorage.getItem(key); if (stored === "light" || stored === "dark" || stored === "system") theme = stored; } catch {} const resolved = theme === "system" ? (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light") : theme; const root = document.documentElement; root.classList.remove("light", "dark"); root.classList.add(resolved); root.dataset.theme = resolved; root.dataset.themeMode = theme; root.style.colorScheme = resolved; const themeColor = document.querySelector('meta[name="theme-color"]'); if (themeColor) themeColor.content = resolved === "dark" ? "#1c1c1c" : "#ffffff"; })();
     </script>
   </head>
   <body>
