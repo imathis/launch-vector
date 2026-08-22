@@ -1,0 +1,261 @@
+.claude/commands/add-component.md
+  s_1487498aead3a7::t_90dce49160e59d 1-6
+apps/lab/src/experiment.ts
+  s_ffa4d03c4a3723::t_2d13cae0957a20 1-41
+apps/docs/tsconfig.json
+  s_8263386aed4fa7::t_9ea1afd7160feb 1-7
+.claude/skills/shadcn/registry.md
+  s_8263386aed4fa7::t_1ae31ac2c06a79 1-277
+.claude/skills/migrate-radix-to-base/disclosure.md
+  s_8263386aed4fa7::t_1ae31ac2c06a79 1-353
+.claude/skills/shadcn/rules/forms.md
+  s_8263386aed4fa7::t_1ae31ac2c06a79 1-192
+apps/docs/.gitignore
+  s_8263386aed4fa7::t_9ea1afd7160feb 1-24
+apps/lab/src/main.tsx
+  s_8263386aed4fa7::t_88df4cb3376423 8,13
+  s_ffa4d03c4a3723::t_2d13cae0957a20 1-2,4-7,10-12
+  s_8263386aed4fa7::t_9ea1afd7160feb 3,9,14
+apps/web/package.json
+  s_8263386aed4fa7::t_990be738f4d283 6
+  s_8263386aed4fa7::t_52ae47b9c3065a 8-9
+  s_ffa4d03c4a3723::t_8eb937a38b66e7 2
+apps/lab/tsconfig.node.json
+  s_8263386aed4fa7::t_9ea1afd7160feb 1-23
+tsconfig.json
+  s_8263386aed4fa7::t_eca89216a33169 7-10
+.claude/skills/migrate-radix-to-base/overlays.md
+  s_8263386aed4fa7::t_1ae31ac2c06a79 1-459
+.claude/skills/add-component/SKILL.md
+  s_1487498aead3a7::t_90dce49160e59d 1-89
+apps/lab/public/favicon.svg
+  s_8263386aed4fa7::t_9ea1afd7160feb 1
+apps/lab/package.json
+  s_8263386aed4fa7::t_990be738f4d283 6
+  s_ffa4d03c4a3723::t_2d13cae0957a20 2,11-13,17-19,22-34
+  s_8263386aed4fa7::t_9ea1afd7160feb 1,3-5,7,10,14-16,20-21,35-36
+  s_8263386aed4fa7::t_52ae47b9c3065a 8-9
+apps/docs/README.md
+  s_8263386aed4fa7::t_9ea1afd7160feb 1-32
+.claude/skills/shadcn/cli.md
+  s_8263386aed4fa7::t_1ae31ac2c06a79 1-290
+skills-lock.json
+  s_8263386aed4fa7::t_1ae31ac2c06a79 1-17
+apps/docs/index.html
+  s_ffa4d03c4a3723::t_5bb99dc6f7e595 5-10
+  s_8263386aed4fa7::t_9ea1afd7160feb 1-4,11-16
+apps/docs/public/favicon.svg
+  s_8263386aed4fa7::t_9ea1afd7160feb 1
+CLAUDE.md
+  s_ffa4d03c4a3723::t_8eb937a38b66e7 1-3
+apps/lab/src/fixtures/welcome/index.tsx
+  s_8263386aed4fa7::t_88df4cb3376423 10-13,17-19
+  s_ffa4d03c4a3723::t_66a155070dd234 1
+  s_ffa4d03c4a3723::t_2d13cae0957a20 2-9,14-16,20-45
+apps/docs/.oxlintrc.json
+  s_8263386aed4fa7::t_9ea1afd7160feb 1-8
+apps/lab/src/experiments/_template/BRIEF.md
+  s_ffa4d03c4a3723::t_2d13cae0957a20 1-5
+apps/docs/src/docs/types.ts
+  s_1487498aead3a7::t_90dce49160e59d 1-30
+apps/docs/src/docs/registry.ts
+  s_1487498aead3a7::t_08e2e25aaed662 5
+  s_1487498aead3a7::t_90dce49160e59d 1-4,6-16
+apps/lab/README.md
+  s_8263386aed4fa7::t_9ea1afd7160feb 1-32
+.claude/skills/shadcn/rules/composition.md
+  s_8263386aed4fa7::t_1ae31ac2c06a79 1-213
+apps/lab/tsconfig.app.json
+  s_8263386aed4fa7::t_9ea1afd7160feb 1-22,27-29
+  s_ffa4d03c4a3723::t_2d13cae0957a20 23-26
+packages/ui/src/styles/globals.css
+  s_ffa4d03c4a3723::t_8eb937a38b66e7 128,133
+apps/docs/tsconfig.node.json
+  s_8263386aed4fa7::t_9ea1afd7160feb 1-23
+apps/docs/eslint.config.js
+  s_ffa4d03c4a3723::t_5bb99dc6f7e595 1-20
+.claude/skills/migrate-radix-to-base/menus.md
+  s_8263386aed4fa7::t_1ae31ac2c06a79 1-409
+.claude/skills/shadcn/agents/openai.yml
+  s_8263386aed4fa7::t_1ae31ac2c06a79 1-5
+apps/docs/public/icons.svg
+  s_8263386aed4fa7::t_9ea1afd7160feb 1-24
+.claude/skills/shadcn/rules/base-vs-radix.md
+  s_8263386aed4fa7::t_1ae31ac2c06a79 1-306
+.claude/skills/shadcn/rules/styling.md
+  s_8263386aed4fa7::t_1ae31ac2c06a79 1-185
+.claude/skills/shadcn/rules/chat.md
+  s_8263386aed4fa7::t_1ae31ac2c06a79 1-224
+apps/docs/package.json
+  s_8263386aed4fa7::t_52ae47b9c3065a 8-9
+  s_8263386aed4fa7::t_9ea1afd7160feb 1,3-5,7,10,14-16,20-21,35-36
+  s_ffa4d03c4a3723::t_5bb99dc6f7e595 2,11-13,17-19,22-34
+  s_8263386aed4fa7::t_990be738f4d283 6
+apps/docs/src/content/button.tsx
+  s_1487498aead3a7::t_08e2e25aaed662 21-24,29-30,47
+  s_1487498aead3a7::t_90dce49160e59d 1-11,13-20,25-28,31-46,48-60
+  s_1487498aead3a7::t_566b509d15d17b 12
+apps/lab/.gitignore
+  s_ffa4d03c4a3723::t_2d13cae0957a20 25-29
+  s_8263386aed4fa7::t_9ea1afd7160feb 1-24
+apps/docs/src/content/_template.tsx
+  s_1487498aead3a7::t_90dce49160e59d 1-20,22-33
+  s_1487498aead3a7::t_08e2e25aaed662 21
+apps/docs/src/App.tsx
+  s_1487498aead3a7::t_08e2e25aaed662 13-15,36-38,44-47,70,72-75,83-87,96-98,110-112,116,121-125,127,131,133,140-143,150,154-157,168,177,183-186,189
+  s_1487498aead3a7::t_90dce49160e59d 1,5-10,12,16-24,26-35,39-43,48-56,58-67,90-95,99-104,108,113-115,117,126,128-129,134-135,139,144-149,151-152,158-161,165-167,169-170,174-176,178-179,187-188,190-191
+  s_8263386aed4fa7::t_9ea1afd7160feb 2,68,79,89,197-198
+  s_ffa4d03c4a3723::t_5bb99dc6f7e595 3-4,11,25,57,69,71,76-78,80-82,88,105-107,109,118-120,130,132,136-138,153,162-164,171-173,180-182,192-196
+tooling/dev.ts
+  s_8263386aed4fa7::t_26946cb59b6a6c 1-2
+  s_8263386aed4fa7::t_88c2a776fc5ba4 6-8,10-17,33-43,48,50,52-60,64-66
+  s_8263386aed4fa7::t_52ae47b9c3065a 67
+  s_8263386aed4fa7::t_22fb757890d4cd 4-5,9,20
+  s_8263386aed4fa7::t_55b4c4428ac948 3
+  s_8263386aed4fa7::t_66cdb33d7e6fad 18-19,21-32,44-47,49,51,61-63
+apps/docs/src/content/switch.tsx
+  s_8263386aed4fa7::t_cc55bb2d06b96d 1-6,8-16,30-87
+  s_8263386aed4fa7::t_46badcbfff737e 7,17-29
+apps/web/src/App.tsx
+  s_8263386aed4fa7::t_88df4cb3376423 15,19
+  s_ffa4d03c4a3723::t_8eb937a38b66e7 2-3,6-7,9-14,16-18,20-22,24-34
+packages/ui/src/components/switch.tsx
+  s_8263386aed4fa7::t_4498f78102052a 1-30
+packages/ui/src/theme/theme-provider.tsx
+  s_8263386aed4fa7::t_88df4cb3376423 94-95,149
+  s_ffa4d03c4a3723::t_8eb937a38b66e7 4-5,14,16,20,22-26,29,33-42,44,46-51,56-57,59-60,64-68,75,78-82,97,99-100,102-110,113-115,118-120,140-141,152-154
+  s_8263386aed4fa7::t_abcfb5e745edf0 86,145-146
+  s_8263386aed4fa7::t_90137699138649 122-131,134-135,137-138,142
+apps/web/index.html
+  s_ffa4d03c4a3723::t_8eb937a38b66e7 5-10
+packages/ui/src/theme/theme-toggle.tsx
+  s_8263386aed4fa7::t_88df4cb3376423 16
+  s_ffa4d03c4a3723::t_8eb937a38b66e7 1-15,17-35
+apps/docs/src/components/preview-source.tsx
+  s_1487498aead3a7::t_2a0e16c0828b3c 32,36
+  s_1487498aead3a7::t_90dce49160e59d 1-21,24-31,37-39,41,43-76,78-83
+  s_1487498aead3a7::t_08e2e25aaed662 22-23,33-35,40,42,77
+.claude/skills/shadcn/mcp.md
+  s_8263386aed4fa7::t_1ae31ac2c06a79 1-105
+apps/lab/.oxlintrc.json
+  s_8263386aed4fa7::t_9ea1afd7160feb 1-8
+apps/lab/src/App.tsx
+  s_8263386aed4fa7::t_9ea1afd7160feb 2,49,206,210-211,216,266-267,377-378
+  s_ffa4d03c4a3723::t_2d13cae0957a20 1,3-5,7-48,50-64,70,75-93,99-105,115-124,130-132,141-178,182-183,187-188,192-201,205,207,209,213-215,217-218,222,227-232,239-241,255-257,262-265,268-269,271-273,275-276,278,286,292-293,295-296,298-299,303,311-312,314-315,317-318,322,330-331,333,335-343,347-351,364-369,371-376
+  s_ffa4d03c4a3723::t_66a155070dd234 65-69,71-74,106-114,133-136,140
+  s_8263386aed4fa7::t_88df4cb3376423 6,94-98,125-129,137-139,179-181,184-186,189-191,202-204,208,212,219-221,223-226,233-238,242-254,258-261,270,274,277,279-285,287-291,294,297,300-302,304-310,313,316,319-321,323-329,332,334,344-346,352-363,370
+apps/lab/vite.config.ts
+  s_8263386aed4fa7::t_9ea1afd7160feb 4,7-8,15
+  s_8263386aed4fa7::t_bf7e0ed5937cca 5-6,10-14
+  s_ffa4d03c4a3723::t_2d13cae0957a20 1-3,9
+portless.json
+  s_ffa4d03c4a3723::t_8eb937a38b66e7 1-2,6-7
+  s_8263386aed4fa7::t_52ae47b9c3065a 3-5
+.claude/skills/migrate-radix-to-base/display-misc.md
+  s_8263386aed4fa7::t_1ae31ac2c06a79 1-410
+apps/lab/tsconfig.json
+  s_8263386aed4fa7::t_9ea1afd7160feb 1-7
+.claude/skills/migrate-radix-to-base/form-controls.md
+  s_8263386aed4fa7::t_1ae31ac2c06a79 1-390
+.claude/skills/shadcn/customization.md
+  s_8263386aed4fa7::t_1ae31ac2c06a79 1-209
+README.md
+  s_8263386aed4fa7::t_88c2a776fc5ba4 26,34-35
+  s_8263386aed4fa7::t_55b4c4428ac948 33
+  s_8263386aed4fa7::t_e7615895d62e96 36-38
+  s_8263386aed4fa7::t_22fb757890d4cd 22-25,29-31
+  s_8263386aed4fa7::t_c5c1b9ec1339dd 1,3-4,6-7,9-15,18-19,27,40-49,52-94
+  s_8263386aed4fa7::t_7fe8aaffbd3a35 39
+apps/lab/index.html
+  s_8263386aed4fa7::t_9ea1afd7160feb 1-4,11-16
+  s_ffa4d03c4a3723::t_2d13cae0957a20 5-10
+apps/lab/public/icons.svg
+  s_8263386aed4fa7::t_9ea1afd7160feb 1-24
+AGENTS.md
+  s_ffa4d03c4a3723::t_8eb937a38b66e7 1-6,8-9
+  s_1487498aead3a7::t_90dce49160e59d 7
+packages/ui/src/components/button.tsx
+  s_ffa4d03c4a3723::t_04d3e142438871 1
+apps/web/vite.config.ts
+  s_ffa4d03c4a3723::t_04d3e142438871 17
+  s_8263386aed4fa7::t_bf7e0ed5937cca 5-6,10-14
+turbo.json
+  s_ffa4d03c4a3723::t_4a24b77236f89d 10-12
+.claude/skills/migrate-radix-to-base/consumer-props.md
+  s_8263386aed4fa7::t_1ae31ac2c06a79 1-58
+.claude/skills/shadcn/evals/evals.json
+  s_8263386aed4fa7::t_1ae31ac2c06a79 1-77
+.claude/skills/migrate-radix-to-base/class-mapping.md
+  s_8263386aed4fa7::t_1ae31ac2c06a79 1-62
+packages/ui/package.json
+  s_8263386aed4fa7::t_2989ce757e0245 21
+  s_ffa4d03c4a3723::t_8eb937a38b66e7 42-43
+  s_ffa4d03c4a3723::t_1cfe2c493cef44 7
+apps/docs/src/main.tsx
+  s_ffa4d03c4a3723::t_5bb99dc6f7e595 1-2,4-7,10-12
+  s_8263386aed4fa7::t_88df4cb3376423 8,13
+  s_8263386aed4fa7::t_9ea1afd7160feb 3,9,14
+.claude/skills/shadcn/rules/icons.md
+  s_8263386aed4fa7::t_1ae31ac2c06a79 1-101
+apps/docs/tsconfig.app.json
+  s_ffa4d03c4a3723::t_5bb99dc6f7e595 23-26
+  s_8263386aed4fa7::t_9ea1afd7160feb 1-22,27-29
+package.json
+  s_ffa4d03c4a3723::t_8eb937a38b66e7 2,9
+  s_8263386aed4fa7::t_eca89216a33169 12,15
+  s_8263386aed4fa7::t_88c2a776fc5ba4 7-8
+.claude/skills/migrate-radix-to-base/SKILL.md
+  s_8263386aed4fa7::t_1ae31ac2c06a79 1-173
+apps/web/src/main.tsx
+  s_ffa4d03c4a3723::t_8eb937a38b66e7 5
+apps/lab/eslint.config.js
+  s_ffa4d03c4a3723::t_2d13cae0957a20 1-20
+.claude/skills/migrate-radix-to-base/universal-patterns.md
+  s_8263386aed4fa7::t_1ae31ac2c06a79 1-286
+.claude/skills/migrate-radix-to-base/wrapper-shapes.md
+  s_8263386aed4fa7::t_1ae31ac2c06a79 1-110
+apps/docs/vite.config.ts
+  s_8263386aed4fa7::t_9ea1afd7160feb 4,7-8,15
+  s_ffa4d03c4a3723::t_5bb99dc6f7e595 1-3,9
+  s_8263386aed4fa7::t_bf7e0ed5937cca 5-6,10-14
+apps/lab/src/experiments/_template/index.tsx
+  s_ffa4d03c4a3723::t_66a155070dd234 1
+  s_ffa4d03c4a3723::t_2d13cae0957a20 2-9,13-27
+  s_8263386aed4fa7::t_88df4cb3376423 10-12
+.claude/skills/shadcn/SKILL.md
+  s_8263386aed4fa7::t_1ae31ac2c06a79 1-277
+bun.lock
+  s_8263386aed4fa7::t_c84e6dccb97352 8,15-62,64,409-410,447-450,453-454,489-490
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.20",
+  "base_commit_sha": "caac4aa24cc6b3fa50503f892ca9c9506d0ea279",
+  "prompts": {},
+  "sessions": {
+    "s_1487498aead3a7": {
+      "agent_id": {
+        "tool": "opencode",
+        "id": "ses_fd4f73794ffefDs6ku8xc8xMv2",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Brandon Mathis <brandon@imathis.com>"
+    },
+    "s_8263386aed4fa7": {
+      "agent_id": {
+        "tool": "opencode",
+        "id": "ses_fd59829b6ffelDjDJMrXPbKxA4",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Brandon Mathis <brandon@imathis.com>"
+    },
+    "s_ffa4d03c4a3723": {
+      "agent_id": {
+        "tool": "opencode",
+        "id": "ses_fd4ffa982ffeS27CwqykpU00lG",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Brandon Mathis <brandon@imathis.com>"
+    }
+  }
+}
