@@ -15,9 +15,6 @@ dist-ssr
 # env files (can opt-in for committing if needed)
 .env*
 
-# turbo
-.turbo
-
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

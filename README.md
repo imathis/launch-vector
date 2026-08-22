@@ -6,6 +6,9 @@ component documentation, and disposable design experiments.
 The name is intentionally kept out of package APIs. Shared code uses the
 rename-safe `@workspace/*` scope.
 
+Root tasks run directly across Bun workspaces; no separate task runner is
+required.
+
 ## Requirements
 
 - Bun 1.4+

@@ -64,4 +64,4 @@ if (process.env.PORTLESS_PORT) {
   }
 }
 
-process.exit(await run(["bun", "run", "dev:turbo"]))
+process.exit(await run(["bun", "run", "dev:apps"]))
