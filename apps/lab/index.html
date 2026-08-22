@@ -1,0 +1,16 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="description" content="Vector disposable prototype lab" />
+    <title>Vector lab</title>
+    <script>
+      (() => { const key = "workspace:theme"; let theme = "system"; try { const stored = localStorage.getItem(key); if (stored === "light" || stored === "dark" || stored === "system") theme = stored; } catch {} const resolved = theme === "system" ? (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light") : theme; const root = document.documentElement; root.classList.remove("light", "dark"); root.classList.add(resolved); root.dataset.theme = resolved; root.dataset.themeMode = theme; root.style.colorScheme = resolved; })();
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

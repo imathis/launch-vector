@@ -1,15 +1,18 @@
 {
-  "name": "bootkit",
+  "name": "vector",
   "version": "0.0.1",
   "private": true,
   "scripts": {
     "build": "turbo build",
-    "dev": "turbo dev",
+    "dev": "bun tooling/dev.ts",
+    "dev:portless": "portless",
+    "dev:turbo": "turbo dev",
     "lint": "turbo lint",
     "format": "turbo format",
-    "typecheck": "turbo typecheck"
+    "typecheck": "tsc --noEmit && turbo typecheck"
   },
   "devDependencies": {
+    "@types/bun": "latest",
     "prettier": "^3.8.3",
     "prettier-plugin-tailwindcss": "^0.8.0",
     "turbo": "^2.9.18",

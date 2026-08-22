@@ -1,19 +1,36 @@
 import { Button } from "@workspace/ui/components/button"
+import { ThemeToggle } from "@workspace/ui/theme/theme-toggle"
+import { useState } from "react"
 
 export function App() {
+  const [greetingVisible, setGreetingVisible] = useState(false)
+
   return (
-    <div className="flex min-h-svh p-6">
-      <div className="flex max-w-md min-w-0 flex-col gap-4 text-sm leading-loose">
-        <div>
-          <h1 className="font-medium">Project ready!</h1>
-          <p>You may now add components and start building.</p>
-          <p>We&apos;ve already added the button component for you.</p>
-          <Button className="mt-2">Button</Button>
+    <main className="mx-auto flex min-h-svh w-full max-w-3xl flex-col px-5 pt-[max(1.25rem,env(safe-area-inset-top))] pb-[max(1.25rem,env(safe-area-inset-bottom))] sm:px-8">
+      <header className="flex justify-end">
+        <ThemeToggle />
+      </header>
+      <section className="flex flex-1 flex-col items-start justify-center gap-6 py-16">
+        <div className="space-y-2">
+          <p className="text-sm font-medium text-muted-foreground">Vector</p>
+          <h1 className="text-4xl font-semibold tracking-tight sm:text-5xl">
+            A small, shared foundation.
+          </h1>
+          <p className="max-w-xl text-base leading-7 text-muted-foreground">
+            One component package, a focused documentation app, and a disposable
+            prototype lab.
+          </p>
         </div>
-        <div className="text-muted-foreground font-mono text-xs">
-          (Press <kbd>d</kbd> to toggle dark mode)
-        </div>
-      </div>
-    </div>
+        <Button
+          className="min-h-11 px-4"
+          onClick={() => setGreetingVisible(true)}
+        >
+          Say hello
+        </Button>
+        <p className="min-h-7 text-lg font-medium" aria-live="polite">
+          {greetingVisible ? "Hello, world!" : ""}
+        </p>
+      </section>
+    </main>
   )
 }
