@@ -1,0 +1,66 @@
+.gitignore
+  h_2a4a0fdc393ff7 1-33
+.prettierignore
+  h_2a4a0fdc393ff7 1-6
+.prettierrc
+  h_2a4a0fdc393ff7 1-11
+README.md
+  h_2a4a0fdc393ff7 1-21
+apps/web/components.json
+  h_2a4a0fdc393ff7 1-23
+apps/web/eslint.config.js
+  h_2a4a0fdc393ff7 1-22
+apps/web/index.html
+  h_2a4a0fdc393ff7 1-13
+apps/web/package.json
+  h_2a4a0fdc393ff7 1-35
+apps/web/src/App.tsx
+  h_2a4a0fdc393ff7 1-19
+apps/web/src/components/theme-provider.tsx
+  h_2a4a0fdc393ff7 1-230
+apps/web/src/main.tsx
+  h_2a4a0fdc393ff7 1-14
+apps/web/tsconfig.app.json
+  h_2a4a0fdc393ff7 1-30
+apps/web/tsconfig.json
+  h_2a4a0fdc393ff7 1-13
+apps/web/tsconfig.node.json
+  h_2a4a0fdc393ff7 1-24
+apps/web/vite.config.ts
+  h_2a4a0fdc393ff7 1-14
+bun.lock
+  h_2a4a0fdc393ff7 1-1185
+package.json
+  h_2a4a0fdc393ff7 1-26
+packages/ui/components.json
+  h_2a4a0fdc393ff7 1-23
+packages/ui/eslint.config.js
+  h_2a4a0fdc393ff7 1-22
+packages/ui/package.json
+  h_2a4a0fdc393ff7 1-45
+packages/ui/src/components/button.tsx
+  h_2a4a0fdc393ff7 1-58
+packages/ui/src/lib/utils.ts
+  h_2a4a0fdc393ff7 1-6
+packages/ui/src/styles/globals.css
+  h_2a4a0fdc393ff7 1-133
+packages/ui/tsconfig.json
+  h_2a4a0fdc393ff7 1-17
+packages/ui/tsconfig.lint.json
+  h_2a4a0fdc393ff7 1-14
+tsconfig.json
+  h_2a4a0fdc393ff7 1-9
+turbo.json
+  h_2a4a0fdc393ff7 1-24
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.20",
+  "base_commit_sha": "c12afc53eb684d2632bba83a6247be67e24f347b",
+  "prompts": {},
+  "humans": {
+    "h_2a4a0fdc393ff7": {
+      "author": "Brandon Mathis <brandon@imathis.com>"
+    }
+  }
+}
