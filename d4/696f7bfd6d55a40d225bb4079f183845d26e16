@@ -1,0 +1,27 @@
+packages/ui/tsconfig.lint.json
+  s_8263386aed4fa7::t_e8a7513fac984e 12
+package.json
+  s_8263386aed4fa7::t_e8a7513fac984e 6,8,10-12
+README.md
+  s_8263386aed4fa7::t_e8a7513fac984e 9-11
+.prettierignore
+  s_8263386aed4fa7::t_2035088fe051d5 5
+tooling/dev.ts
+  s_8263386aed4fa7::t_e8a7513fac984e 67
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.20",
+  "base_commit_sha": "d4696f7bfd6d55a40d225bb4079f183845d26e16",
+  "prompts": {},
+  "sessions": {
+    "s_8263386aed4fa7": {
+      "agent_id": {
+        "tool": "opencode",
+        "id": "ses_fd59829b6ffelDjDJMrXPbKxA4",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Brandon Mathis <brandon@imathis.com>"
+    }
+  }
+}
