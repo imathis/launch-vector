@@ -32,14 +32,28 @@ export default defineExperiment({
   metadata: {
     title: "Welcome",
     description: "A committed fixture for exercising the lab harness.",
+    notes:
+      "This fixture is intentionally generic. It demonstrates the harness without pretending to be product work.",
   },
   variants: {
-    quiet: { label: "Quiet" },
-    strong: { label: "Strong" },
+    quiet: {
+      label: "Quiet",
+      notes: "Uses an outline action to keep the fixture visually restrained.",
+    },
+    strong: {
+      label: "Strong",
+      notes: "Promotes the action to the primary button treatment.",
+    },
   },
   scenarios: {
-    firstVisit: { label: "First visit" },
-    returning: { label: "Returning" },
+    firstVisit: {
+      label: "First visit",
+      description: "Shows first-run welcome copy.",
+    },
+    returning: {
+      label: "Returning",
+      description: "Changes the greeting for someone who has visited before.",
+    },
   },
   render: Welcome,
 })

@@ -187,20 +187,27 @@ automatically. Use `_template.tsx` as the authoring contract.
 
 ## Prototype an idea
 
-Copy `apps/lab/src/experiments/_template` to a new directory under
-`apps/lab/src/experiments`. Local experiments are gitignored by default.
+Ask an agent to explore an interface idea in the Lab. Give it the user problem,
+product constraints, relevant scenarios, and the decision you need to make. The
+agent creates 3–10 variants under `apps/lab/src/experiments`; those local
+experiments are gitignored by default.
 
-Experiments exist to reach a decision. Reimplement accepted work in its real
-application, then delete or abandon the prototype. Do not preserve it as a
-second implementation.
+Refine promising directions with explicit sub-variants, then ask the agent to
+write a handoff for the accepted direction and reimplement it in the destination
+application. Prototype code is a high-fidelity mockup, not portable production
+code. `apps/lab/AGENTS.md` contains the workflow and is the place to add product
+and domain context.
 
 Lab shortcuts ignore editable controls:
 
+- `1–0`: select a variant
+- `Option/Alt + 1–0`: select a scenario
+- `.`: toggle current/previous variant
 - `D`: toggle light/dark
 - `C`: focus/compare
 - `V`: next variant
 - `S`: next scenario
-- `H`: hide/show controls
+- `F`: presentation mode
 
 ## Verify
 

@@ -9,8 +9,9 @@ export type ExperimentDefinition = {
   metadata: {
     title: string
     description: string
+    notes?: string
   }
-  variants: Record<string, { label: string }>
+  variants: Record<string, { label: string; notes?: string }>
   scenarios: Record<string, { label: string; description?: string }>
   render: ComponentType<ExperimentRenderProps>
 }

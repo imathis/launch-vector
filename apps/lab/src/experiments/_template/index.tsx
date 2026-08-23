@@ -20,6 +20,7 @@ export default defineExperiment({
   metadata: {
     title: "Prototype title",
     description: "Question this prototype explores.",
+    notes: "Optional context that should stay out of the experiment canvas.",
   },
   variants: { default: { label: "Default" } },
   scenarios: { default: { label: "Default" } },
