@@ -1,0 +1,33 @@
+cmd/vector/main.go
+  s_8263386aed4fa7::t_dd01b559fc51f6 15-18
+internal/vector/tui/view.go
+  s_8263386aed4fa7::t_dd01b559fc51f6 9
+internal/vector/runtime/runtime_test.go
+  s_8263386aed4fa7::t_dd01b559fc51f6 8-9
+internal/vector/runtime/runtime.go
+  s_8263386aed4fa7::t_dd01b559fc51f6 17-18
+go.mod
+  s_8263386aed4fa7::t_dd01b559fc51f6 1
+internal/vector/tui/model_test.go
+  s_8263386aed4fa7::t_dd01b559fc51f6 9-10
+internal/vector/project/project.go
+  s_8263386aed4fa7::t_dd01b559fc51f6 9
+internal/vector/tui/model.go
+  s_8263386aed4fa7::t_dd01b559fc51f6 13-14
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.20",
+  "base_commit_sha": "849ffa6264e308cfae381b2cd3f4400d95166295",
+  "prompts": {},
+  "sessions": {
+    "s_8263386aed4fa7": {
+      "agent_id": {
+        "tool": "opencode",
+        "id": "ses_fd59829b6ffelDjDJMrXPbKxA4",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Brandon Mathis <brandon@imathis.com>"
+    }
+  }
+}
