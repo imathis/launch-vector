@@ -1,0 +1,133 @@
+apps/lab/src/experiment.ts
+  s_8263386aed4fa7::t_74464f47b76a37 35-36,59,64-68
+  s_8263386aed4fa7::t_e875a98b48a3de 11-18,25,30,49,55-58,60
+apps/lab/src/components/choice-menu.tsx
+  s_8263386aed4fa7::t_226d97f71ce206 156,159,198,201
+  s_8263386aed4fa7::t_a41f5e3a77ec86 120,168,208,235
+apps/lab/src/components/variant-tabs.tsx
+  s_8263386aed4fa7::t_226d97f71ce206 11,18
+  s_8263386aed4fa7::t_00a36aed090d9e 62
+apps/lab/src/routes.ts
+  s_8263386aed4fa7::t_cbda151acf6a48 4-8,14-17,25,31-36
+apps/lab/src/App.tsx
+  s_8263386aed4fa7::t_c0eaa0c24e83de 1079,1087
+  s_8263386aed4fa7::t_709e84edc8968d 919,1185
+  s_8263386aed4fa7::t_03e0d839d80979 274-277,783-794,796,798-803
+  s_8263386aed4fa7::t_a85a416a465046 349-354,370-372
+  s_8263386aed4fa7::t_3b524d985dab40 795,797,821,1067-1069,1129,1136
+  s_8263386aed4fa7::t_80f6a5807a70c2 278-306,608,736-737,756-757
+  s_8263386aed4fa7::t_6dbeec93101836 78,128
+  s_8263386aed4fa7::t_4a2ba85e3e6945 186-187,633-646,652-663,665-671,673-677
+  s_8263386aed4fa7::t_e0447d5f30b3e9 723-725,739,752
+  s_8263386aed4fa7::t_fa33f1302e506b 738,758
+  s_8263386aed4fa7::t_158c4ddbc6d68a 76-77,358-362,368,465-471,473-479,481-488
+  s_8263386aed4fa7::t_365052988b0ccb 1157
+  s_8263386aed4fa7::t_357a50b13e1bb4 819-820,824,1020,1027,1064-1066,1103-1104,1106-1111,1113-1116,1147-1153,1158-1159,1176-1177,1188
+  s_8263386aed4fa7::t_15ace79f0d5148 126-127,162-185,315-321,323,363-364,375-379,522-530,536-545,647,649-651,695-703,727-728,972-976
+  s_8263386aed4fa7::t_2b0593a6b1542e 37-39,804-812,1074-1078,1080-1086,1088-1102,1105,1112
+  s_8263386aed4fa7::t_b3cc24b209b09d 365-367
+  s_8263386aed4fa7::t_19131293a5ccb2 648,729,969-971
+  s_8263386aed4fa7::t_03db6467dfa209 115
+  s_8263386aed4fa7::t_bfd8f6166b6cc1 226
+  s_8263386aed4fa7::t_83b78e9c51135e 769-774,1155-1156
+  s_8263386aed4fa7::t_5986c933e401be 929,932,1178
+  s_8263386aed4fa7::t_4306c03e813711 218,229-230,309-311,314,322,324-325
+  s_8263386aed4fa7::t_6387a6878c9b12 65,623-631,664
+  s_8263386aed4fa7::t_cf932a9386be16 1154
+  s_8263386aed4fa7::t_255a5f7b2aebfe 12,24,33,36,60-64,66,71,80,113,133-136
+  s_8263386aed4fa7::t_4b6568c0a0d927 678
+  s_8263386aed4fa7::t_a85f01025d95d2 942-948,987-999
+apps/lab/src/components/display-settings.tsx
+  s_8263386aed4fa7::t_226d97f71ce206 84,92
+  s_8263386aed4fa7::t_a41f5e3a77ec86 103
+apps/lab/management/routes.test.ts
+  s_8263386aed4fa7::t_3b524d985dab40 13
+  s_8263386aed4fa7::t_cbda151acf6a48 10-12,22-32,41
+apps/lab/src/components/shortcut-help.tsx
+  s_8263386aed4fa7::t_a41f5e3a77ec86 20
+apps/lab/src/lib/frame-messages.ts
+  s_8263386aed4fa7::t_ed78e44e171f18 1-22,26-50
+  s_8263386aed4fa7::t_3b524d985dab40 23-25
+apps/lab/src/components/experiment-actions-menu.tsx
+  s_8263386aed4fa7::t_a41f5e3a77ec86 20
+  s_8263386aed4fa7::t_226d97f71ce206 8,11
+.gitignore
+  s_8263386aed4fa7::t_1f41f0ecfe8285 31-32
+  s_8263386aed4fa7::t_bcec422bee635f 1-16,23-24,26-29,36,38-39,41,44,46
+  s_bfe1a8aa570d2a::t_c1222f3b18707d 30,33
+README.md
+  s_8263386aed4fa7::t_d4cf1588bfafcd 207-212,220-222
+  s_8263386aed4fa7::t_38e5871b279e00 223
+apps/lab/src/experiments/_template/index.tsx
+  s_8263386aed4fa7::t_18d836ccbcb481 28
+apps/lab/src/components/experiment-preview.tsx
+  s_8263386aed4fa7::t_b879375795b3ed 56-59,63-64,70,77-79,83-86
+  s_8263386aed4fa7::t_3c293ef7da80c7 2,9,35-37,47-49,61-62,65-69,71-76,80-82,87-102
+  s_8263386aed4fa7::t_365052988b0ccb 38,50,113-117
+  s_8263386aed4fa7::t_e875a98b48a3de 1,3-8,10-34,39-46,51-55,60,103-112,118-120
+apps/lab/src/components/display-controls.tsx
+  s_8263386aed4fa7::t_70c5ff80f76df6 79
+apps/lab/src/components/responsive-preview.tsx
+  s_8263386aed4fa7::t_ed78e44e171f18 9-13,15,19-21,24-26,30-31,33-41,57,71-72,74,77,81,148-150
+  s_8263386aed4fa7::t_72e571af9a0c59 79
+  s_8263386aed4fa7::t_b9d40ed6ebd379 73
+  s_8263386aed4fa7::t_c0eaa0c24e83de 96-97,111,113,123,128
+  s_8263386aed4fa7::t_50ab0dbe7911c2 115-117
+  s_8263386aed4fa7::t_946928afae11b5 8,14,16-18,22,27-28,42-51,53-56,58-70,75-76,78,82-95,98-109,112,114,118-122,124-127,129-147
+  s_8263386aed4fa7::t_7e15d90b58399d 32
+  s_8263386aed4fa7::t_cf932a9386be16 110
+  s_8263386aed4fa7::t_0c093c58417ecd 1-7,23,29,52,80
+apps/lab/src/components/presentation-dock.tsx
+  s_8263386aed4fa7::t_226d97f71ce206 85,109,129,148,151-154
+  s_8263386aed4fa7::t_fc82283f42f078 15-16,31-32,43,58-59,70,135-139
+  s_8263386aed4fa7::t_70c5ff80f76df6 92,161
+  s_8263386aed4fa7::t_adcc558cd689c8 113-120,170-182
+  s_8263386aed4fa7::t_21c3038a87fa8f 97,167
+  s_8263386aed4fa7::t_9603da86f7c2c2 140
+apps/lab/src/components/experiment-notes.tsx
+  s_8263386aed4fa7::t_a41f5e3a77ec86 25
+apps/lab/src/components/viewport-controls.tsx
+  s_8263386aed4fa7::t_ed78e44e171f18 1-20,22-35,39-42,44-58
+  s_8263386aed4fa7::t_21c3038a87fa8f 21
+  s_8263386aed4fa7::t_9decd756e97183 43
+  s_8263386aed4fa7::t_a8d6963888e780 36-38
+apps/lab/src/experiments/_template/BRIEF.md
+  s_8263386aed4fa7::t_18d836ccbcb481 30-32
+  s_8263386aed4fa7::t_aade32fd4ff95d 11-13
+apps/lab/README.md
+  s_8263386aed4fa7::t_18d836ccbcb481 22-26,43-48,77-81,86-90
+  s_8263386aed4fa7::t_a1205b1a80d957 82-85
+  s_8263386aed4fa7::t_0581d9deac9839 91-94
+apps/lab/AGENTS.md
+  s_8263386aed4fa7::t_aade32fd4ff95d 13
+  s_8263386aed4fa7::t_18d836ccbcb481 18
+  s_8263386aed4fa7::t_a1205b1a80d957 15
+apps/lab/src/lab-config.ts
+  s_8263386aed4fa7::t_aa708a941bb548 11-16,22-25,47-52
+  s_8263386aed4fa7::t_226d97f71ce206 53
+  s_8263386aed4fa7::t_f8d6a52feeb029 54-55
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.20",
+  "base_commit_sha": "9a90218b4609c6f7db85394960d81d1b221b6a2c",
+  "prompts": {},
+  "sessions": {
+    "s_8263386aed4fa7": {
+      "agent_id": {
+        "tool": "opencode",
+        "id": "ses_fd59829b6ffelDjDJMrXPbKxA4",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Brandon Mathis <brandon@imathis.com>"
+    },
+    "s_bfe1a8aa570d2a": {
+      "agent_id": {
+        "tool": "opencode",
+        "id": "ses_fcfa25722ffe8MhZIdy6eH9W32",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Brandon Mathis <brandon@imathis.com>"
+    }
+  }
+}
