@@ -1,0 +1,237 @@
+apps/lab/src/lib/management-client.ts
+  s_8263386aed4fa7::t_646d74e2958e75 136-141
+  s_8263386aed4fa7::t_15f6f6213592bc 1-135,142-145
+apps/lab/src/components/display-settings.tsx
+  s_8263386aed4fa7::t_66e7718a3e29de 1-100,102-113,115-180
+  s_8263386aed4fa7::t_97ebfae934f610 101
+  s_8263386aed4fa7::t_1db9117de24821 114
+apps/lab/src/App.tsx
+  s_8263386aed4fa7::t_44b79d18dcf504 191-195
+  s_8263386aed4fa7::t_6c3749fc9c11d7 875,887
+  s_8263386aed4fa7::t_ee5b50c4c210f5 3,144-157
+  s_8263386aed4fa7::t_55e23d6049c54d 12,14,33,48,541-542,547-549,895-922
+  s_8263386aed4fa7::t_24bedb78c9634f 88,102-103
+  s_8263386aed4fa7::t_85518130f27dde 159,253,351-353,358-360
+  s_8263386aed4fa7::t_d4fd7429301c29 20,597-600,619-629
+  s_8263386aed4fa7::t_87c25ada4a0688 57,800
+  s_8263386aed4fa7::t_faef0f8e070d5c 96
+  s_8263386aed4fa7::t_b328e2c75cb94e 570-579
+  s_8263386aed4fa7::t_d3e221ccb8c216 591-594
+  s_8263386aed4fa7::t_8c69abeed3ccd0 663,665-673
+  s_8263386aed4fa7::t_b3159ff6dc7070 880
+  s_8263386aed4fa7::t_483ab14d0f2f5a 355-357
+  s_8263386aed4fa7::t_5e96a64a7b9341 635-646
+  s_8263386aed4fa7::t_51e06addc6576e 843,856
+  s_8263386aed4fa7::t_af7b86e083aab4 2,15-16,39-46,62,72
+  s_8263386aed4fa7::t_4c705f0c217baf 526,528-531,634,661,789,793,796-798,864
+  s_8263386aed4fa7::t_58301cb4eb08f0 299-308,311
+  s_8263386aed4fa7::t_97dcef4688ce85 49-53,169,652,881
+  s_8263386aed4fa7::t_dc70020d22d51a 5,203-214,216-218
+  s_8263386aed4fa7::t_1db9117de24821 664
+  s_8263386aed4fa7::t_4054e5563cc550 54,85,87,94,98-101,245,249,255-256,506-509,521-523
+  s_8263386aed4fa7::t_03b34f25806864 89-91,107-110
+  s_8263386aed4fa7::t_94bd4e8d0cc885 744,749,755-769,771-776
+  s_8263386aed4fa7::t_da74034cb6d876 543-546
+  s_8263386aed4fa7::t_1f615325338660 346,361-365,367-368
+  s_8263386aed4fa7::t_2a9c431d8c66a9 140-143
+  s_8263386aed4fa7::t_9f2f8828b0a5f1 878-879,889
+  s_8263386aed4fa7::t_f0a6f9b8826f3f 31,601-618
+  s_8263386aed4fa7::t_0362291d37be9a 650-651,654,696-711
+  s_8263386aed4fa7::t_eea22644c01f2e 8,181-190,350,354
+  s_8263386aed4fa7::t_7bf7869b8cb7a2 21,567,569,580-590,595,630-631,745-746
+  s_8263386aed4fa7::t_c0793d21c8e9b6 92,247,386,519-520,527
+  s_8263386aed4fa7::t_9a6a196a1f89b0 488,491-502,835
+  s_8263386aed4fa7::t_c1bd9e0544005f 489-490
+  s_8263386aed4fa7::t_69061a6f07c5f7 17,67,80,86,176-178,201,246,257,262,330,349,366,371-374
+  s_8263386aed4fa7::t_84b901df6a365d 202,369-370
+Justfile
+  s_8263386aed4fa7::t_3abc444430ccc8 62-65,71
+apps/lab/src/lab-config.ts
+  s_8263386aed4fa7::t_a28e2f629e0b16 22-23
+  s_8263386aed4fa7::t_36e79b2e0dbc66 8,31-32,41-48
+  s_8263386aed4fa7::t_585141decbf634 39
+  s_8263386aed4fa7::t_6b5bc086119367 26,29-30
+  s_8263386aed4fa7::t_9ba7b405903d46 1-7,9-13,15-21,24-25,27-28,34-38,40,49
+  s_8263386aed4fa7::t_153e228f53a502 14
+  s_8263386aed4fa7::t_503f0a197cb03a 33
+apps/lab/src/components/rename-experiment-dialog.tsx
+  s_8263386aed4fa7::t_aa06fdaf428b36 1-103,107-118
+  s_8263386aed4fa7::t_1a5e8757168977 104-106
+apps/lab/management/routes.test.ts
+  s_8263386aed4fa7::t_b9dffa1edab324 1-2,4-8,10-33
+  s_8263386aed4fa7::t_bb53fb9d6753d0 3
+  s_8263386aed4fa7::t_2a9c431d8c66a9 9
+apps/lab/src/experiments/_template/BRIEF.md
+  s_8263386aed4fa7::t_6951934c946e99 11-16
+  s_8263386aed4fa7::t_3ddcf0a4584b03 24-27
+apps/lab/src/experiments/_template/experiment.json
+  s_8263386aed4fa7::t_6b5bc086119367 7
+  s_8263386aed4fa7::t_bdcf1a41719b65 1-6,8
+apps/lab/src/components/shortcut-help.tsx
+  s_8263386aed4fa7::t_97ebfae934f610 20,24
+packages/ui/src/components/input.tsx
+  s_8263386aed4fa7::t_9f308aae12be96 1-20
+packages/ui/src/components/dialog.tsx
+  s_8263386aed4fa7::t_40e784d7c1a72b 71
+  s_8263386aed4fa7::t_033e5f5e047155 1-70,72-157
+README.md
+  s_8263386aed4fa7::t_d1b3c2420e5c74 207-209
+  s_8263386aed4fa7::t_84aeff31a72e53 191-193,201-204,213-215
+  s_8263386aed4fa7::t_4053d5bf2c98dd 210
+  s_8263386aed4fa7::t_3ddcf0a4584b03 205-206,211-212,216
+apps/lab/src/components/presentation-dock.tsx
+  s_8263386aed4fa7::t_d3e221ccb8c216 80
+  s_8263386aed4fa7::t_d8a657b616b0e0 31,56
+  s_8263386aed4fa7::t_f19a8e1f7d21f6 28-29,39,53-54,64
+  s_8263386aed4fa7::t_6c3749fc9c11d7 12,25,37,50,62,86,99-108,136-143,152
+  s_8263386aed4fa7::t_8c05c093216359 79
+  s_8263386aed4fa7::t_b3159ff6dc7070 7,30,55
+  s_8263386aed4fa7::t_f80f35f226ad2d 8,109,112,144-145
+  s_8263386aed4fa7::t_628810b10a8426 13,74,81-85,87-97
+  s_8263386aed4fa7::t_528fbe0ffd731d 146
+apps/lab/AGENTS.md
+  s_8263386aed4fa7::t_a1ea1983ec5fec 5-7
+  s_8263386aed4fa7::t_3ddcf0a4584b03 9-10,15,21
+  s_8263386aed4fa7::t_103a3d44ae44e9 4,18
+apps/lab/vite.config.ts
+  s_6344e10c9cde4c::t_2c1c6b101bb338 5-6,11
+apps/lab/management/archive.ts
+  s_6344e10c9cde4c::t_4d726caa8f425a 1,79,136-137,140,174-175
+  s_6344e10c9cde4c::t_4fb2ce8f2e5659 245
+  s_6344e10c9cde4c::t_2c1c6b101bb338 2-64,66-70,72-78,80-87,91-135,138-139,141-152,158-169,176-191,199-214,219-221,223-238,243,252-258,263-272,276-308,313-336,349-398
+  s_6344e10c9cde4c::t_0056a5ee078011 88-90,222,244,246-251,273-275,337-348
+  s_6344e10c9cde4c::t_e211950440e2ff 153-157,192-198,215-218,239-242,259-262,309-312
+  s_6344e10c9cde4c::t_fe3b68f8060c5d 170-173
+  s_6344e10c9cde4c::t_53427bd34bf885 65,71
+apps/lab/src/experiment-registry.ts
+  s_8263386aed4fa7::t_585141decbf634 1
+  s_8263386aed4fa7::t_9ba7b405903d46 2-70
+apps/lab/src/components/lab-guide.tsx
+  s_8263386aed4fa7::t_c0793d21c8e9b6 1,69
+  s_8263386aed4fa7::t_804fd5ef6bfe9d 32,35,51,55-56,58-59,61-68,70-73
+  s_8263386aed4fa7::t_1a8fa4948a1ee7 10,12,18,20,26-27,132
+  s_8263386aed4fa7::t_d06d9d8e6adb22 41
+  s_8263386aed4fa7::t_bfb09f9c95930d 133-137,140-141
+  s_8263386aed4fa7::t_cec3538a1d53bb 138-139
+apps/lab/tsconfig.node.json
+  s_6344e10c9cde4c::t_2c1c6b101bb338 22
+  s_6344e10c9cde4c::t_d488b17911ae63 6
+apps/lab/src/management-contract.ts
+  s_8263386aed4fa7::t_bdcf1a41719b65 2-40
+  s_6344e10c9cde4c::t_4d726caa8f425a 1
+apps/lab/management/store.ts
+  s_6344e10c9cde4c::t_2c1c6b101bb338 1-65,71-87,98-111,116-117,122-127,132-166,171-176,181-187,192,200-211,216-225,230-232,258,262-270,275-283,288-295,300-326,331,335-355,357,362-364,378-414,420-424,430-461,467-479,484-487,489,501-504,509-510,515-518,522-523,540-551,553-594,602-619,630-667
+  s_6344e10c9cde4c::t_e211950440e2ff 66-70,112-115,118-121,128-131,167-170,177-180,188-191,193-199,212-215,226-229,271-274,284-287,296-299,327-330,332-334,358-361,365-377,415-419,425-429,462-466,480-483,505-508,511-514,519-521,536-539
+  s_6344e10c9cde4c::t_4d726caa8f425a 233-234,259-261,524-535
+  s_6344e10c9cde4c::t_fe3b68f8060c5d 235-257
+  s_6344e10c9cde4c::t_a32cb58eb6f62e 488,490-500,552,595-601,620-629
+  s_8263386aed4fa7::t_b553b981a00333 88-97,356
+apps/docs/src/content/label.tsx
+  s_8263386aed4fa7::t_75e1b27a54c1cb 1-44
+packages/ui/src/styles/globals.css
+  s_8263386aed4fa7::t_86ad601d1bfced 7-8
+  s_8263386aed4fa7::t_95e89468e28d71 9
+apps/lab/src/hooks/use-experiment-management.ts
+  s_8263386aed4fa7::t_2ea06d9d80a6a4 99
+  s_8263386aed4fa7::t_0e07ebac47106c 1-37,41-58,60-98,100-181,192-205
+  s_8263386aed4fa7::t_cf9d3b4d1a3cf8 59
+  s_8263386aed4fa7::t_1a5e8757168977 38-40,182-191
+apps/lab/src/routes.ts
+  s_8263386aed4fa7::t_4054e5563cc550 1-8,10-30
+  s_8263386aed4fa7::t_24bedb78c9634f 9
+apps/lab/management/vite-plugin.ts
+  s_6344e10c9cde4c::t_e211950440e2ff 19-23,32-36,49-52,64-68,113-116,149-152,154-157,160-164,171-173
+  s_6344e10c9cde4c::t_2c1c6b101bb338 1-18,24-31,37-48,53-63,69,71-78,97-112,117-125,127-128,130-131,133-134,136-137,139-142,144-148,153,158-159,165-170,174-217
+  s_6344e10c9cde4c::t_4d726caa8f425a 79-96,126,129,132,135,138
+  s_8263386aed4fa7::t_947deda1045047 70,143
+apps/docs/src/content/dialog.tsx
+  s_8263386aed4fa7::t_75e1b27a54c1cb 1-87
+apps/lab/package.json
+  s_8263386aed4fa7::t_b9dffa1edab324 16
+  s_8263386aed4fa7::t_7b0ebee05cdec9 23
+apps/lab/src/components/choice-menu.tsx
+  s_8263386aed4fa7::t_f137785a1a01f0 218,221,223-225,229,233
+  s_8263386aed4fa7::t_5e102ec7bafe43 58-60,78,80-89
+  s_8263386aed4fa7::t_ac60fc3f14805b 231
+  s_8263386aed4fa7::t_d21026b053f9a0 3-8
+  s_8263386aed4fa7::t_c83eca22ba3863 219-220,222,230,235
+  s_8263386aed4fa7::t_a85a5a5479a8ca 1,39,48,51-56,73,111,142,155,185
+  s_8263386aed4fa7::t_790a354d3eac93 16-30,216
+  s_8263386aed4fa7::t_df94e2f78cf83f 195,197,199-203,209
+  s_8263386aed4fa7::t_80fe822ea74e74 191,204-206
+  s_8263386aed4fa7::t_7ac8e123918588 207-208
+  s_8263386aed4fa7::t_96c9fbaacd9e25 210-215
+apps/lab/src/manifest.ts
+  s_8263386aed4fa7::t_9ba7b405903d46 1-30
+apps/lab/src/components/experiment-actions-menu.tsx
+  s_8263386aed4fa7::t_2ea06d9d80a6a4 34-38
+  s_8263386aed4fa7::t_97ebfae934f610 18,20
+  s_8263386aed4fa7::t_f137785a1a01f0 2,16-17
+  s_8263386aed4fa7::t_fc75b2bc446882 1,3-15,19,21-33,39-73
+apps/lab/src/main.tsx
+  s_8263386aed4fa7::t_9ba7b405903d46 7
+apps/lab/README.md
+  s_8263386aed4fa7::t_05d8ae2d6ac404 41-45
+  s_8263386aed4fa7::t_84aeff31a72e53 9,37,47-49,55-57,71-73
+  s_8263386aed4fa7::t_3ddcf0a4584b03 29-33,35-36,38-40,50-54,58-70
+  s_8263386aed4fa7::t_dd82f4081304f3 46
+  s_8263386aed4fa7::t_4053d5bf2c98dd 21,25
+  s_8263386aed4fa7::t_d1b3c2420e5c74 22-24,34
+apps/lab/src/lab-theme.css
+  s_8263386aed4fa7::t_36e79b2e0dbc66 6,8-9,11
+  s_8263386aed4fa7::t_9ba7b405903d46 1-5,7,10
+packages/ui/src/components/label.tsx
+  s_8263386aed4fa7::t_9f308aae12be96 1-18
+apps/docs/src/content/input.tsx
+  s_8263386aed4fa7::t_75e1b27a54c1cb 1-49
+apps/lab/src/experiments/_template/index.tsx
+  s_8263386aed4fa7::t_51e06addc6576e 7,12
+  s_8263386aed4fa7::t_bdcf1a41719b65 5,22-23
+apps/lab/management/store.test.ts
+  s_6344e10c9cde4c::t_6522a7328f513a 1-36,41-58,62-88,93-142,147,152-223,227-237
+  s_6344e10c9cde4c::t_83535d3e4761a9 37-40,59-61,89-92,143-146,148-151,224-226
+apps/lab/src/components/experiment-import.tsx
+  s_8263386aed4fa7::t_503f0a197cb03a 64-65,86-89,92-98,102-103,145-148,150-152,160-163,167-168,171-177
+  s_8263386aed4fa7::t_3db311daa2d38c 43-49
+  s_8263386aed4fa7::t_909c1475790842 2-5,10-36,38-40,55-63,66-81,84-85,90-91,99-101,104-144,149,153-159,164-166,169-170,178-199
+  s_8263386aed4fa7::t_cec3538a1d53bb 1,6-9,37,41-42,50-54,82-83
+apps/lab/src/experiment.ts
+  s_8263386aed4fa7::t_51e06addc6576e 8
+  s_8263386aed4fa7::t_44b79d18dcf504 3-4,19-22
+apps/lab/src/components/add-experiment-page.tsx
+  s_8263386aed4fa7::t_1fad054f617012 1-52,56-78,97-98,102,104-157
+  s_8263386aed4fa7::t_05d3568418c6bb 80-96,99-101,103
+  s_8263386aed4fa7::t_2a9c431d8c66a9 79
+  s_8263386aed4fa7::t_a1ea1983ec5fec 53-55
+apps/lab/src/components/display-controls.tsx
+  s_8263386aed4fa7::t_c379bc0c785f00 1-2,6-7,29-34,61,65-85
+  s_8263386aed4fa7::t_04056193b360b3 42-43,46,51-52,55
+  s_8263386aed4fa7::t_5e96a64a7b9341 12-16,18-21
+  s_8263386aed4fa7::t_d8a657b616b0e0 44,53
+bun.lock
+  s_8263386aed4fa7::t_58fde97bb50060 48,582-583
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.20",
+  "base_commit_sha": "08731114aeded41f2513d3b40efe6a561989f616",
+  "prompts": {},
+  "sessions": {
+    "s_6344e10c9cde4c": {
+      "agent_id": {
+        "tool": "opencode",
+        "id": "ses_fd3932d7bffe3xUUCCBH0w6Qrt",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Brandon Mathis <brandon@imathis.com>"
+    },
+    "s_8263386aed4fa7": {
+      "agent_id": {
+        "tool": "opencode",
+        "id": "ses_fd59829b6ffelDjDJMrXPbKxA4",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Brandon Mathis <brandon@imathis.com>"
+    }
+  }
+}
