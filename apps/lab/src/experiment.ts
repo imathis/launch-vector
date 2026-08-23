@@ -1,8 +1,11 @@
 import type { ComponentType } from "react"
 
+import type { CanvasPreset } from "./lab-config"
+
 export type ExperimentRenderProps = {
   variant: string
   scenario: string
+  view: "focus" | "compare"
 }
 
 export type ExperimentDefinition = {
@@ -13,6 +16,10 @@ export type ExperimentDefinition = {
   }
   variants: Record<string, { label: string; notes?: string }>
   scenarios: Record<string, { label: string; description?: string }>
+  canvas?: {
+    defaultPreset?: string
+    presets?: readonly CanvasPreset[]
+  }
   render: ComponentType<ExperimentRenderProps>
 }
 

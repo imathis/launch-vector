@@ -1,15 +1,24 @@
 import {
+  type CSSProperties,
+  type MouseEvent,
   startTransition,
+  useCallback,
   useEffect,
   useEffectEvent,
+  useMemo,
   useRef,
   useState,
 } from "react"
-import { Layers } from "lucide-react"
+import { Layers, X } from "lucide-react"
 
+import { Button } from "@workspace/ui/components/button"
+import { useTheme } from "@workspace/ui/theme/theme-provider"
+
+import { AddExperimentPage } from "./components/add-experiment-page"
 import {
   ChoiceMenu,
-  ExperimentChoiceMenu,
+  ExperimentTitleMenu,
+  IconExperimentChoiceMenu,
   InlineChoiceMenu,
   type Choice,
 } from "./components/choice-menu"
@@ -19,95 +28,86 @@ import {
   type ViewMode,
 } from "./components/display-controls"
 import { ExperimentNotes } from "./components/experiment-notes"
+import { ExperimentActionsMenu } from "./components/experiment-actions-menu"
 import { LabGuide } from "./components/lab-guide"
+import { RenameExperimentDialog } from "./components/rename-experiment-dialog"
 import {
   PresentationDock,
   type PresentationDockState,
 } from "./components/presentation-dock"
 import { VariantTabs } from "./components/variant-tabs"
+import {
+  authoredExperiments,
+  experimentTitle,
+  experiments,
+  fixtureExperiments,
+  formatExperimentName,
+  type ExperimentEntry,
+} from "./experiment-registry"
 import { isExperimentDefinition, type ExperimentDefinition } from "./experiment"
+import { useExperimentManagement } from "./hooks/use-experiment-management"
+import {
+  labConfig,
+  missingCanvasProperties as findMissingCanvasProperties,
+  resolveThemeValue,
+} from "./lab-config"
+import { labRoutes, parseLabRoute } from "./routes"
 
-type ExperimentModule = { default?: unknown }
-type ExperimentKind = "experiment" | "fixture"
-type ExperimentEntry = {
-  id: string
-  kind: ExperimentKind
-  load: () => Promise<ExperimentModule>
-}
 type Selection = {
+  page: "guide" | "add"
   experiment: string
   variant: string
   scenario: string
   view: ViewMode
+  canvas: string
 }
 
 const NUMBER_KEY_CODE = /^(?:Digit|Numpad)([0-9])$/
 const GUIDE_VALUE = "__guide"
-
-const experimentModules = import.meta.glob<ExperimentModule>([
-  "./experiments/*/index.tsx",
-  "!./experiments/_template/index.tsx",
-])
-const fixtureModules = import.meta.glob<ExperimentModule>(
-  "./fixtures/*/index.tsx"
-)
-
-function entriesFor(
-  modules: Record<string, () => Promise<ExperimentModule>>,
-  kind: ExperimentKind
-) {
-  return Object.entries(modules).map<ExperimentEntry>(([path, load]) => ({
-    id: path.split("/").at(-2) ?? path,
-    kind,
-    load,
-  }))
-}
-
-const experiments = [
-  ...entriesFor(experimentModules, "experiment"),
-  ...entriesFor(fixtureModules, "fixture"),
-].sort((a, b) => a.id.localeCompare(b.id))
-const authoredExperiments = experiments.filter(
-  (experiment) => experiment.kind === "experiment"
-)
-const fixtureExperiments = experiments.filter(
-  (experiment) => experiment.kind === "fixture"
-)
-
-function formatExperimentName(id: string) {
-  return id
-    .replace(/([a-z])([A-Z])/g, "$1 $2")
-    .replace(/[-_]+/g, " ")
-    .replace(/^\w/, (character) => character.toUpperCase())
-}
+const ADD_VALUE = "__add"
 
 function choicesFor(entries: readonly ExperimentEntry[]): readonly Choice[] {
   return entries.map((experiment) => ({
     value: experiment.id,
-    label: formatExperimentName(experiment.id),
+    label: experimentTitle(experiment),
   }))
 }
 
 const experimentChoices = choicesFor(experiments)
 const authoredExperimentChoices = choicesFor(authoredExperiments)
-const fixtureExperimentChoices = choicesFor(fixtureExperiments)
 const labPageChoices: readonly Choice[] = [
   { value: GUIDE_VALUE, label: "Lab Guide" },
+  { value: ADD_VALUE, label: "New Experiment" },
   ...experimentChoices,
 ]
-
 function readSelection(): Selection {
   const params = new URLSearchParams(window.location.search)
-  const requestedExperiment = params.get("experiment")
+  const route = parseLabRoute(window.location.pathname)
+  const requestedPage = params.get("page")
+  const requestedExperiment =
+    route.kind === "experiment" ? route.experiment : params.get("experiment")
+  const selectedEntry = experiments.find(
+    (item) => item.id === requestedExperiment
+  )
+  const page = route.kind === "add" || requestedPage === "add" ? "add" : "guide"
   return {
+    page,
     experiment:
-      params.get("page") !== "help" &&
-      experiments.some((item) => item.id === requestedExperiment)
+      route.kind === "experiment" && selectedEntry
         ? (requestedExperiment ?? "")
-        : "",
+        : route.kind === "guide" &&
+            requestedPage !== "help" &&
+            requestedPage !== "add" &&
+            selectedEntry
+          ? (requestedExperiment ?? "")
+          : "",
     variant: params.get("variant") ?? "",
     scenario: params.get("scenario") ?? "",
     view: params.get("view") === "compare" ? "compare" : "focus",
+    canvas:
+      params.get("canvas") ??
+      selectedEntry?.manifest?.defaultCanvas ??
+      labConfig.canvas.defaultPreset,
   }
 }
 
@@ -137,7 +137,26 @@ function sidebarItemClass(selected: boolean) {
   return `flex min-h-11 w-full items-center border-l-2 px-3 text-left text-sm font-medium transition-colors hover:bg-muted/60 hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring ${selected ? "border-foreground bg-muted/60 text-foreground" : "border-transparent text-muted-foreground"}`
 }
 
+function followLabLink(
+  event: MouseEvent<HTMLAnchorElement>,
+  navigate: () => void
+) {
+  if (
+    event.defaultPrevented ||
+    event.button !== 0 ||
+    event.metaKey ||
+    event.ctrlKey ||
+    event.shiftKey ||
+    event.altKey
+  ) {
+    return
+  }
+  event.preventDefault()
+  navigate()
+}
+
 export function App() {
+  const { resolvedTheme } = useTheme()
   const [selection, setSelection] = useState(readSelection)
   const [loaded, setLoaded] = useState<{
     id: string
@@ -147,37 +166,56 @@ export function App() {
   const [immersive, setImmersive] = useState(false)
   const [presentationDock, setPresentationDock] =
     useState<PresentationDockState>("open")
+  const [missingCanvasProperties] = useState(findMissingCanvasProperties)
   const expandButtonRef = useRef<HTMLButtonElement>(null)
   const collapseDockButtonRef = useRef<HTMLButtonElement>(null)
   const exitPresentationButtonRef = useRef<HTMLButtonElement>(null)
   const pullTabRef = useRef<HTMLButtonElement>(null)
   const previousImmersive = useRef(immersive)
   const previousVariant = useRef("")
-  const showGuide = selection.experiment === ""
+  const showStaticPage = selection.experiment === ""
+  const showGuide = showStaticPage && selection.page === "guide"
+  const showAdd = showStaticPage && selection.page === "add"
   const isCurrentExperiment = loaded.id === selection.experiment
   const experiment = isCurrentExperiment ? loaded.experiment : null
+  const canvasPresets = useMemo(
+    () =>
+      [
+        ...labConfig.canvas.presets,
+        ...(experiment?.canvas?.presets ?? []),
+      ].filter(
+        (preset, index, presets) =>
+          presets.findIndex((candidate) => candidate.id === preset.id) === index
+      ),
+    [experiment]
+  )
+  const canvasChoices: readonly Choice[] = canvasPresets.map((preset) => ({
+    value: preset.id,
+    label: preset.label,
+  }))
   const selectedEntry = experiments.find(
     (entry) => entry.id === selection.experiment
   )
   const experimentKind = selectedEntry?.kind
   const loadError = isCurrentExperiment ? loaded.error : ""
-  const loading = !showGuide && !isCurrentExperiment
+  const loading = !showStaticPage && !isCurrentExperiment
 
-  const updateSelection = (patch: Partial<Selection>) => {
-    startTransition(() => {
-      setSelection((current) => {
-        if (
-          patch.experiment === undefined &&
-          patch.variant !== undefined &&
-          patch.variant !== current.variant &&
-          current.variant
-        ) {
-          previousVariant.current = current.variant
-        }
-        return { ...current, ...patch }
+  const updateSelection = useCallback(
+    (patch: Partial<Selection>) => {
+      if (
+        patch.experiment === undefined &&
+        patch.variant !== undefined &&
+        patch.variant !== selection.variant &&
+        selection.variant
+      ) {
+        previousVariant.current = selection.variant
+      }
+      startTransition(() => {
+        setSelection((current) => ({ ...current, ...patch }))
       })
-    })
-  }
+    },
+    [selection.variant]
+  )
 
   const enterPresentation = () => {
     setPresentationDock("open")
@@ -204,25 +242,24 @@ export function App() {
 
   useEffect(() => {
     const params = new URLSearchParams()
-    if (showGuide) {
-      params.set("page", "help")
+    let pathname: string
+    if (showStaticPage) {
+      pathname = selection.page === "add" ? labRoutes.add() : labRoutes.guide()
     } else {
-      params.set("experiment", selection.experiment)
+      pathname = labRoutes.experiment(selection.experiment)
       if (selection.variant) params.set("variant", selection.variant)
       if (selection.scenario) params.set("scenario", selection.scenario)
       params.set("view", selection.view)
+      params.set("canvas", selection.canvas)
     }
-    window.history.replaceState(
-      null,
-      "",
-      `${window.location.pathname}?${params}`
-    )
-  }, [selection, showGuide])
+    const search = params.size > 0 ? `?${params}` : ""
+    window.history.replaceState(null, "", `${pathname}${search}`)
+  }, [selection, showStaticPage])
 
   useEffect(() => {
     let active = true
 
-    if (showGuide) {
+    if (showStaticPage) {
       queueMicrotask(() => {
         if (active) {
           setLoaded((current) =>
@@ -259,9 +296,19 @@ export function App() {
         if (!isExperimentDefinition(module.default)) {
           throw new Error("The module does not export a valid experiment.")
         }
+        const loadedExperiment = entry.manifest
+          ? {
+              ...module.default,
+              metadata: {
+                ...module.default.metadata,
+                title: entry.manifest.title,
+                description: entry.manifest.description,
+              },
+            }
+          : module.default
         setLoaded({
           id: selection.experiment,
-          experiment: module.default,
+          experiment: loadedExperiment,
           error: "",
         })
       })
@@ -280,7 +327,7 @@ export function App() {
     return () => {
       active = false
     }
-  }, [selection.experiment, showGuide])
+  }, [selection.experiment, showStaticPage])
 
   useEffect(() => {
     if (!experiment) return
@@ -296,9 +343,35 @@ export function App() {
     if (variant !== selection.variant || scenario !== selection.scenario) {
       updateSelection({ variant, scenario })
     }
-  }, [experiment, selection.scenario, selection.variant])
+  }, [experiment, selection.scenario, selection.variant, updateSelection])
 
   useEffect(() => {
+    if (!showStaticPage && !experiment) return
+    const available = canvasPresets.some(
+      (preset) => preset.id === selection.canvas
+    )
+    if (available) return
+    const preferred =
+      experiment?.canvas?.defaultPreset ??
+      selectedEntry?.manifest?.defaultCanvas
+    const fallback = canvasPresets.some((preset) => preset.id === preferred)
+      ? (preferred ?? labConfig.canvas.defaultPreset)
+      : labConfig.canvas.defaultPreset
+    updateSelection({ canvas: fallback })
+  }, [
+    canvasPresets,
+    experiment,
+    selectedEntry,
+    selection.canvas,
+    showStaticPage,
+    updateSelection,
+  ])
+
+  useEffect(() => {
+    if (showAdd) {
+      document.title = "New Experiment | Vector"
+      return
+    }
     if (showGuide) {
       document.title = "Lab Guide | Vector"
       return
@@ -310,7 +383,7 @@ export function App() {
     document.title = [variantTitle, experimentTitle, "Vector"]
       .filter(Boolean)
       .join(" | ")
-  }, [experiment, selection.experiment, selection.variant, showGuide])
+  }, [experiment, selection.experiment, selection.variant, showAdd, showGuide])
 
   useEffect(() => {
     if (previousImmersive.current === immersive) return
@@ -412,9 +485,28 @@ export function App() {
     : []
   const selectedVariant = experiment?.variants[selection.variant]
   const selectedScenario = experiment?.scenarios[selection.scenario]
+  const canvasPreset =
+    canvasPresets.find((preset) => preset.id === selection.canvas) ??
+    canvasPresets[0]
+  const canvasStyle = {
+    "--lab-canvas-background": resolveThemeValue(
+      canvasPreset.background,
+      resolvedTheme
+    ),
+    "--lab-canvas-foreground": resolveThemeValue(
+      canvasPreset.foreground,
+      resolvedTheme
+    ),
+    backgroundColor: "var(--lab-canvas-background)",
+    color: "var(--lab-canvas-foreground)",
+  } as CSSProperties
   const demoExperiment = fixtureExperiments[0]
 
   const selectExperiment = (experimentId: string) => {
+    const href = labRoutes.experiment(experimentId)
+    if (`${window.location.pathname}${window.location.search}` !== href) {
+      window.history.pushState(null, "", href)
+    }
     previousVariant.current = ""
     updateSelection({
       experiment: experimentId,
@@ -424,10 +516,19 @@ export function App() {
   }
 
   const selectLabPage = (value: string) => {
-    if (value === GUIDE_VALUE) {
+    if (value === GUIDE_VALUE || value === ADD_VALUE) {
+      const href = value === ADD_VALUE ? labRoutes.add() : labRoutes.guide()
+      if (`${window.location.pathname}${window.location.search}` !== href) {
+        window.history.pushState(null, "", href)
+      }
       setImmersive(false)
       previousVariant.current = ""
-      updateSelection({ experiment: "", variant: "", scenario: "" })
+      updateSelection({
+        page: value === ADD_VALUE ? "add" : "guide",
+        experiment: "",
+        variant: "",
+        scenario: "",
+      })
       return
     }
     selectExperiment(value)
@@ -436,6 +537,15 @@ export function App() {
   const selectVariant = (variant: string) => {
     updateSelection({ variant, view: "focus" })
   }
+
+  const management = useExperimentManagement({
+    currentSlug: selection.experiment,
+    onLeaveExperiment: () =>
+      demoExperiment
+        ? selectExperiment(demoExperiment.id)
+        : selectLabPage(GUIDE_VALUE),
+    onOpenExperiment: selectExperiment,
+  })
 
   return (
     <main
@@ -454,58 +564,113 @@ export function App() {
             Skip to experiment
           </a>
           <header className="sticky top-0 z-30 pt-[max(.5rem,env(safe-area-inset-top))] pr-[max(.5rem,env(safe-area-inset-right))] pl-[max(.5rem,env(safe-area-inset-left))] sm:pr-[max(1rem,env(safe-area-inset-right))] sm:pl-[max(1rem,env(safe-area-inset-left))]">
-            <div className="mx-auto max-w-7xl overflow-hidden rounded-2xl border border-border bg-muted/90 shadow-sm backdrop-blur-xl supports-[backdrop-filter]:bg-muted/80">
+            <div className="overflow-hidden rounded-2xl border border-border bg-muted/90 shadow-sm backdrop-blur-xl supports-[backdrop-filter]:bg-muted/80">
               <div className="flex flex-wrap items-center gap-1 p-2">
-                <div className="min-w-20 flex-1 lg:px-3">
-                  <div className="hidden items-center lg:flex">
-                    <a
-                      href="?page=help"
-                      className="inline-flex h-11 items-center rounded-xl font-semibold tracking-tight hover:text-muted-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
-                      onClick={(event) => {
-                        event.preventDefault()
-                        selectLabPage(GUIDE_VALUE)
-                      }}
-                    >
-                      Vector Lab
-                    </a>
-                    {showGuide ? (
-                      <span className="ml-2 font-normal text-muted-foreground">
-                        / Getting Started
+                <div className="flex min-w-0 flex-1 items-center gap-1 lg:px-3">
+                  {showStaticPage ? (
+                    <div className="lg:hidden">
+                      <IconExperimentChoiceMenu
+                        label="Lab destination"
+                        value={showGuide ? GUIDE_VALUE : ADD_VALUE}
+                        choices={labPageChoices}
+                        onValueChange={selectLabPage}
+                      />
+                    </div>
+                  ) : null}
+                  <a
+                    href={labRoutes.guide()}
+                    className="inline-flex h-11 shrink-0 items-center rounded-xl font-semibold tracking-tight hover:text-muted-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+                    onClick={(event) =>
+                      followLabLink(event, () => selectLabPage(GUIDE_VALUE))
+                    }
+                  >
+                    Vector Lab
+                  </a>
+                  {!showGuide ? (
+                    <>
+                      <span
+                        className="text-muted-foreground"
+                        aria-hidden="true"
+                      >
+                        /
                       </span>
-                    ) : null}
-                  </div>
-                  <div className="lg:hidden">
-                    <ChoiceMenu
-                      label="Page"
-                      value={showGuide ? GUIDE_VALUE : selection.experiment}
-                      choices={labPageChoices}
-                      onValueChange={selectLabPage}
-                    />
-                  </div>
+                      {showAdd ? (
+                        <span className="truncate font-medium">
+                          New Experiment
+                        </span>
+                      ) : authoredExperimentChoices.length > 0 ? (
+                        <>
+                          <span className="hidden truncate font-medium lg:block">
+                            {experiment?.metadata.title ||
+                              formatExperimentName(selection.experiment)}
+                          </span>
+                          <div className="min-w-0 lg:hidden">
+                            <ExperimentTitleMenu
+                              value={selection.experiment}
+                              choices={experimentChoices}
+                              title={
+                                experiment?.metadata.title ||
+                                formatExperimentName(selection.experiment)
+                              }
+                              onValueChange={selectExperiment}
+                            />
+                          </div>
+                        </>
+                      ) : (
+                        <ExperimentTitleMenu
+                          value={selection.experiment}
+                          choices={experimentChoices}
+                          title={
+                            experiment?.metadata.title ||
+                            formatExperimentName(selection.experiment)
+                          }
+                          onValueChange={selectExperiment}
+                        />
+                      )}
+                    </>
+                  ) : null}
                 </div>
 
-                {showGuide ? (
-                  <GuideDisplayControls />
+                {showStaticPage ? (
+                  <GuideDisplayControls
+                    canvas={showAdd ? selection.canvas : undefined}
+                    canvasChoices={showAdd ? canvasChoices : undefined}
+                    missingCanvasProperties={
+                      showAdd ? missingCanvasProperties : undefined
+                    }
+                    onCanvasChange={
+                      showAdd
+                        ? (canvas) => updateSelection({ canvas })
+                        : undefined
+                    }
+                  />
                 ) : (
                   <ExperimentDisplayControls
                     view={selection.view}
+                    canvas={selection.canvas}
+                    canvasChoices={canvasChoices}
+                    missingCanvasProperties={missingCanvasProperties}
                     onViewChange={(view) => updateSelection({ view })}
+                    onCanvasChange={(canvas) => updateSelection({ canvas })}
                     expandButtonRef={expandButtonRef}
                     onExpand={enterPresentation}
                   />
                 )}
               </div>
 
-              {!showGuide && experiment ? (
+              {!showStaticPage && experiment ? (
                 <div className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-1 border-t border-border bg-[color-mix(in_oklab,var(--muted),black_4%)] px-2 py-0.5 sm:flex dark:bg-[color-mix(in_oklab,var(--muted),black_14%)]">
-                  <div className="min-w-0 sm:max-w-60 sm:shrink-0">
-                    <ExperimentChoiceMenu
-                      value={selection.experiment}
-                      choices={experimentChoices}
-                      triggerLabel={experiment.metadata.title}
-                      onValueChange={selectExperiment}
-                    />
-                  </div>
+                  {management.actionGroups.length > 0 ? (
+                    <div className="flex items-center self-stretch">
+                      <ExperimentActionsMenu
+                        actionGroups={management.actionGroups}
+                      />
+                      <span
+                        className="ml-1 w-px self-stretch bg-border"
+                        aria-hidden="true"
+                      />
+                    </div>
+                  ) : null}
 
                   <div className="hidden min-w-0 sm:block sm:flex-1">
                     <VariantTabs
@@ -528,20 +693,22 @@ export function App() {
                     />
                   </div>
 
-                  <ExperimentNotes
-                    title={experiment.metadata.title}
-                    description={experiment.metadata.description}
-                    notes={experiment.metadata.notes}
-                    variantLabel={selectedVariant?.label}
-                    variantNotes={selectedVariant?.notes}
-                    scenarioLabel={selectedScenario?.label}
-                    scenarioDescription={selectedScenario?.description}
-                    notice={
-                      experimentKind === "fixture"
-                        ? "Included demo fixture—not product work."
-                        : undefined
-                    }
-                  />
+                  <div className="flex shrink-0">
+                    <ExperimentNotes
+                      title={experiment.metadata.title}
+                      description={experiment.metadata.description}
+                      notes={experiment.metadata.notes}
+                      variantLabel={selectedVariant?.label}
+                      variantNotes={selectedVariant?.notes}
+                      scenarioLabel={selectedScenario?.label}
+                      scenarioDescription={selectedScenario?.description}
+                      notice={
+                        experimentKind === "fixture"
+                          ? "Included demo fixture—not product work."
+                          : undefined
+                      }
+                    />
+                  </div>
 
                   <div className="col-span-full grid min-w-0 grid-cols-2 gap-1 sm:hidden">
                     <ChoiceMenu
@@ -574,82 +741,39 @@ export function App() {
         className={
           immersive
             ? ""
-            : "mx-auto grid max-w-7xl lg:grid-cols-[13rem_minmax(0,1fr)]"
+            : authoredExperimentChoices.length > 0
+              ? "grid w-full lg:grid-cols-[13rem_minmax(0,1fr)]"
+              : "w-full"
         }
       >
-        {!immersive ? (
+        {!immersive && authoredExperimentChoices.length > 0 ? (
           <aside className="sticky top-32 hidden h-[calc(100svh-8rem)] border-r border-border lg:block">
             <nav
               className="h-full overflow-y-auto px-4 py-8"
               aria-label="Experiments"
             >
-              <div className="space-y-7">
-                <div>
-                  <p className="mb-3 px-3 text-xs font-semibold tracking-widest text-muted-foreground uppercase">
-                    Start Here
-                  </p>
-                  <button
-                    type="button"
-                    className={sidebarItemClass(showGuide)}
-                    aria-pressed={showGuide}
-                    onClick={() => selectLabPage(GUIDE_VALUE)}
-                  >
-                    Lab Guide
-                  </button>
-                </div>
-
-                <div>
-                  <p className="mb-3 px-3 text-xs font-semibold tracking-widest text-muted-foreground uppercase">
-                    Experiments
-                  </p>
-                  {authoredExperimentChoices.length > 0 ? (
-                    <div className="grid gap-1">
-                      {authoredExperimentChoices.map((choice) => {
-                        const selected = choice.value === selection.experiment
-                        return (
-                          <button
-                            key={choice.value}
-                            type="button"
-                            className={sidebarItemClass(selected)}
-                            aria-pressed={selected}
-                            onClick={() => selectExperiment(choice.value)}
-                          >
-                            {choice.label}
-                          </button>
+              <p className="mb-3 px-3 text-xs font-semibold tracking-widest text-muted-foreground uppercase">
+                Experiments
+              </p>
+              <div className="grid gap-1">
+                {authoredExperimentChoices.map((choice) => {
+                  const selected = choice.value === selection.experiment
+                  return (
+                    <a
+                      key={choice.value}
+                      href={labRoutes.experiment(choice.value)}
+                      className={sidebarItemClass(selected)}
+                      aria-current={selected ? "page" : undefined}
+                      onClick={(event) =>
+                        followLabLink(event, () =>
+                          selectExperiment(choice.value)
                         )
-                      })}
-                    </div>
-                  ) : (
-                    <p className="px-3 text-xs leading-5 text-muted-foreground">
-                      None yet. Add a folder to{" "}
-                      <code className="font-mono">src/experiments</code>.
-                    </p>
-                  )}
-                </div>
-
-                {fixtureExperimentChoices.length > 0 ? (
-                  <div>
-                    <p className="mb-3 px-3 text-xs font-semibold tracking-widest text-muted-foreground uppercase">
-                      Demo Fixtures
-                    </p>
-                    <div className="grid gap-1">
-                      {fixtureExperimentChoices.map((choice) => {
-                        const selected = choice.value === selection.experiment
-                        return (
-                          <button
-                            key={choice.value}
-                            type="button"
-                            className={sidebarItemClass(selected)}
-                            aria-pressed={selected}
-                            onClick={() => selectExperiment(choice.value)}
-                          >
-                            {choice.label}
-                          </button>
-                        )
-                      })}
-                    </div>
-                  </div>
-                ) : null}
+                      }
+                    >
+                      {choice.label}
+                    </a>
+                  )
+                })}
               </div>
             </nav>
           </aside>
@@ -662,20 +786,18 @@ export function App() {
               ? presentationDock === "open"
                 ? "min-h-svh min-w-0 pb-[calc(8rem+env(safe-area-inset-bottom))] sm:pb-[calc(5rem+env(safe-area-inset-bottom))]"
                 : "min-h-svh min-w-0"
-              : showGuide
+              : showStaticPage
                 ? "min-w-0 scroll-mt-40 py-10 pr-[max(1rem,env(safe-area-inset-right))] pl-[max(1rem,env(safe-area-inset-left))] sm:px-6 lg:scroll-mt-32 lg:px-10 lg:py-14"
                 : "min-w-0 scroll-mt-48 py-4 pr-[max(1rem,env(safe-area-inset-right))] pl-[max(1rem,env(safe-area-inset-left))] sm:px-6 sm:py-6 lg:scroll-mt-36 lg:px-8"
           }
+          style={showStaticPage ? undefined : canvasStyle}
           aria-label="Experiment canvas"
         >
-          {showGuide ? (
+          {showAdd ? (
+            <AddExperimentPage onImported={selectExperiment} />
+          ) : showGuide ? (
             <LabGuide
-              authoredExperimentCount={authoredExperiments.length}
-              demoLabel={
-                demoExperiment
-                  ? `${formatExperimentName(demoExperiment.id)} Demo`
-                  : undefined
-              }
+              onAdd={() => selectLabPage(ADD_VALUE)}
               onOpenDemo={
                 demoExperiment
                   ? () => selectExperiment(demoExperiment.id)
@@ -710,7 +832,7 @@ export function App() {
                   ([variant, details]) => (
                     <div
                       key={variant}
-                      className={`relative flex min-w-0 items-center justify-center [&>*]:min-w-0 ${immersive ? "min-h-[50svh] bg-background p-4 lg:min-h-svh" : "min-h-[50svh] rounded-xl border border-border p-4"}`}
+                      className={`relative flex min-w-0 items-center justify-center bg-[var(--lab-canvas-background)] text-[var(--lab-canvas-foreground)] [&>*]:min-w-0 ${immersive ? "min-h-[50svh] p-4 lg:min-h-svh" : "min-h-[50svh] rounded-xl border border-border p-4"}`}
                     >
                       <p className="absolute top-4 left-4 text-xs font-semibold tracking-widest text-muted-foreground uppercase">
                         {details.label}
@@ -718,6 +840,7 @@ export function App() {
                       <ExperimentView
                         variant={variant}
                         scenario={selection.scenario}
+                        view="compare"
                       />
                     </div>
                   )
@@ -730,6 +853,7 @@ export function App() {
                 <ExperimentView
                   variant={selection.variant}
                   scenario={selection.scenario}
+                  view="focus"
                 />
               </div>
             )
@@ -737,7 +861,7 @@ export function App() {
         </section>
       </div>
 
-      {immersive && !showGuide ? (
+      {immersive && !showStaticPage ? (
         <PresentationDock
           state={presentationDock}
           title={
@@ -748,18 +872,53 @@ export function App() {
           experiments={experimentChoices}
           variant={selection.variant}
           variants={variantChoices}
+          view={selection.view}
           scenario={selection.scenario}
           scenarios={scenarioChoices}
+          canvas={selection.canvas}
+          canvasChoices={canvasChoices}
+          managementActionGroups={management.actionGroups}
+          missingCanvasProperties={missingCanvasProperties}
           collapseButtonRef={collapseDockButtonRef}
           exitButtonRef={exitPresentationButtonRef}
           pullTabRef={pullTabRef}
           onExperimentChange={selectExperiment}
           onVariantChange={selectVariant}
+          onViewChange={(view) => updateSelection({ view })}
           onScenarioChange={(scenario) => updateSelection({ scenario })}
+          onCanvasChange={(canvas) => updateSelection({ canvas })}
           onCollapse={collapsePresentationDock}
           onExpand={expandPresentationDock}
           onExit={exitPresentation}
         />
+      ) : null}
+
+      {management.renameTarget ? (
+        <RenameExperimentDialog
+          key={management.renameTarget.id}
+          experiment={management.renameTarget}
+          onClose={management.closeRename}
+          onRenamed={management.finishRename}
+        />
+      ) : null}
+
+      {management.error ? (
+        <div
+          className="fixed right-[max(1rem,env(safe-area-inset-right))] bottom-[max(1rem,env(safe-area-inset-bottom))] z-[70] flex max-w-sm items-start gap-3 rounded-xl border border-destructive/40 bg-background p-4 text-sm text-destructive shadow-md"
+          role="alert"
+        >
+          <p className="min-w-0 flex-1 leading-6">{management.error}</p>
+          <Button
+            type="button"
+            size="icon-sm"
+            variant="ghost"
+            className="shrink-0"
+            aria-label="Dismiss error"
+            onClick={management.dismissError}
+          >
+            <X aria-hidden="true" />
+          </Button>
+        </div>
       ) : null}
     </main>
   )

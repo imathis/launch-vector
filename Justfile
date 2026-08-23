@@ -59,9 +59,13 @@ vector-check:
     go test ./...
     go vet ./...
 
+# Test Lab filesystem lifecycle and archive safety.
+lab-check:
+    bun run --filter @workspace/lab test
+
 # Install the current Vector CLI build.
 vector-install:
     GOBIN="$(brew --prefix)/bin" go install ./cmd/vector
 
 # Run non-mutating verification.
-check: typecheck lint build vector-check
+check: typecheck lint build lab-check vector-check

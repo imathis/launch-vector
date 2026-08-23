@@ -188,15 +188,31 @@ automatically. Use `_template.tsx` as the authoring contract.
 ## Prototype an idea
 
 Ask an agent to explore an interface idea in the Lab. Give it the user problem,
-product constraints, relevant scenarios, and the decision you need to make. The
-agent creates 3–10 variants under `apps/lab/src/experiments`; those local
-experiments are gitignored by default.
+important constraints, and how many directions you want. The harness supplies
+the design-system and prototype instructions. The agent creates variants under
+`apps/lab/src/experiments`; those local experiments are gitignored by default.
 
 Refine promising directions with explicit sub-variants, then ask the agent to
 write a handoff for the accepted direction and reimplement it in the destination
 application. Prototype code is a high-fidelity mockup, not portable production
 code. `apps/lab/AGENTS.md` contains the workflow and is the place to add product
 and domain context.
+
+The Lab provides local experiment management while Vite is running: rename,
+archive, restore, recoverable delete, trusted ZIP import, and versioned
+`.vector-lab.zip` export. The New Experiment page contains prompt examples and
+the package importer. Experiment identity and display metadata live in each
+folder's `experiment.json` manifest.
+
+Lab pages have direct, history-backed routes: `/`, `/new`, and `/labs/<slug>`.
+Browser Back and Forward navigate between pages and experiments; comparison
+controls remain URL-backed without filling the history stack.
+
+Map `apps/lab/src/lab-theme.css` to the destination product's semantic page
+tokens. Canvas presets are configured explicitly in `lab-config.ts`; the Lab
+does not assume that an application uses stark white or black backgrounds. The
+New Experiment page reports a missing mapping, and the canvas selector remains
+hidden until more than one preset exists.
 
 Lab shortcuts ignore editable controls:
 

@@ -1,0 +1,8 @@
+{
+  "schemaVersion": 1,
+  "id": "template",
+  "title": "Prototype title",
+  "description": "Question this prototype explores.",
+  "createdAt": "2026-08-22T00:00:00.000Z",
+  "defaultCanvas": "app"
+}

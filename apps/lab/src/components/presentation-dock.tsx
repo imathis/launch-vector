@@ -4,10 +4,13 @@ import { ChevronUp, GitBranch, Layers, Minimize2, X } from "lucide-react"
 import { Button } from "@workspace/ui/components/button"
 
 import {
-  ExperimentChoiceMenu,
+  type ChoiceMenuActionGroup,
+  ExperimentTitleMenu,
   InlineChoiceMenu,
   type Choice,
 } from "./choice-menu"
+import { DisplaySettings } from "./display-settings"
+import { ExperimentActionsMenu } from "./experiment-actions-menu"
 import { VariantTabs } from "./variant-tabs"
 
 export type PresentationDockState = "open" | "collapsed"
@@ -19,14 +22,21 @@ export function PresentationDock({
   experiments,
   variant,
   variants,
+  view,
   scenario,
   scenarios,
+  canvas,
+  canvasChoices,
+  managementActionGroups,
+  missingCanvasProperties,
   collapseButtonRef,
   exitButtonRef,
   pullTabRef,
   onExperimentChange,
   onVariantChange,
+  onViewChange,
   onScenarioChange,
+  onCanvasChange,
   onCollapse,
   onExpand,
   onExit,
@@ -37,14 +47,21 @@ export function PresentationDock({
   experiments: readonly Choice[]
   variant: string
   variants: readonly Choice[]
+  view: "focus" | "compare"
   scenario: string
   scenarios: readonly Choice[]
+  canvas: string
+  canvasChoices: readonly Choice[]
+  managementActionGroups: readonly ChoiceMenuActionGroup[]
+  missingCanvasProperties: readonly string[]
   collapseButtonRef: RefObject<HTMLButtonElement | null>
   exitButtonRef: RefObject<HTMLButtonElement | null>
   pullTabRef: RefObject<HTMLButtonElement | null>
   onExperimentChange: (experiment: string) => void
   onVariantChange: (variant: string) => void
+  onViewChange: (view: "focus" | "compare") => void
   onScenarioChange: (scenario: string) => void
+  onCanvasChange: (canvas: string) => void
   onCollapse: () => void
   onExpand: () => void
   onExit: () => void
@@ -54,30 +71,45 @@ export function PresentationDock({
   return (
     <>
       <footer
-        className={`fixed right-[max(.5rem,env(safe-area-inset-right))] bottom-[max(.5rem,env(safe-area-inset-bottom))] left-[max(.5rem,env(safe-area-inset-left))] z-50 mx-auto max-w-5xl transition-transform duration-200 ease-out motion-reduce:transition-none ${collapsed ? "pointer-events-none translate-y-[calc(100%+1rem+env(safe-area-inset-bottom))]" : "translate-y-0"}`}
+        className={`fixed right-[max(.5rem,env(safe-area-inset-right))] bottom-[max(.5rem,env(safe-area-inset-bottom))] left-[max(.5rem,env(safe-area-inset-left))] z-50 transition-transform duration-200 ease-out motion-reduce:transition-none ${collapsed ? "pointer-events-none translate-y-[calc(100%+1rem+env(safe-area-inset-bottom))]" : "translate-y-0"}`}
         aria-label="Presentation controls"
         aria-hidden={collapsed}
         inert={collapsed ? true : undefined}
       >
-        <div className="grid grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-1 rounded-2xl border border-border bg-muted p-1.5 shadow-md sm:flex">
-          <Button
-            ref={collapseButtonRef}
-            type="button"
-            size="icon"
-            variant="ghost"
-            className="size-11 shrink-0 rounded-xl text-muted-foreground"
-            aria-label="Hide presentation controls"
-            title="Hide presentation controls"
-            onClick={onCollapse}
-          >
-            <X className="size-5" aria-hidden="true" />
-          </Button>
+        <div className="grid grid-cols-[auto_minmax(0,1fr)_auto_auto_auto] items-center gap-1 rounded-2xl border border-border bg-muted p-1.5 shadow-md sm:flex">
+          <div className="flex items-center self-stretch">
+            <Button
+              ref={collapseButtonRef}
+              type="button"
+              size="icon"
+              variant="ghost"
+              className="size-11 shrink-0 rounded-xl text-muted-foreground sm:size-10"
+              aria-label="Hide presentation controls"
+              title="Hide presentation controls"
+              onClick={onCollapse}
+            >
+              <X className="size-5" aria-hidden="true" />
+            </Button>
+            <span
+              className="ml-1 w-px self-stretch bg-border"
+              aria-hidden="true"
+            />
+          </div>
 
-          <div className="min-w-0 sm:max-w-52 sm:shrink-0">
-            <ExperimentChoiceMenu
+          <div className="flex min-w-0 items-center pl-2 sm:max-w-96 sm:shrink-0">
+            <span className="hidden shrink-0 text-sm font-semibold md:inline">
+              Vector Lab
+            </span>
+            <span
+              className="mx-1 hidden text-muted-foreground md:inline"
+              aria-hidden="true"
+            >
+              /
+            </span>
+            <ExperimentTitleMenu
               value={experiment}
               choices={experiments}
-              triggerLabel={title}
+              title={title}
               onValueChange={onExperimentChange}
             />
           </div>
@@ -101,12 +133,23 @@ export function PresentationDock({
             />
           </div>
 
+          <DisplaySettings
+            view={view}
+            canvas={canvas}
+            canvasChoices={canvasChoices}
+            missingCanvasProperties={missingCanvasProperties}
+            onViewChange={onViewChange}
+            onCanvasChange={onCanvasChange}
+          />
+
+          <ExperimentActionsMenu actionGroups={managementActionGroups} />
+
           <Button
             ref={exitButtonRef}
             type="button"
             size="icon"
             variant="ghost"
-            className="size-11 shrink-0 rounded-xl text-muted-foreground"
+            className="size-11 shrink-0 rounded-xl text-muted-foreground sm:size-10"
             aria-label="Exit presentation mode"
             aria-keyshortcuts="Escape F"
             title="Exit presentation mode (Esc or F)"

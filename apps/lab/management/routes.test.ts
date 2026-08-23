@@ -1,0 +1,33 @@
+import { describe, expect, test } from "bun:test"
+
+import { labRoutes, parseLabRoute } from "../src/routes.js"
+
+describe("Lab routes", () => {
+  test("generates stable page and experiment paths", () => {
+    expect(labRoutes.guide()).toBe("/")
+    expect(labRoutes.add()).toBe("/new")
+    expect(labRoutes.experiment("order-history")).toBe("/labs/order-history")
+  })
+
+  test("parses deep links and optional trailing slashes", () => {
+    expect(parseLabRoute("/")).toEqual({ kind: "guide" })
+    expect(parseLabRoute("/new/")).toEqual({ kind: "add" })
+    expect(parseLabRoute("/labs/order-history/")).toEqual({
+      kind: "experiment",
+      experiment: "order-history",
+    })
+  })
+
+  test("round trips encoded experiment names", () => {
+    const href = labRoutes.experiment("résumé review")
+    expect(parseLabRoute(href)).toEqual({
+      kind: "experiment",
+      experiment: "résumé review",
+    })
+  })
+
+  test("falls back to the guide for unknown or malformed paths", () => {
+    expect(parseLabRoute("/missing")).toEqual({ kind: "guide" })
+    expect(parseLabRoute("/labs/%E0%A4%A")).toEqual({ kind: "guide" })
+  })
+})

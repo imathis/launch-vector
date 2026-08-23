@@ -8,6 +8,12 @@ Tell the agent:
 - The decision this experiment should make easier.
 - How many meaningfully different variants to explore (usually 3–10).
 
+Before editing, inspect the shared component library and make a brief plan. If
+the plan needs a missing primitive, ask the user whether to add all recommended
+components, add only a selected subset, revise the plan around existing
+alternatives, or mock a local substitute (not recommended). Explain that shared
+additions use the project component workflow and require documentation.
+
 Refine promising directions with explicit sub-variants such as `2a`, `2b`, and
 `2c`. When a direction is accepted, ask the agent to write `HANDOFF.md` and
 reimplement the concept in its destination app.
@@ -15,3 +21,7 @@ reimplement the concept in its destination app.
 This directory is disposable and gitignored. Treat the prototype as a
 high-fidelity mockup; do not promote its code, classname overrides, fake data, or
 other Lab concessions into production.
+
+Keep `experiment.json` as the lifecycle manifest and import its title and
+description from `index.tsx`. Check the configured canvas presets before
+designing; do not assume the destination app uses a white or black page.

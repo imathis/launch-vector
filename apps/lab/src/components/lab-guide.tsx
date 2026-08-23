@@ -1,11 +1,4 @@
-import {
-  ArrowRight,
-  Bot,
-  GitBranch,
-  PackageCheck,
-  Play,
-  Rows3,
-} from "lucide-react"
+import { Bot, GitBranch, PackageCheck, Plus, Play, Rows3 } from "lucide-react"
 
 import { Button } from "@workspace/ui/components/button"
 
@@ -14,50 +7,38 @@ const phases = [
     number: "01",
     title: "Ask",
     description:
-      "Describe the product problem, constraints, and what you want to compare. Ask the agent for 3–10 meaningfully different variants—not cosmetic shuffles.",
+      "Describe the problem, any important constraints, and how many directions you want. The Lab harness supplies the design-system and prototyping instructions.",
     example:
-      "Build 5 ways to help returning customers reorder. Use our real cards and buttons, include mobile layouts, and test empty, single-item, and long-order scenarios.",
+      "Design Lab: Explore 5 ways to help returning customers reorder. Include empty, single-item, and long-order states.",
   },
   {
     number: "02",
     title: "Refine",
     description:
-      "Compare variants against the same data states. Point the agent at what works and request branches such as 2.a, 2.b, and 2.c without losing the original direction.",
+      "Say which direction is closest and what should change. The agent keeps the original and creates branches such as 2a, 2b, and 2c.",
     example:
-      "Variant 2 is closest. Keep its hierarchy, then try 3 sub-variants with a quieter reorder action and less account chrome.",
+      "Design Lab: Variant 2 is closest. Try 3 branches with a quieter reorder action and less account chrome.",
   },
   {
     number: "03",
     title: "Integrate",
     description:
-      "Accept a direction and ask for a handoff. The agent documents the behavior and decisions, then reimplements the idea properly in the destination product.",
-    example:
-      "Accept 2.b. Write the handoff, identify prototype concessions, and integrate it into the account app using production patterns.",
+      "Accept a direction. The agent creates an implementation-ready handoff that separates the product decision from prototype-only code and helps reimplement it correctly.",
+    example: "Design Lab: Accept variant 2b.",
   },
 ] as const
 
 export function LabGuide({
-  authoredExperimentCount,
-  demoLabel,
+  onAdd,
   onOpenDemo,
 }: {
-  authoredExperimentCount: number
-  demoLabel?: string
+  onAdd: () => void
   onOpenDemo?: () => void
 }) {
-  const isEmpty = authoredExperimentCount === 0
-
   return (
     <article className="mx-auto max-w-4xl pb-16">
       <header className="max-w-3xl border-b border-border pb-10 sm:pb-12">
-        <div className="flex flex-wrap items-center gap-3">
-          <p className="text-sm font-medium text-muted-foreground">Lab Guide</p>
-          {isEmpty ? (
-            <span className="rounded-full border border-border bg-muted px-2.5 py-1 text-xs font-medium">
-              No experiments yet
-            </span>
-          ) : null}
-        </div>
+        <p className="text-sm font-medium text-muted-foreground">Lab Guide</p>
         <h1 className="mt-5 text-3xl font-semibold tracking-tight text-pretty sm:text-4xl">
           Use the Lab with an agent.
         </h1>
@@ -67,17 +48,29 @@ export function LabGuide({
           options, refine a direction, and hand the accepted concept back for
           production integration.
         </p>
-        {onOpenDemo ? (
+        <div className="mt-7 flex flex-wrap gap-3">
           <Button
             type="button"
             size="lg"
-            className="mt-7 min-h-11 px-4"
-            onClick={onOpenDemo}
+            className="min-h-11 px-4"
+            onClick={onAdd}
           >
-            <Play data-icon="inline-start" aria-hidden="true" />
-            Open {demoLabel ?? "Demo Experiment"}
+            <Plus data-icon="inline-start" aria-hidden="true" />
+            New Experiment
           </Button>
-        ) : null}
+          {onOpenDemo ? (
+            <Button
+              type="button"
+              size="lg"
+              variant="outline"
+              className="min-h-11 bg-background px-4"
+              onClick={onOpenDemo}
+            >
+              <Play data-icon="inline-start" aria-hidden="true" />
+              View Demo
+            </Button>
+          ) : null}
+        </div>
       </header>
 
       <section aria-labelledby="workflow" className="py-10 sm:py-12">
@@ -136,15 +129,16 @@ export function LabGuide({
             . Agents should read that context before proposing an interface.
           </p>
         </div>
-        <div className="rounded-xl border border-border bg-muted/35 p-5 sm:p-6">
-          <Bot className="size-5 text-muted-foreground" aria-hidden="true" />
-          <h3 className="mt-4 font-semibold">Best Inside the Monorepo</h3>
-          <p className="mt-2 text-sm leading-6 text-muted-foreground">
-            When the Lab lives beside the product, agents can inspect real
-            flows, import{" "}
-            <code className="font-mono text-foreground">@workspace/ui</code>,
-            and compose the same primitives users already see.
-          </p>
+        <div>
+          <div className="rounded-xl border border-border bg-muted/35 p-5 sm:p-6">
+            <Bot className="size-5 text-muted-foreground" aria-hidden="true" />
+            <h3 className="mt-4 font-semibold">Best Inside the Monorepo</h3>
+            <p className="mt-2 text-sm leading-6 text-muted-foreground">
+              When the Lab lives beside the product, agents can inspect real
+              flows, understand existing patterns, and use the product context
+              already available to them.
+            </p>
+          </div>
         </div>
       </section>
 
@@ -234,31 +228,6 @@ export function LabGuide({
           </div>
         </div>
       </section>
-
-      {onOpenDemo ? (
-        <section className="rounded-xl border border-border bg-muted/35 p-6 sm:p-8">
-          <p className="text-sm font-medium text-muted-foreground">
-            Included Demo
-          </p>
-          <h2 className="mt-2 text-2xl font-semibold tracking-tight text-pretty">
-            The Welcome fixture is pretending to be an agent’s experiment.
-          </h2>
-          <p className="mt-3 max-w-2xl leading-7 text-muted-foreground">
-            Open it to try variants, scenarios, comparison, themes, and
-            presentation mode. It is intentionally committed so a new Lab
-            installation is never an abstract promise.
-          </p>
-          <Button
-            type="button"
-            variant="outline"
-            className="mt-6 min-h-11 bg-background px-4"
-            onClick={onOpenDemo}
-          >
-            View the Demo
-            <ArrowRight data-icon="inline-end" aria-hidden="true" />
-          </Button>
-        </section>
-      ) : null}
     </article>
   )
 }

@@ -4,8 +4,9 @@
 @import "@fontsource-variable/geist";
 
 @custom-variant dark (&:is(.dark *));
-@source "../../../apps/**/*.{ts,tsx}";
-@source "../../../components/**/*.{ts,tsx}";
+@source "../../../../apps/**/*.{ts,tsx}";
+@source "../../../../components/**/*.{ts,tsx}";
+@source "../../../../apps/lab/src/experiments";
 @source "../**/*.{ts,tsx}";
 
 @theme inline {

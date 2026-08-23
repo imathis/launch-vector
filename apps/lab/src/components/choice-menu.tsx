@@ -1,10 +1,31 @@
+import { type ReactNode } from "react"
 import { Menu } from "@base-ui/react/menu"
-import { Check, ChevronDown, type LucideIcon } from "lucide-react"
+import {
+  Check,
+  ChevronDown,
+  Menu as MenuIcon,
+  type LucideIcon,
+} from "lucide-react"
 
 export type Choice = {
   value: string
   label: string
   shortcut?: string
+}
+
+export type ChoiceMenuAction = {
+  value: string
+  label: string
+  description?: string
+  icon?: LucideIcon
+  destructive?: boolean
+  disabled?: boolean
+  onSelect: () => void
+}
+
+export type ChoiceMenuActionGroup = {
+  label: string
+  actions: readonly ChoiceMenuAction[]
 }
 
 type ChoiceMenuProps = {
@@ -15,6 +36,7 @@ type ChoiceMenuProps = {
   disabled?: boolean
   ariaKeyShortcuts?: string
   showIndexShortcuts?: boolean
+  notice?: ReactNode
 }
 
 function ChoiceMenuPopup({
@@ -23,10 +45,19 @@ function ChoiceMenuPopup({
   choices,
   onValueChange,
   showIndexShortcuts = false,
+  notice,
 }: Pick<
   ChoiceMenuProps,
-  "label" | "value" | "choices" | "onValueChange" | "showIndexShortcuts"
+  | "label"
+  | "value"
+  | "choices"
+  | "onValueChange"
+  | "showIndexShortcuts"
+  | "notice"
 >) {
+  const showLeadingColumn =
+    showIndexShortcuts || choices.some((choice) => choice.shortcut)
+
   return (
     <Menu.Portal>
       <Menu.Positioner
@@ -39,16 +70,23 @@ function ChoiceMenuPopup({
             <Menu.GroupLabel className="px-3 py-2 text-xs font-medium text-muted-foreground">
               {label}
             </Menu.GroupLabel>
+            {notice}
             {choices.map((choice, index) => (
               <Menu.RadioItem
                 key={choice.value}
                 value={choice.value}
-                className="grid min-h-11 cursor-default touch-manipulation grid-cols-[1.75rem_minmax(0,1fr)_1.25rem] items-center rounded-lg px-2 text-sm outline-none data-[highlighted]:bg-accent data-[highlighted]:text-accent-foreground"
+                className={`grid min-h-11 cursor-default touch-manipulation items-center rounded-lg text-sm outline-none data-[highlighted]:bg-accent data-[highlighted]:text-accent-foreground ${showLeadingColumn ? "grid-cols-[1.75rem_minmax(0,1fr)_1.25rem] px-2" : "grid-cols-[minmax(0,1fr)_1.25rem] px-3"}`}
               >
-                <span className="text-xs text-muted-foreground tabular-nums">
-                  {choice.shortcut ??
-                    (showIndexShortcuts ? (index === 9 ? "0" : index + 1) : "")}
-                </span>
+                {showLeadingColumn ? (
+                  <span className="text-xs text-muted-foreground tabular-nums">
+                    {choice.shortcut ??
+                      (showIndexShortcuts
+                        ? index === 9
+                          ? "0"
+                          : index + 1
+                        : "")}
+                  </span>
+                ) : null}
                 <span className="truncate font-medium">{choice.label}</span>
                 <Menu.RadioItemIndicator className="text-foreground">
                   <Check className="size-4" aria-hidden="true" />
@@ -70,6 +108,7 @@ export function ChoiceMenu({
   disabled = false,
   ariaKeyShortcuts,
   showIndexShortcuts = false,
+  notice,
 }: ChoiceMenuProps) {
   const selectedChoice = choices.find((choice) => choice.value === value)
 
@@ -100,6 +139,7 @@ export function ChoiceMenu({
         choices={choices}
         onValueChange={onValueChange}
         showIndexShortcuts={showIndexShortcuts}
+        notice={notice}
       />
     </Menu.Root>
   )
@@ -112,6 +152,7 @@ export function InlineChoiceMenu({
   choices,
   onValueChange,
   ariaKeyShortcuts,
+  notice,
 }: Omit<ChoiceMenuProps, "disabled" | "showIndexShortcuts"> & {
   icon: LucideIcon
 }) {
@@ -141,31 +182,57 @@ export function InlineChoiceMenu({
         value={value}
         choices={choices}
         onValueChange={onValueChange}
+        notice={notice}
       />
     </Menu.Root>
   )
 }
 
-export function ExperimentChoiceMenu({
+export function IconExperimentChoiceMenu({
   value,
   choices,
-  triggerLabel,
   onValueChange,
+  label = "Experiment",
 }: Pick<ChoiceMenuProps, "value" | "choices" | "onValueChange"> & {
-  triggerLabel?: string
+  label?: string
 }) {
-  const selectedChoice = choices.find((choice) => choice.value === value)
-  const selectedLabel = triggerLabel || selectedChoice?.label || "Experiment"
-
   return (
     <Menu.Root>
       <Menu.Trigger
-        aria-label={`Experiment: ${selectedLabel}`}
-        className="group flex h-11 max-w-full min-w-0 touch-manipulation items-center gap-2 rounded-xl px-3 text-base font-semibold tracking-tight transition-colors hover:bg-background/50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring data-[popup-open]:bg-background/60"
+        aria-label={`Choose ${label.toLowerCase()}`}
+        title={`Choose ${label.toLowerCase()}`}
+        className="grid size-11 shrink-0 touch-manipulation place-items-center rounded-xl text-muted-foreground transition-colors hover:bg-background/50 hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring data-[popup-open]:bg-background/60 data-[popup-open]:text-foreground"
       >
-        <span className="truncate">{selectedLabel}</span>
+        <MenuIcon className="size-5" aria-hidden="true" />
+      </Menu.Trigger>
+      <ChoiceMenuPopup
+        label={label}
+        value={value}
+        choices={choices}
+        onValueChange={onValueChange}
+      />
+    </Menu.Root>
+  )
+}
+
+export function ExperimentTitleMenu({
+  value,
+  choices,
+  title,
+  onValueChange,
+}: Pick<ChoiceMenuProps, "value" | "choices" | "onValueChange"> & {
+  title: string
+}) {
+  return (
+    <Menu.Root>
+      <Menu.Trigger
+        aria-label={`Experiment: ${title}`}
+        title="Switch experiment"
+        className="group -mx-1 flex h-11 max-w-full min-w-0 touch-manipulation items-center gap-2 rounded-xl px-1 text-base font-semibold tracking-tight transition-colors hover:bg-background/50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring data-[popup-open]:bg-background/60 sm:h-10"
+      >
+        <span className="truncate">{title}</span>
         <ChevronDown
-          className="size-4 shrink-0 text-muted-foreground transition-transform group-data-[popup-open]:rotate-180 motion-reduce:transition-none"
+          className="size-4 transition-transform group-data-[popup-open]:rotate-180 motion-reduce:transition-none"
           aria-hidden="true"
         />
       </Menu.Trigger>

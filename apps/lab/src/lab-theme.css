@@ -1,0 +1,11 @@
+/*
+ * Product integration seam. Import token declarations shared with the product
+ * above these mappings, then point the Lab canvas at its real page surface.
+ * Do not import an app's complete stylesheet here.
+ */
+/*
+:root {
+  --lab-app-background: var(--your-product-page-background);
+  --lab-app-foreground: var(--your-product-page-foreground);
+}
+*/
