@@ -12,10 +12,10 @@ import (
 
 	"golang.org/x/term"
 
-	"github.com/imathis/bootkit/internal/vector/config"
-	"github.com/imathis/bootkit/internal/vector/project"
-	vectorruntime "github.com/imathis/bootkit/internal/vector/runtime"
-	"github.com/imathis/bootkit/internal/vector/tui"
+	"github.com/imathis/launch-vector/internal/vector/config"
+	"github.com/imathis/launch-vector/internal/vector/project"
+	vectorruntime "github.com/imathis/launch-vector/internal/vector/runtime"
+	"github.com/imathis/launch-vector/internal/vector/tui"
 )
 
 const version = "0.1.0"

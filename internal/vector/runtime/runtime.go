@@ -14,8 +14,8 @@ import (
 	"sync"
 	"time"
 
-	"github.com/imathis/bootkit/internal/vector/config"
-	"github.com/imathis/bootkit/internal/vector/project"
+	"github.com/imathis/launch-vector/internal/vector/config"
+	"github.com/imathis/launch-vector/internal/vector/project"
 )
 
 const (

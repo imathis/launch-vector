@@ -6,8 +6,8 @@ import (
 
 	"github.com/charmbracelet/bubbles/spinner"
 	tea "github.com/charmbracelet/bubbletea"
-	"github.com/imathis/bootkit/internal/vector/config"
-	vectorruntime "github.com/imathis/bootkit/internal/vector/runtime"
+	"github.com/imathis/launch-vector/internal/vector/config"
+	vectorruntime "github.com/imathis/launch-vector/internal/vector/runtime"
 )
 
 func TestLifecycleKeyIntents(t *testing.T) {

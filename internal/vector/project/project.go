@@ -6,7 +6,7 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/imathis/bootkit/internal/vector/config"
+	"github.com/imathis/launch-vector/internal/vector/config"
 )
 
 const ConfigName = "vector.yaml"

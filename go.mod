@@ -1,4 +1,4 @@
-module github.com/imathis/bootkit
+module github.com/imathis/launch-vector
 
 go 1.25
 

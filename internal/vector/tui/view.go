@@ -6,7 +6,7 @@ import (
 	"unicode/utf8"
 
 	"github.com/charmbracelet/lipgloss"
-	vectorruntime "github.com/imathis/bootkit/internal/vector/runtime"
+	vectorruntime "github.com/imathis/launch-vector/internal/vector/runtime"
 )
 
 var (

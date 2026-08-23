@@ -5,8 +5,8 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/imathis/bootkit/internal/vector/config"
-	"github.com/imathis/bootkit/internal/vector/project"
+	"github.com/imathis/launch-vector/internal/vector/config"
+	"github.com/imathis/launch-vector/internal/vector/project"
 )
 
 func TestParseProcessList(t *testing.T) {
