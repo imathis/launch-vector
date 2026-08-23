@@ -81,6 +81,7 @@ export function DisplaySettings({
   missingCanvasProperties = [],
   onViewChange,
   onCanvasChange,
+  compact = false,
 }: {
   view?: "focus" | "compare"
   canvas?: string
@@ -88,6 +89,7 @@ export function DisplaySettings({
   missingCanvasProperties?: readonly string[]
   onViewChange?: (view: "focus" | "compare") => void
   onCanvasChange?: (canvas: string) => void
+  compact?: boolean
 }) {
   const { theme, setTheme } = useTheme()
   const showCanvas =
@@ -98,7 +100,7 @@ export function DisplaySettings({
   return (
     <Popover.Root>
       <Popover.Trigger
-        className="grid size-11 shrink-0 touch-manipulation place-items-center rounded-xl text-muted-foreground transition-colors hover:bg-background/50 hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring data-[popup-open]:bg-background data-[popup-open]:text-foreground data-[popup-open]:shadow-sm sm:size-10"
+        className={`grid size-11 shrink-0 touch-manipulation place-items-center rounded-lg text-muted-foreground transition-colors hover:bg-background/60 hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring data-[popup-open]:bg-background/70 data-[popup-open]:text-foreground data-[popup-open]:shadow-sm sm:size-10 ${compact ? "[@media(pointer:fine)]:size-8" : ""}`}
         aria-label="Display settings"
         title="Display settings"
       >

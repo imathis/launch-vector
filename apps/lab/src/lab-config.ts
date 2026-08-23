@@ -8,10 +8,20 @@ export type CanvasPreset = {
   requiredProperties?: readonly string[]
 }
 
+export type ViewportPreset = {
+  id: string
+  label: string
+  width: number | null
+}
+
 export type LabConfig = {
   canvas: {
     defaultPreset: string
     presets: readonly [CanvasPreset, ...CanvasPreset[]]
+  }
+  presentation: {
+    defaultViewport: string
+    viewports: readonly [ViewportPreset, ...ViewportPreset[]]
   }
 }
 
@@ -32,6 +42,15 @@ export const labConfig = defineLabConfig({
         foreground: "var(--lab-app-foreground, var(--foreground))",
         requiredProperties: ["--lab-app-background", "--lab-app-foreground"],
       },
+    ],
+  },
+  presentation: {
+    defaultViewport: "fluid",
+    viewports: [
+      { id: "mobile", label: "375", width: 375 },
+      { id: "tablet", label: "768", width: 768 },
+      { id: "desktop", label: "1280", width: 1280 },
+      { id: "fluid", label: "Full", width: null },
     ],
   },
 } satisfies LabConfig)

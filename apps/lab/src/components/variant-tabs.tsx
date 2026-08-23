@@ -8,12 +8,14 @@ type VariantTabsProps = {
   choices: readonly Choice[]
   value: string
   onValueChange: (value: string) => void
+  compact?: boolean
 }
 
 export function VariantTabs({
   choices,
   value,
   onValueChange,
+  compact = false,
 }: VariantTabsProps) {
   const handleKeyDown = (event: KeyboardEvent<HTMLButtonElement>) => {
     const currentIndex = choices.findIndex(
@@ -57,7 +59,7 @@ export function VariantTabs({
             role="tab"
             value={choice.value}
             variant="ghost"
-            className={`relative h-11 shrink-0 rounded-none px-2.5 hover:bg-transparent hover:text-foreground ${selected ? "text-foreground after:absolute after:inset-x-2 after:bottom-0 after:h-0.5 after:bg-foreground" : "text-muted-foreground"}`}
+            className={`relative h-11 shrink-0 rounded-lg px-2.5 text-xs transition-colors hover:bg-background/60 hover:text-foreground active:translate-y-0 dark:hover:bg-background/60 ${compact ? "[@media(pointer:fine)]:h-8 [@media(pointer:fine)]:px-2" : ""} ${selected ? "text-foreground after:absolute after:inset-x-2 after:bottom-0 after:h-0.5 after:bg-foreground" : "text-muted-foreground"}`}
             aria-selected={selected}
             aria-controls="experiment-canvas"
             aria-keyshortcuts={index === 9 ? "0" : String(index + 1)}

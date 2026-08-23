@@ -76,7 +76,7 @@ export function ExperimentDisplayControls({
         type="button"
         size="icon"
         variant="ghost"
-        className="size-11 rounded-xl text-muted-foreground sm:size-10"
+        className="size-11 rounded-lg text-muted-foreground transition-colors hover:bg-background/60 active:translate-y-0 sm:size-10 dark:hover:bg-background/60"
         aria-label="Enter presentation mode"
         title="Enter presentation mode (F)"
         onClick={onExpand}

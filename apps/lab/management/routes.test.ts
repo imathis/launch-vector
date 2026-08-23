@@ -7,6 +7,10 @@ describe("Lab routes", () => {
     expect(labRoutes.guide()).toBe("/")
     expect(labRoutes.add()).toBe("/new")
     expect(labRoutes.experiment("order-history")).toBe("/labs/order-history")
+    expect(labRoutes.presentation("order-history")).toBe(
+      "/labs/order-history/present"
+    )
+    expect(labRoutes.frame("order-history")).toBe("/labs/order-history/frame")
   })
 
   test("parses deep links and optional trailing slashes", () => {
@@ -15,6 +19,17 @@ describe("Lab routes", () => {
     expect(parseLabRoute("/labs/order-history/")).toEqual({
       kind: "experiment",
       experiment: "order-history",
+      mode: "standard",
+    })
+    expect(parseLabRoute("/labs/order-history/present")).toEqual({
+      kind: "experiment",
+      experiment: "order-history",
+      mode: "presentation",
+    })
+    expect(parseLabRoute("/labs/order-history/frame/")).toEqual({
+      kind: "experiment",
+      experiment: "order-history",
+      mode: "frame",
     })
   })
 
@@ -23,6 +38,7 @@ describe("Lab routes", () => {
     expect(parseLabRoute(href)).toEqual({
       kind: "experiment",
       experiment: "résumé review",
+      mode: "standard",
     })
   })
 

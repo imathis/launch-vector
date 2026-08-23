@@ -9,7 +9,7 @@ import {
   useRef,
   useState,
 } from "react"
-import { Layers, X } from "lucide-react"
+import { Layers, RotateCcw, X } from "lucide-react"
 
 import { Button } from "@workspace/ui/components/button"
 import { useTheme } from "@workspace/ui/theme/theme-provider"
@@ -21,6 +21,7 @@ import {
   IconExperimentChoiceMenu,
   InlineChoiceMenu,
   type Choice,
+  type ChoiceMenuActionGroup,
 } from "./components/choice-menu"
 import {
   ExperimentDisplayControls,
@@ -29,8 +30,13 @@ import {
 } from "./components/display-controls"
 import { ExperimentNotes } from "./components/experiment-notes"
 import { ExperimentActionsMenu } from "./components/experiment-actions-menu"
+import { ExperimentPreview } from "./components/experiment-preview"
 import { LabGuide } from "./components/lab-guide"
 import { RenameExperimentDialog } from "./components/rename-experiment-dialog"
+import {
+  ResponsiveComparePreview,
+  ResponsivePreview,
+} from "./components/responsive-preview"
 import {
   PresentationDock,
   type PresentationDockState,
@@ -51,15 +57,27 @@ import {
   missingCanvasProperties as findMissingCanvasProperties,
   resolveThemeValue,
 } from "./lab-config"
+import {
+  FRAME_KEY_MESSAGE,
+  isFrameKeyMessage,
+  isFrameStateMessage,
+  type FrameKeyMessage,
+  type FrameStateMessage,
+} from "./lib/frame-messages"
 import { labRoutes, parseLabRoute } from "./routes"
 
 type Selection = {
   page: "guide" | "add"
+  mode: "standard" | "presentation" | "frame"
   experiment: string
   variant: string
   scenario: string
   view: ViewMode
+  compareLeft: string
+  compareRight: string
+  panelCompare: boolean
   canvas: string
+  viewport: string
 }
 
 const NUMBER_KEY_CODE = /^(?:Digit|Numpad)([0-9])$/
@@ -92,8 +110,9 @@ function readSelection(): Selection {
   const page = route.kind === "add" || requestedPage === "add" ? "add" : "guide"
   return {
     page,
+    mode: route.kind === "experiment" ? route.mode : "standard",
     experiment:
-      route.kind === "experiment" && selectedEntry
+      route.kind === "experiment"
         ? (requestedExperiment ?? "")
         : route.kind === "guide" &&
             requestedPage !== "help" &&
@@ -104,10 +123,17 @@ function readSelection(): Selection {
     variant: params.get("variant") ?? "",
     scenario: params.get("scenario") ?? "",
     view: params.get("view") === "compare" ? "compare" : "focus",
+    compareLeft: params.get("compareLeft") ?? "",
+    compareRight: params.get("compareRight") ?? "",
+    panelCompare: params.get("panel") === "compare",
     canvas:
       params.get("canvas") ??
       selectedEntry?.manifest?.defaultCanvas ??
       labConfig.canvas.defaultPreset,
+    viewport:
+      labConfig.presentation.viewports.find(
+        (preset) => preset.id === params.get("viewport")
+      )?.id ?? labConfig.presentation.defaultViewport,
   }
 }
 
@@ -131,6 +157,32 @@ function numberKeyIndex(code: string) {
   if (!match?.[1]) return null
   const number = Number(match[1])
   return number === 0 ? 9 : number - 1
+}
+
+function shouldPreventFrameShortcut(
+  event: KeyboardEvent,
+  experiment: ExperimentDefinition | null,
+  previousVariant: string
+) {
+  if (event.repeat || event.metaKey || event.ctrlKey) return false
+
+  const optionIndex = event.shiftKey ? null : numberKeyIndex(event.code)
+  if (optionIndex !== null && experiment) {
+    return event.altKey
+      ? Boolean(Object.keys(experiment.scenarios)[optionIndex])
+      : Boolean(Object.keys(experiment.variants)[optionIndex])
+  }
+
+  if (
+    event.code === "Period" &&
+    !event.altKey &&
+    !event.shiftKey &&
+    experiment?.variants[previousVariant]
+  ) {
+    return true
+  }
+
+  return !event.altKey && event.key.toLowerCase() === "f" && Boolean(experiment)
 }
 
 function sidebarItemClass(selected: boolean) {
@@ -163,7 +215,7 @@ export function App() {
     experiment: ExperimentDefinition | null
     error: string
   }>({ id: "", experiment: null, error: "" })
-  const [immersive, setImmersive] = useState(false)
+  const [resetKey, setResetKey] = useState(0)
   const [presentationDock, setPresentationDock] =
     useState<PresentationDockState>("open")
   const [missingCanvasProperties] = useState(findMissingCanvasProperties)
@@ -171,9 +223,11 @@ export function App() {
   const collapseDockButtonRef = useRef<HTMLButtonElement>(null)
   const exitPresentationButtonRef = useRef<HTMLButtonElement>(null)
   const pullTabRef = useRef<HTMLButtonElement>(null)
-  const previousImmersive = useRef(immersive)
+  const previousImmersive = useRef(false)
   const previousVariant = useRef("")
   const showStaticPage = selection.experiment === ""
+  const immersive = selection.mode === "presentation"
+  const frame = selection.mode === "frame"
   const showGuide = showStaticPage && selection.page === "guide"
   const showAdd = showStaticPage && selection.page === "add"
   const isCurrentExperiment = loaded.id === selection.experiment
@@ -217,12 +271,58 @@ export function App() {
     [selection.variant]
   )
 
+  const resetPrototype = useCallback(() => {
+    setResetKey((current) => current + 1)
+  }, [])
+
+  const changeView = useCallback(
+    (view: ViewMode) => {
+      if (view === "focus") {
+        updateSelection({
+          view,
+          variant: selection.compareLeft || selection.variant,
+        })
+        return
+      }
+      const variantKeys = Object.keys(experiment?.variants ?? {})
+      const compareLeft = selection.variant || variantKeys[0] || ""
+      const compareRight =
+        selection.compareRight &&
+        selection.compareRight !== compareLeft &&
+        experiment?.variants[selection.compareRight]
+          ? selection.compareRight
+          : (variantKeys.find((candidate) => candidate !== compareLeft) ??
+            compareLeft)
+      updateSelection({ view, compareLeft, compareRight })
+    },
+    [
+      experiment,
+      selection.compareLeft,
+      selection.compareRight,
+      selection.variant,
+      updateSelection,
+    ]
+  )
+
   const enterPresentation = () => {
     setPresentationDock("open")
-    setImmersive(true)
+    const href = labRoutes.presentation(selection.experiment)
+    window.history.pushState({ vectorLabPresentation: true }, "", href)
+    updateSelection({ mode: "presentation" })
   }
 
-  const exitPresentation = () => setImmersive(false)
+  const exitPresentation = () => {
+    const historyState = window.history.state as {
+      vectorLabPresentation?: unknown
+    } | null
+    if (historyState?.vectorLabPresentation === true) {
+      window.history.back()
+      return
+    }
+    const href = labRoutes.experiment(selection.experiment)
+    window.history.replaceState(window.history.state, "", href)
+    updateSelection({ mode: "standard" })
+  }
 
   const collapsePresentationDock = () => {
     setPresentationDock("collapsed")
@@ -246,14 +346,37 @@ export function App() {
     if (showStaticPage) {
       pathname = selection.page === "add" ? labRoutes.add() : labRoutes.guide()
     } else {
-      pathname = labRoutes.experiment(selection.experiment)
+      pathname =
+        selection.mode === "presentation"
+          ? labRoutes.presentation(selection.experiment)
+          : selection.mode === "frame"
+            ? labRoutes.frame(selection.experiment)
+            : labRoutes.experiment(selection.experiment)
       if (selection.variant) params.set("variant", selection.variant)
       if (selection.scenario) params.set("scenario", selection.scenario)
       params.set("view", selection.view)
+      if (
+        selection.view === "compare" &&
+        selection.compareLeft &&
+        selection.compareRight
+      ) {
+        params.set("compareLeft", selection.compareLeft)
+        params.set("compareRight", selection.compareRight)
+      }
+      if (selection.mode === "frame" && selection.panelCompare) {
+        params.set("panel", "compare")
+      }
       params.set("canvas", selection.canvas)
+      if (selection.mode === "presentation") {
+        params.set("viewport", selection.viewport)
+      }
     }
     const search = params.size > 0 ? `?${params}` : ""
-    window.history.replaceState(null, "", `${pathname}${search}`)
+    window.history.replaceState(
+      window.history.state,
+      "",
+      `${pathname}${search}`
+    )
   }, [selection, showStaticPage])
 
   useEffect(() => {
@@ -339,11 +462,30 @@ export function App() {
     const scenario = experiment.scenarios[selection.scenario]
       ? selection.scenario
       : (scenarioKeys[0] ?? "")
+    const compareLeft = experiment.variants[selection.compareLeft]
+      ? selection.compareLeft
+      : variant
+    const compareRight = experiment.variants[selection.compareRight]
+      ? selection.compareRight
+      : (variantKeys.find((candidate) => candidate !== compareLeft) ??
+        compareLeft)
 
-    if (variant !== selection.variant || scenario !== selection.scenario) {
-      updateSelection({ variant, scenario })
+    if (
+      variant !== selection.variant ||
+      scenario !== selection.scenario ||
+      compareLeft !== selection.compareLeft ||
+      compareRight !== selection.compareRight
+    ) {
+      updateSelection({ variant, scenario, compareLeft, compareRight })
     }
-  }, [experiment, selection.scenario, selection.variant, updateSelection])
+  }, [
+    experiment,
+    selection.compareLeft,
+    selection.compareRight,
+    selection.scenario,
+    selection.variant,
+    updateSelection,
+  ])
 
   useEffect(() => {
     if (!showStaticPage && !experiment) return
@@ -377,13 +519,30 @@ export function App() {
       return
     }
 
-    const variantTitle = experiment?.variants[selection.variant]?.label
+    const variantTitle =
+      selection.view === "compare"
+        ? [
+            experiment?.variants[selection.compareLeft]?.label,
+            experiment?.variants[selection.compareRight]?.label,
+          ]
+            .filter(Boolean)
+            .join(" vs ")
+        : experiment?.variants[selection.variant]?.label
     const experimentTitle =
       experiment?.metadata.title || formatExperimentName(selection.experiment)
     document.title = [variantTitle, experimentTitle, "Vector"]
       .filter(Boolean)
       .join(" | ")
-  }, [experiment, selection.experiment, selection.variant, showAdd, showGuide])
+  }, [
+    experiment,
+    selection.compareLeft,
+    selection.compareRight,
+    selection.experiment,
+    selection.variant,
+    selection.view,
+    showAdd,
+    showGuide,
+  ])
 
   useEffect(() => {
     if (previousImmersive.current === immersive) return
@@ -446,9 +605,7 @@ export function App() {
       else enterPresentation()
     }
     if (key === "c" && experiment) {
-      updateSelection({
-        view: selection.view === "focus" ? "compare" : "focus",
-      })
+      changeView(selection.view === "focus" ? "compare" : "focus")
     }
     if (key === "v" && experiment) {
       updateSelection({
@@ -463,11 +620,62 @@ export function App() {
     }
   })
 
+  const handleFrameState = useEffectEvent((message: FrameStateMessage) => {
+    updateSelection({
+      variant: message.variant,
+      scenario: message.scenario,
+      view: message.view,
+      canvas: message.canvas,
+    })
+  })
+
   useEffect(() => {
-    const handleKeyDown = (event: KeyboardEvent) => handleShortcut(event)
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (frame && window.parent !== window) {
+        if (isEditableTarget(event.target)) return
+        const message = {
+          type: FRAME_KEY_MESSAGE,
+          key: event.key,
+          code: event.code,
+          altKey: event.altKey,
+          shiftKey: event.shiftKey,
+          metaKey: event.metaKey,
+          ctrlKey: event.ctrlKey,
+          repeat: event.repeat,
+        } satisfies FrameKeyMessage
+        window.parent.postMessage(message, window.location.origin)
+        if (
+          shouldPreventFrameShortcut(event, experiment, previousVariant.current)
+        ) {
+          event.preventDefault()
+        }
+        return
+      }
+      handleShortcut(event)
+    }
+
+    const handleMessage = (event: MessageEvent<unknown>) => {
+      if (event.origin !== window.location.origin) return
+      if (
+        frame &&
+        event.source === window.parent &&
+        isFrameStateMessage(event.data)
+      ) {
+        handleFrameState(event.data)
+        return
+      }
+      if (!frame && isFrameKeyMessage(event.data)) {
+        handleShortcut(new KeyboardEvent("keydown", event.data))
+      }
+    }
+
     window.addEventListener("keydown", handleKeyDown)
-    return () => window.removeEventListener("keydown", handleKeyDown)
-  }, [])
+    window.addEventListener("message", handleMessage)
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown)
+      window.removeEventListener("message", handleMessage)
+    }
+  }, [experiment, frame])
 
   const ExperimentView = experiment?.render
   const variantChoices: readonly Choice[] = experiment
@@ -484,6 +692,15 @@ export function App() {
       }))
     : []
   const selectedVariant = experiment?.variants[selection.variant]
+  const comparedVariantLabel =
+    selection.view === "compare"
+      ? [
+          experiment?.variants[selection.compareLeft]?.label,
+          experiment?.variants[selection.compareRight]?.label,
+        ]
+          .filter(Boolean)
+          .join(" vs ")
+      : undefined
   const selectedScenario = experiment?.scenarios[selection.scenario]
   const canvasPreset =
     canvasPresets.find((preset) => preset.id === selection.canvas) ??
@@ -503,15 +720,23 @@ export function App() {
   const demoExperiment = fixtureExperiments[0]
 
   const selectExperiment = (experimentId: string) => {
-    const href = labRoutes.experiment(experimentId)
+    const href = immersive
+      ? labRoutes.presentation(experimentId)
+      : labRoutes.experiment(experimentId)
     if (`${window.location.pathname}${window.location.search}` !== href) {
-      window.history.pushState(null, "", href)
+      if (immersive) {
+        window.history.replaceState(window.history.state, "", href)
+      } else window.history.pushState(null, "", href)
     }
     previousVariant.current = ""
     updateSelection({
       experiment: experimentId,
       variant: "",
       scenario: "",
+      compareLeft: "",
+      compareRight: "",
+      panelCompare: false,
+      mode: immersive ? "presentation" : "standard",
     })
   }
 
@@ -521,13 +746,16 @@ export function App() {
       if (`${window.location.pathname}${window.location.search}` !== href) {
         window.history.pushState(null, "", href)
       }
-      setImmersive(false)
       previousVariant.current = ""
       updateSelection({
         page: value === ADD_VALUE ? "add" : "guide",
+        mode: "standard",
         experiment: "",
         variant: "",
         scenario: "",
+        compareLeft: "",
+        compareRight: "",
+        panelCompare: false,
       })
       return
     }
@@ -538,6 +766,12 @@ export function App() {
     updateSelection({ variant, view: "focus" })
   }
 
+  const selectCompareVariant = (panel: 0 | 1, variant: string) => {
+    updateSelection(
+      panel === 0 ? { compareLeft: variant } : { compareRight: variant }
+    )
+  }
+
   const management = useExperimentManagement({
     currentSlug: selection.experiment,
     onLeaveExperiment: () =>
@@ -546,16 +780,48 @@ export function App() {
         : selectLabPage(GUIDE_VALUE),
     onOpenExperiment: selectExperiment,
   })
+  const experimentActionGroups = useMemo<
+    readonly ChoiceMenuActionGroup[]
+  >(() => {
+    const resetAction = {
+      value: "reset-prototype",
+      label: "Reset prototype",
+      description: "Restore its initial local state",
+      icon: RotateCcw,
+      onSelect: resetPrototype,
+    }
+    const [first, ...rest] = management.actionGroups
+    if (first?.label === "") {
+      return [{ ...first, actions: [resetAction, ...first.actions] }, ...rest]
+    }
+    return [{ label: "", actions: [resetAction] }, ...management.actionGroups]
+  }, [management.actionGroups, resetPrototype])
+
+  const viewportPreset =
+    labConfig.presentation.viewports.find(
+      (preset) => preset.id === selection.viewport
+    ) ?? labConfig.presentation.viewports[0]
+  const frameSrcFor = (variant: string, panelCompare = false) => {
+    const params = new URLSearchParams()
+    if (variant) params.set("variant", variant)
+    if (selection.scenario) params.set("scenario", selection.scenario)
+    params.set("view", "focus")
+    params.set("canvas", selection.canvas)
+    if (panelCompare) params.set("panel", "compare")
+    return `${labRoutes.frame(selection.experiment)}?${params}`
+  }
 
   return (
     <main
       className={
         immersive
           ? "fixed inset-0 z-40 min-h-svh overflow-x-hidden overflow-y-auto bg-background"
-          : "min-h-svh overflow-x-hidden bg-background"
+          : frame
+            ? "min-h-svh bg-background"
+            : "min-h-svh overflow-x-hidden bg-background"
       }
     >
-      {!immersive ? (
+      {!immersive && !frame ? (
         <>
           <a
             className="fixed top-2 left-2 z-50 -translate-y-20 rounded-md bg-background px-4 py-3 font-medium shadow-md focus-visible:translate-y-0 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
@@ -650,7 +916,7 @@ export function App() {
                     canvas={selection.canvas}
                     canvasChoices={canvasChoices}
                     missingCanvasProperties={missingCanvasProperties}
-                    onViewChange={(view) => updateSelection({ view })}
+                    onViewChange={changeView}
                     onCanvasChange={(canvas) => updateSelection({ canvas })}
                     expandButtonRef={expandButtonRef}
                     onExpand={enterPresentation}
@@ -660,10 +926,10 @@ export function App() {
 
               {!showStaticPage && experiment ? (
                 <div className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-1 border-t border-border bg-[color-mix(in_oklab,var(--muted),black_4%)] px-2 py-0.5 sm:flex dark:bg-[color-mix(in_oklab,var(--muted),black_14%)]">
-                  {management.actionGroups.length > 0 ? (
+                  {experimentActionGroups.length > 0 ? (
                     <div className="flex items-center self-stretch">
                       <ExperimentActionsMenu
-                        actionGroups={management.actionGroups}
+                        actionGroups={experimentActionGroups}
                       />
                       <span
                         className="ml-1 w-px self-stretch bg-border"
@@ -673,11 +939,13 @@ export function App() {
                   ) : null}
 
                   <div className="hidden min-w-0 sm:block sm:flex-1">
-                    <VariantTabs
-                      choices={variantChoices}
-                      value={selection.variant}
-                      onValueChange={selectVariant}
-                    />
+                    {selection.view === "focus" ? (
+                      <VariantTabs
+                        choices={variantChoices}
+                        value={selection.variant}
+                        onValueChange={selectVariant}
+                      />
+                    ) : null}
                   </div>
 
                   <div className="hidden min-w-0 shrink-0 sm:block">
@@ -698,8 +966,14 @@ export function App() {
                       title={experiment.metadata.title}
                       description={experiment.metadata.description}
                       notes={experiment.metadata.notes}
-                      variantLabel={selectedVariant?.label}
-                      variantNotes={selectedVariant?.notes}
+                      variantLabel={
+                        comparedVariantLabel ?? selectedVariant?.label
+                      }
+                      variantNotes={
+                        selection.view === "focus"
+                          ? selectedVariant?.notes
+                          : undefined
+                      }
                       scenarioLabel={selectedScenario?.label}
                       scenarioDescription={selectedScenario?.description}
                       notice={
@@ -710,15 +984,19 @@ export function App() {
                     />
                   </div>
 
-                  <div className="col-span-full grid min-w-0 grid-cols-2 gap-1 sm:hidden">
-                    <ChoiceMenu
-                      label="Variant"
-                      value={selection.variant}
-                      choices={variantChoices}
-                      ariaKeyShortcuts="1 2 3 4 5 6 7 8 9 0 V"
-                      showIndexShortcuts
-                      onValueChange={selectVariant}
-                    />
+                  <div
+                    className={`col-span-full grid min-w-0 gap-1 sm:hidden ${selection.view === "focus" ? "grid-cols-2" : "grid-cols-1"}`}
+                  >
+                    {selection.view === "focus" ? (
+                      <ChoiceMenu
+                        label="Variant"
+                        value={selection.variant}
+                        choices={variantChoices}
+                        ariaKeyShortcuts="1 2 3 4 5 6 7 8 9 0 V"
+                        showIndexShortcuts
+                        onValueChange={selectVariant}
+                      />
+                    ) : null}
                     <InlineChoiceMenu
                       icon={Layers}
                       label="Scenario"
@@ -739,14 +1017,14 @@ export function App() {
 
       <div
         className={
-          immersive
+          immersive || frame
             ? ""
             : authoredExperimentChoices.length > 0
               ? "grid w-full lg:grid-cols-[13rem_minmax(0,1fr)]"
               : "w-full"
         }
       >
-        {!immersive && authoredExperimentChoices.length > 0 ? (
+        {!immersive && !frame && authoredExperimentChoices.length > 0 ? (
           <aside className="sticky top-32 hidden h-[calc(100svh-8rem)] border-r border-border lg:block">
             <nav
               className="h-full overflow-y-auto px-4 py-8"
@@ -783,17 +1061,59 @@ export function App() {
           id="experiment-canvas"
           className={
             immersive
-              ? presentationDock === "open"
-                ? "min-h-svh min-w-0 pb-[calc(8rem+env(safe-area-inset-bottom))] sm:pb-[calc(5rem+env(safe-area-inset-bottom))]"
-                : "min-h-svh min-w-0"
-              : showStaticPage
-                ? "min-w-0 scroll-mt-40 py-10 pr-[max(1rem,env(safe-area-inset-right))] pl-[max(1rem,env(safe-area-inset-left))] sm:px-6 lg:scroll-mt-32 lg:px-10 lg:py-14"
-                : "min-w-0 scroll-mt-48 py-4 pr-[max(1rem,env(safe-area-inset-right))] pl-[max(1rem,env(safe-area-inset-left))] sm:px-6 sm:py-6 lg:scroll-mt-36 lg:px-8"
+              ? "h-svh min-w-0"
+              : frame
+                ? "min-h-svh min-w-0"
+                : showStaticPage
+                  ? "min-w-0 scroll-mt-40 py-10 pr-[max(1rem,env(safe-area-inset-right))] pl-[max(1rem,env(safe-area-inset-left))] sm:px-6 lg:scroll-mt-32 lg:px-10 lg:py-14"
+                  : "min-w-0 scroll-mt-48 lg:scroll-mt-36"
           }
           style={showStaticPage ? undefined : canvasStyle}
           aria-label="Experiment canvas"
         >
-          {showAdd ? (
+          {immersive && experiment && selection.view === "compare" ? (
+            <ResponsiveComparePreview
+              key={`${selection.experiment}-${resetKey}`}
+              panels={[
+                {
+                  side: "left",
+                  variant: selection.compareLeft,
+                  label:
+                    experiment.variants[selection.compareLeft]?.label ??
+                    selection.compareLeft,
+                  src: frameSrcFor(selection.compareLeft, true),
+                },
+                {
+                  side: "right",
+                  variant: selection.compareRight,
+                  label:
+                    experiment.variants[selection.compareRight]?.label ??
+                    selection.compareRight,
+                  src: frameSrcFor(selection.compareRight, true),
+                },
+              ]}
+              choices={variantChoices}
+              width={viewportPreset.width}
+              dockOpen={presentationDock === "open"}
+              scenario={selection.scenario}
+              canvas={selection.canvas}
+              onVariantChange={selectCompareVariant}
+            />
+          ) : immersive && experiment ? (
+            <ResponsivePreview
+              key={`${selection.experiment}-${resetKey}`}
+              src={frameSrcFor(selection.variant)}
+              title={experiment.metadata.title}
+              width={viewportPreset.width}
+              dockOpen={presentationDock === "open"}
+              state={{
+                variant: selection.variant,
+                scenario: selection.scenario,
+                view: "focus",
+                canvas: selection.canvas,
+              }}
+            />
+          ) : showAdd ? (
             <AddExperimentPage onImported={selectExperiment} />
           ) : showGuide ? (
             <LabGuide
@@ -806,14 +1126,14 @@ export function App() {
             />
           ) : loading ? (
             <p
-              className={`grid place-items-center text-muted-foreground ${immersive ? "min-h-svh" : "min-h-[50svh]"}`}
+              className={`grid place-items-center text-muted-foreground ${immersive || frame ? "min-h-svh" : "min-h-[50svh]"}`}
               role="status"
             >
               Loading experiment…
             </p>
           ) : loadError ? (
             <div
-              className={`grid place-items-center ${immersive ? "min-h-svh p-4" : "min-h-[50svh]"}`}
+              className={`grid place-items-center p-4 ${immersive || frame ? "min-h-svh" : "min-h-[50svh]"}`}
             >
               <div
                 className="w-full max-w-lg rounded-xl border border-destructive/40 bg-destructive/10 p-5 text-destructive"
@@ -824,39 +1144,19 @@ export function App() {
               </div>
             </div>
           ) : experiment && ExperimentView ? (
-            selection.view === "compare" ? (
-              <div
-                className={`grid lg:grid-cols-2 ${immersive ? "min-h-svh gap-px bg-border" : "gap-6"}`}
-              >
-                {Object.entries(experiment.variants).map(
-                  ([variant, details]) => (
-                    <div
-                      key={variant}
-                      className={`relative flex min-w-0 items-center justify-center bg-[var(--lab-canvas-background)] text-[var(--lab-canvas-foreground)] [&>*]:min-w-0 ${immersive ? "min-h-[50svh] p-4 lg:min-h-svh" : "min-h-[50svh] rounded-xl border border-border p-4"}`}
-                    >
-                      <p className="absolute top-4 left-4 text-xs font-semibold tracking-widest text-muted-foreground uppercase">
-                        {details.label}
-                      </p>
-                      <ExperimentView
-                        variant={variant}
-                        scenario={selection.scenario}
-                        view="compare"
-                      />
-                    </div>
-                  )
-                )}
-              </div>
-            ) : (
-              <div
-                className={`flex min-w-0 items-center justify-center [&>*]:min-w-0 ${immersive ? "min-h-svh" : "min-h-[calc(100svh-10rem)]"}`}
-              >
-                <ExperimentView
-                  variant={selection.variant}
-                  scenario={selection.scenario}
-                  view="focus"
-                />
-              </div>
-            )
+            <ExperimentPreview
+              ExperimentView={ExperimentView}
+              experiment={experiment}
+              variant={selection.variant}
+              scenario={selection.scenario}
+              view={selection.view}
+              resetKey={resetKey}
+              compareVariants={[selection.compareLeft, selection.compareRight]}
+              variantChoices={variantChoices}
+              onCompareVariantChange={selectCompareVariant}
+              renderView={selection.panelCompare ? "compare" : undefined}
+              frame={frame}
+            />
           ) : null}
         </section>
       </div>
@@ -873,16 +1173,19 @@ export function App() {
           scenarios={scenarioChoices}
           canvas={selection.canvas}
           canvasChoices={canvasChoices}
-          managementActionGroups={management.actionGroups}
+          viewport={selection.viewport}
+          viewportPresets={labConfig.presentation.viewports}
+          managementActionGroups={experimentActionGroups}
           missingCanvasProperties={missingCanvasProperties}
           collapseButtonRef={collapseDockButtonRef}
           exitButtonRef={exitPresentationButtonRef}
           pullTabRef={pullTabRef}
           onExperimentChange={selectExperiment}
           onVariantChange={selectVariant}
-          onViewChange={(view) => updateSelection({ view })}
+          onViewChange={changeView}
           onScenarioChange={(scenario) => updateSelection({ scenario })}
           onCanvasChange={(canvas) => updateSelection({ canvas })}
+          onViewportChange={(viewport) => updateSelection({ viewport })}
           onCollapse={collapsePresentationDock}
           onExpand={expandPresentationDock}
           onExit={exitPresentation}

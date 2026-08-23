@@ -117,7 +117,7 @@ export function ChoiceMenu({
       <Menu.Trigger
         disabled={disabled}
         aria-keyshortcuts={ariaKeyShortcuts}
-        className="group flex h-11 w-full min-w-0 touch-manipulation items-center justify-between gap-2 rounded-xl px-3 text-left transition-colors hover:bg-background/60 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring disabled:pointer-events-none disabled:opacity-50 data-[popup-open]:bg-background/70"
+        className="group flex h-11 w-full min-w-0 touch-manipulation items-center justify-between gap-2 rounded-lg px-3 text-left transition-colors hover:bg-background/60 hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring disabled:pointer-events-none disabled:opacity-50 data-[popup-open]:bg-background/70 data-[popup-open]:text-foreground"
       >
         <span className="min-w-0">
           <span className="block text-[10px] leading-none font-medium text-muted-foreground">
@@ -153,8 +153,10 @@ export function InlineChoiceMenu({
   onValueChange,
   ariaKeyShortcuts,
   notice,
+  compact = false,
 }: Omit<ChoiceMenuProps, "disabled" | "showIndexShortcuts"> & {
   icon: LucideIcon
+  compact?: boolean
 }) {
   const selectedChoice = choices.find((choice) => choice.value === value)
 
@@ -163,7 +165,7 @@ export function InlineChoiceMenu({
       <Menu.Trigger
         aria-keyshortcuts={ariaKeyShortcuts}
         aria-label={`${label}: ${selectedChoice?.label ?? "Unavailable"}`}
-        className="group flex h-11 max-w-full touch-manipulation items-center gap-2 rounded-xl px-3 text-sm font-medium transition-colors hover:bg-background/50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring data-[popup-open]:bg-background/60"
+        className={`group flex h-11 max-w-full touch-manipulation items-center gap-2 rounded-lg px-3 text-sm font-medium transition-colors hover:bg-background/60 hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring data-[popup-open]:bg-background/70 data-[popup-open]:text-foreground ${compact ? "[@media(pointer:fine)]:h-8" : ""}`}
       >
         <Icon
           className="size-4 shrink-0 text-muted-foreground"
@@ -193,15 +195,17 @@ export function IconExperimentChoiceMenu({
   choices,
   onValueChange,
   label = "Experiment",
+  compact = false,
 }: Pick<ChoiceMenuProps, "value" | "choices" | "onValueChange"> & {
   label?: string
+  compact?: boolean
 }) {
   return (
     <Menu.Root>
       <Menu.Trigger
         aria-label={`Choose ${label.toLowerCase()}`}
         title={`Choose ${label.toLowerCase()}`}
-        className="grid size-11 shrink-0 touch-manipulation place-items-center rounded-xl text-muted-foreground transition-colors hover:bg-background/50 hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring data-[popup-open]:bg-background/60 data-[popup-open]:text-foreground sm:size-10"
+        className={`grid size-11 shrink-0 touch-manipulation place-items-center rounded-lg text-muted-foreground transition-colors hover:bg-background/60 hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring data-[popup-open]:bg-background/70 data-[popup-open]:text-foreground sm:size-10 ${compact ? "[@media(pointer:fine)]:size-8" : ""}`}
       >
         <MenuIcon className="size-[1.125rem]" aria-hidden="true" />
       </Menu.Trigger>
@@ -228,7 +232,7 @@ export function ExperimentTitleMenu({
       <Menu.Trigger
         aria-label={`Experiment: ${title}`}
         title="Switch experiment"
-        className="group -mx-1 flex h-11 max-w-full min-w-0 touch-manipulation items-center gap-2 rounded-xl px-1 text-base font-semibold tracking-tight transition-colors hover:bg-background/50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring data-[popup-open]:bg-background/60 sm:h-10"
+        className="group -mx-1 flex h-11 max-w-full min-w-0 touch-manipulation items-center gap-2 rounded-lg px-1 text-base font-semibold tracking-tight transition-colors hover:bg-background/60 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring data-[popup-open]:bg-background/70 sm:h-10"
       >
         <span className="truncate">{title}</span>
         <ChevronDown

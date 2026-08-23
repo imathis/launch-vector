@@ -25,5 +25,6 @@ export default defineExperiment({
   },
   variants: { default: { label: "Default" } },
   scenarios: { default: { label: "Default" } },
+  canvas: { layout: "centered" },
   render: Prototype,
 })

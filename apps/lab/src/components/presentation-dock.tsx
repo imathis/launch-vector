@@ -12,6 +12,8 @@ import {
 import { DisplaySettings } from "./display-settings"
 import { ExperimentActionsMenu } from "./experiment-actions-menu"
 import { VariantTabs } from "./variant-tabs"
+import { ViewportControls } from "./viewport-controls"
+import type { ViewportPreset } from "../lab-config"
 
 export type PresentationDockState = "open" | "collapsed"
 
@@ -26,6 +28,8 @@ export function PresentationDock({
   scenarios,
   canvas,
   canvasChoices,
+  viewport,
+  viewportPresets,
   managementActionGroups,
   missingCanvasProperties,
   collapseButtonRef,
@@ -36,6 +40,7 @@ export function PresentationDock({
   onViewChange,
   onScenarioChange,
   onCanvasChange,
+  onViewportChange,
   onCollapse,
   onExpand,
   onExit,
@@ -50,6 +55,8 @@ export function PresentationDock({
   scenarios: readonly Choice[]
   canvas: string
   canvasChoices: readonly Choice[]
+  viewport: string
+  viewportPresets: readonly ViewportPreset[]
   managementActionGroups: readonly ChoiceMenuActionGroup[]
   missingCanvasProperties: readonly string[]
   collapseButtonRef: RefObject<HTMLButtonElement | null>
@@ -60,6 +67,7 @@ export function PresentationDock({
   onViewChange: (view: "focus" | "compare") => void
   onScenarioChange: (scenario: string) => void
   onCanvasChange: (canvas: string) => void
+  onViewportChange: (viewport: string) => void
   onCollapse: () => void
   onExpand: () => void
   onExit: () => void
@@ -74,19 +82,19 @@ export function PresentationDock({
         aria-hidden={collapsed}
         inert={collapsed ? true : undefined}
       >
-        <div className="grid grid-cols-[auto_minmax(0,1fr)_auto_auto_auto] items-center gap-1 rounded-2xl border border-border bg-muted p-1.5 shadow-md sm:flex">
+        <div className="grid grid-cols-[auto_minmax(0,1fr)_auto_auto_auto] items-center gap-1 rounded-2xl border border-border bg-muted p-1.5 shadow-md sm:flex [@media(pointer:fine)]:p-1">
           <div className="flex items-center self-stretch">
             <Button
               ref={collapseButtonRef}
               type="button"
               size="icon"
               variant="ghost"
-              className="size-11 shrink-0 rounded-xl text-muted-foreground sm:size-10"
+              className="size-11 shrink-0 rounded-lg text-muted-foreground transition-colors hover:bg-background/60 active:translate-y-0 sm:size-10 dark:hover:bg-background/60 [@media(pointer:fine)]:size-8"
               aria-label="Hide presentation controls"
               title="Hide presentation controls"
               onClick={onCollapse}
             >
-              <X className="size-5" aria-hidden="true" />
+              <X className="size-[1.125rem]" aria-hidden="true" />
             </Button>
             <span
               className="ml-1 w-px self-stretch bg-border"
@@ -98,14 +106,18 @@ export function PresentationDock({
             value={experiment}
             choices={experiments}
             onValueChange={onExperimentChange}
+            compact
           />
 
           <div className="hidden min-w-0 flex-1 sm:block">
-            <VariantTabs
-              choices={variants}
-              value={variant}
-              onValueChange={onVariantChange}
-            />
+            {view === "focus" ? (
+              <VariantTabs
+                choices={variants}
+                value={variant}
+                onValueChange={onVariantChange}
+                compact
+              />
+            ) : null}
           </div>
 
           <div className="hidden shrink-0 sm:block">
@@ -114,10 +126,17 @@ export function PresentationDock({
               label="Scenario"
               value={scenario}
               choices={scenarios}
+              compact
               ariaKeyShortcuts="Alt+1 Alt+2 Alt+3 Alt+4 Alt+5 Alt+6 Alt+7 Alt+8 Alt+9 Alt+0 S"
               onValueChange={onScenarioChange}
             />
           </div>
+
+          <ViewportControls
+            value={viewport}
+            presets={viewportPresets}
+            onValueChange={onViewportChange}
+          />
 
           <DisplaySettings
             view={view}
@@ -126,33 +145,41 @@ export function PresentationDock({
             missingCanvasProperties={missingCanvasProperties}
             onViewChange={onViewChange}
             onCanvasChange={onCanvasChange}
+            compact
           />
 
-          <ExperimentActionsMenu actionGroups={managementActionGroups} />
+          <ExperimentActionsMenu
+            actionGroups={managementActionGroups}
+            compact
+          />
 
           <Button
             ref={exitButtonRef}
             type="button"
             size="icon"
             variant="ghost"
-            className="size-11 shrink-0 rounded-xl text-muted-foreground sm:size-10"
+            className="size-11 shrink-0 rounded-lg text-muted-foreground transition-colors hover:bg-background/60 active:translate-y-0 sm:size-10 dark:hover:bg-background/60 [@media(pointer:fine)]:size-8"
             aria-label="Exit presentation mode"
             aria-keyshortcuts="Escape F"
             title="Exit presentation mode (Esc or F)"
             onClick={onExit}
           >
-            <Minimize2 className="size-5" aria-hidden="true" />
+            <Minimize2 className="size-[1.125rem]" aria-hidden="true" />
           </Button>
 
-          <div className="col-span-full grid min-w-0 grid-cols-2 gap-1 border-t border-border pt-1 sm:hidden">
-            <InlineChoiceMenu
-              icon={GitBranch}
-              label="Variant"
-              value={variant}
-              choices={variants}
-              ariaKeyShortcuts="1 2 3 4 5 6 7 8 9 0 V"
-              onValueChange={onVariantChange}
-            />
+          <div
+            className={`col-span-full grid min-w-0 gap-1 border-t border-border pt-1 sm:hidden ${view === "focus" ? "grid-cols-2" : "grid-cols-1"}`}
+          >
+            {view === "focus" ? (
+              <InlineChoiceMenu
+                icon={GitBranch}
+                label="Variant"
+                value={variant}
+                choices={variants}
+                ariaKeyShortcuts="1 2 3 4 5 6 7 8 9 0 V"
+                onValueChange={onVariantChange}
+              />
+            ) : null}
             <InlineChoiceMenu
               icon={Layers}
               label="Scenario"

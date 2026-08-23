@@ -22,7 +22,7 @@ export function ExperimentNotes({
 }) {
   return (
     <Popover.Root>
-      <Popover.Trigger className="flex min-h-11 touch-manipulation items-center gap-2 rounded-xl px-3 text-sm font-medium text-muted-foreground transition-colors hover:bg-background/60 hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring data-[popup-open]:bg-background data-[popup-open]:text-foreground data-[popup-open]:shadow-sm">
+      <Popover.Trigger className="flex min-h-11 touch-manipulation items-center gap-2 rounded-lg px-3 text-sm font-medium text-muted-foreground transition-colors hover:bg-background/60 hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring data-[popup-open]:bg-background/70 data-[popup-open]:text-foreground data-[popup-open]:shadow-sm">
         <NotebookText className="size-4" aria-hidden="true" />
         <span className="hidden sm:inline">Notes</span>
       </Popover.Trigger>

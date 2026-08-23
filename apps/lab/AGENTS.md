@@ -10,9 +10,12 @@
 - Keep the experiment name, description, and default canvas in `experiment.json`. Import that manifest from `index.tsx` instead of duplicating lifecycle metadata in executable code.
 - Start from a clear brief: user problem, audience, product constraints, scenarios, and the decision the experiment should support.
 - Produce 3–10 meaningfully different variants unless the brief asks for a narrower exploration. Prefer structural alternatives over cosmetic permutations.
+- Keep variant labels short and scannable—usually two or three words. Put rationale and implementation detail in variant `notes`, not tab labels.
 - Keep scenarios stable across variants so reviewers can compare the idea rather than the sample data.
+- Compare mode presents two independently selected variants and applies one shared scenario to both. Do not build experiment-local comparison or scenario controls.
 - Keep the canvas focused on the interface. Put supporting context in metadata and optional experiment or variant `notes`; use scenario descriptions for state-specific context.
 - Inspect `src/lab-config.ts` and `src/lab-theme.css` before designing. Use the configured app canvas rather than assuming white, black, `--background`, or another token. Add a named preset only when the experiment genuinely needs another product surface.
+- Set the experiment or variant canvas layout deliberately: `centered` for dialogs and cards, `padded` for page content, or `full` for edge-to-edge shells and tables.
 - When refining a direction, preserve the original and add explicit sub-variants such as `2a`, `2b`, and `2c`.
 - When a variant is accepted, write `HANDOFF.md` beside the experiment. Record behavior, design decisions, responsive rules, accessibility requirements, open questions, and prototype concessions.
 - A short acceptance such as `Design Lab: Accept variant 3b` is sufficient. Create the implementation-ready handoff and help reimplement the accepted direction without asking the user to specify the handoff format or production conventions.

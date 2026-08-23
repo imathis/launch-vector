@@ -204,15 +204,22 @@ archive, restore, recoverable delete, trusted ZIP import, and versioned
 the package importer. Experiment identity and display metadata live in each
 folder's `experiment.json` manifest.
 
-Lab pages have direct, history-backed routes: `/`, `/new`, and `/labs/<slug>`.
-Browser Back and Forward navigate between pages and experiments; comparison
-controls remain URL-backed without filling the history stack.
+Lab pages have direct, history-backed routes: `/`, `/new`, `/labs/<slug>`, and
+`/labs/<slug>/present`. Browser Back and Forward navigate between pages and
+experiments; variant, scenario, comparison, canvas, and responsive presentation
+controls remain URL-backed without filling the history stack. Presentation uses
+a same-origin frame so configured preview widths trigger real viewport
+breakpoints.
 
 Map `apps/lab/src/lab-theme.css` to the destination product's semantic page
 tokens. Canvas presets are configured explicitly in `lab-config.ts`; the Lab
 does not assume that an application uses stark white or black backgrounds. The
 New Experiment page reports a missing mapping, and the canvas selector remains
 hidden until more than one preset exists.
+
+Experiments can render compact interfaces centered, page content with padding,
+or complete shells edge-to-edge. The experiment action menu can remount a
+prototype to reset its local state without changing review selections.
 
 Lab shortcuts ignore editable controls:
 

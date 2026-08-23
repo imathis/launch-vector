@@ -5,8 +5,10 @@ import type { ChoiceMenuActionGroup } from "./choice-menu"
 
 export function ExperimentActionsMenu({
   actionGroups,
+  compact = false,
 }: {
   actionGroups: readonly ChoiceMenuActionGroup[]
+  compact?: boolean
 }) {
   if (actionGroups.length === 0) return null
 
@@ -15,7 +17,7 @@ export function ExperimentActionsMenu({
       <Menu.Trigger
         aria-label="Experiment settings"
         title="Experiment settings"
-        className="grid size-11 shrink-0 touch-manipulation place-items-center rounded-xl text-muted-foreground transition-colors hover:bg-background/50 hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring data-[popup-open]:bg-background/60 data-[popup-open]:text-foreground sm:size-10"
+        className={`grid size-11 shrink-0 touch-manipulation place-items-center rounded-lg text-muted-foreground transition-colors hover:bg-background/60 hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring data-[popup-open]:bg-background/70 data-[popup-open]:text-foreground sm:size-10 ${compact ? "[@media(pointer:fine)]:size-8" : ""}`}
       >
         <Settings className="size-[1.125rem]" aria-hidden="true" />
       </Menu.Trigger>

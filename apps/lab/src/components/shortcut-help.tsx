@@ -17,7 +17,7 @@ export function ShortcutHelp() {
   return (
     <Popover.Root>
       <Popover.Trigger
-        className="grid size-11 touch-manipulation place-items-center rounded-xl text-muted-foreground transition-colors hover:bg-muted hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring data-[popup-open]:bg-background data-[popup-open]:text-foreground data-[popup-open]:shadow-sm sm:size-10"
+        className="grid size-11 touch-manipulation place-items-center rounded-lg text-muted-foreground transition-colors hover:bg-background/60 hover:text-foreground focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring data-[popup-open]:bg-background/70 data-[popup-open]:text-foreground data-[popup-open]:shadow-sm sm:size-10"
         aria-label="Keyboard shortcuts"
         title="Keyboard shortcuts"
       >
