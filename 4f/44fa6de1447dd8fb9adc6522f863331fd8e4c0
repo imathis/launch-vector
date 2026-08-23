@@ -1,0 +1,21 @@
+apps/lab/src/components/presentation-dock.tsx
+  s_8263386aed4fa7::t_cdddf191476877 8,97-101
+apps/lab/src/components/choice-menu.tsx
+  s_8263386aed4fa7::t_033a992a20ec66 204,206
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.20",
+  "base_commit_sha": "4f44fa6de1447dd8fb9adc6522f863331fd8e4c0",
+  "prompts": {},
+  "sessions": {
+    "s_8263386aed4fa7": {
+      "agent_id": {
+        "tool": "opencode",
+        "id": "ses_fd59829b6ffelDjDJMrXPbKxA4",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Brandon Mathis <brandon@imathis.com>"
+    }
+  }
+}
