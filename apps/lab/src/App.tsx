@@ -864,10 +864,6 @@ export function App() {
       {immersive && !showStaticPage ? (
         <PresentationDock
           state={presentationDock}
-          title={
-            experiment?.metadata.title ??
-            formatExperimentName(selection.experiment)
-          }
           experiment={selection.experiment}
           experiments={experimentChoices}
           variant={selection.variant}

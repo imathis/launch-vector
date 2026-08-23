@@ -5,7 +5,7 @@ import { Button } from "@workspace/ui/components/button"
 
 import {
   type ChoiceMenuActionGroup,
-  ExperimentTitleMenu,
+  IconExperimentChoiceMenu,
   InlineChoiceMenu,
   type Choice,
 } from "./choice-menu"
@@ -17,7 +17,6 @@ export type PresentationDockState = "open" | "collapsed"
 
 export function PresentationDock({
   state,
-  title,
   experiment,
   experiments,
   variant,
@@ -42,7 +41,6 @@ export function PresentationDock({
   onExit,
 }: {
   state: PresentationDockState
-  title: string
   experiment: string
   experiments: readonly Choice[]
   variant: string
@@ -96,23 +94,11 @@ export function PresentationDock({
             />
           </div>
 
-          <div className="flex min-w-0 items-center pl-2 sm:max-w-96 sm:shrink-0">
-            <span className="hidden shrink-0 text-sm font-semibold md:inline">
-              Vector Lab
-            </span>
-            <span
-              className="mx-1 hidden text-muted-foreground md:inline"
-              aria-hidden="true"
-            >
-              /
-            </span>
-            <ExperimentTitleMenu
-              value={experiment}
-              choices={experiments}
-              title={title}
-              onValueChange={onExperimentChange}
-            />
-          </div>
+          <IconExperimentChoiceMenu
+            value={experiment}
+            choices={experiments}
+            onValueChange={onExperimentChange}
+          />
 
           <div className="hidden min-w-0 flex-1 sm:block">
             <VariantTabs
