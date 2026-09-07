@@ -1,0 +1,541 @@
+apps/weekly/src/question-editor.tsx
+  s_bfe1a8aa570d2a::t_4f992899440964 235
+  s_bfe1a8aa570d2a::t_65119eda2530ad 2-8,14-24,26-27,30-57,60-67,114,128-135,140-141,143-145,147-149,151-161,164-201,205-234,236-292,301,303-323,326-358,360,362,385-406,410,429,431,433,437,453-454,467,472-482
+  s_bfe1a8aa570d2a::t_c73104678dc3fe 58-59,324-325
+  s_bfe1a8aa570d2a::t_ae4adf98611468 68-113,115-127,136,139,142,146,162-163
+  s_bfe1a8aa570d2a::t_e59eec8b86c5cb 1,9-13,25,28-29,293-300,302,359,361,363-384,407-409,411-428,430,432,434-436,438-452,455-466,468-471,483-487
+  s_bfe1a8aa570d2a::t_c8e8cc43c71bbe 137-138,150
+  s_bfe1a8aa570d2a::t_2624b699b82062 202-204
+apps/weekly/src/class-pages.tsx
+  s_bfe1a8aa570d2a::t_54eb06507feb4e 70,202,217,226,241-816
+  s_bfe1a8aa570d2a::t_2c362f005a4c62 67-69
+  s_bfe1a8aa570d2a::t_557364dd1de577 71-73,199-201
+  s_bfe1a8aa570d2a::t_1c2cdcab978427 203-205,214-216
+  s_bfe1a8aa570d2a::t_f1bcf3c8139d34 218-220,223-225
+  s_bfe1a8aa570d2a::t_463619272b9a17 227-229,238-240
+  s_bfe1a8aa570d2a::t_f65b965e66ecf4 817-819
+packages/ui/src/components/sheet.tsx
+  s_bfe1a8aa570d2a::t_a3fbacd1afd602 1-4,6-70,72-135
+  s_bfe1a8aa570d2a::t_0f75a9e7f5f735 5,71
+apps/docs/src/content/field.tsx
+  s_bfe1a8aa570d2a::t_59541049b9606b 1-82
+apps/weekly/index.html
+  s_bfe1a8aa570d2a::t_7c370f12ab9114 16
+  s_bfe1a8aa570d2a::t_e0ffc3dff2aec4 13-15
+  s_bfe1a8aa570d2a::t_7c6763901eac67 17-19
+internal/vector/runtime/runtime_test.go
+  s_bfe1a8aa570d2a::t_02922ae79b9a6d 96-106
+apps/weekly/src/survey-pages.tsx
+  s_bfe1a8aa570d2a::t_c73104678dc3fe 42,537
+  s_bfe1a8aa570d2a::t_c8e8cc43c71bbe 447-449,451-456
+  s_bfe1a8aa570d2a::t_1542086e37cc32 2-26,43-254,256-409,415,424-434,444-446,481-489,522-536,538-552,554-555,557,559-560,562-563,565,570-573,577-586,588-589,597-601,623
+  s_bfe1a8aa570d2a::t_b9bd2b0dad554a 30,37-41,419,450,457-458,466-468,490,492-521,602-611
+  s_bfe1a8aa570d2a::t_6b8133a86a29f1 255
+  s_bfe1a8aa570d2a::t_cb49ce7347b5ab 459-465
+  s_bfe1a8aa570d2a::t_c127a0c07ec0b4 435-443,469-480,491,596
+  s_bfe1a8aa570d2a::t_54eb06507feb4e 569,587,590-594
+  s_bfe1a8aa570d2a::t_94427164d70c33 1
+  s_bfe1a8aa570d2a::t_643ec3dd30a9df 27-29
+  s_bfe1a8aa570d2a::t_7a53b7961089f0 31-36
+  s_bfe1a8aa570d2a::t_54473432c760b0 410-414
+  s_bfe1a8aa570d2a::t_317fbed41c41d9 416-418
+  s_bfe1a8aa570d2a::t_b21493764bd43c 420-423
+  s_bfe1a8aa570d2a::t_0011953d42293a 553
+  s_bfe1a8aa570d2a::t_bff528d26a9666 556
+  s_bfe1a8aa570d2a::t_02c859b38899a5 558
+  s_bfe1a8aa570d2a::t_f53e3c853f717e 561
+  s_bfe1a8aa570d2a::t_70f147082198e2 564
+  s_bfe1a8aa570d2a::t_82b4b4455b878f 566-568
+  s_bfe1a8aa570d2a::t_07f21cc97ff275 574-576
+  s_bfe1a8aa570d2a::t_faabc566864dae 595
+  s_bfe1a8aa570d2a::t_0a17e8dff9d294 612-614,620-622
+  s_bfe1a8aa570d2a::t_418b4357197ead 624-626
+apps/weekly/src/teacher-pages.tsx
+  s_bfe1a8aa570d2a::t_54eb06507feb4e 194,207,248,257-261,274
+  s_bfe1a8aa570d2a::t_901c9f20904b72 191-193
+  s_bfe1a8aa570d2a::t_bb13676c6346e1 195-197,204-206
+  s_bfe1a8aa570d2a::t_824c9223fe58e9 208-210,245-247
+  s_bfe1a8aa570d2a::t_57bdfd600c082b 249-251,254-256
+  s_bfe1a8aa570d2a::t_be9d3901c88978 262-264,271-273
+  s_bfe1a8aa570d2a::t_c517c6873579e5 275-277
+internal/vector/config/config_test.go
+  s_bfe1a8aa570d2a::t_02922ae79b9a6d 17,31-32
+  s_bfe1a8aa570d2a::t_a5cf09472f1930 33
+apps/weekly/seed.sql
+  s_bfe1a8aa570d2a::t_fa310362b07d10 77-87
+  s_bfe1a8aa570d2a::t_bd0a96b246e4de 95-113,140-141,160,162,164,166,168-169
+  s_bfe1a8aa570d2a::t_0f0540155e3e3e 158,161,163,165,167,170
+  s_bfe1a8aa570d2a::t_1c9f9b03e95f0a 129-135
+  s_bfe1a8aa570d2a::t_7c370f12ab9114 10-12
+  s_bfe1a8aa570d2a::t_0619910e59e07a 7-9
+  s_bfe1a8aa570d2a::t_a5052403f07fdb 13-15,74-76
+  s_bfe1a8aa570d2a::t_868a948c3a5452 88-90,92-94
+  s_bfe1a8aa570d2a::t_34b704f6055871 114-116,126-128
+  s_bfe1a8aa570d2a::t_0c184fd11fe98e 136-139
+  s_bfe1a8aa570d2a::t_623829be052c1c 142-144,155-157
+  s_bfe1a8aa570d2a::t_5eea4bc2e276e4 159
+  s_bfe1a8aa570d2a::t_f064938f684c52 171-173
+apps/weekly/package.json
+  s_bfe1a8aa570d2a::t_7c370f12ab9114 2-17
+  s_bfe1a8aa570d2a::t_f987e3b9ba12e1 1
+  s_bfe1a8aa570d2a::t_6c26d44084c42b 18-20
+apps/weekly/src/App.tsx
+  s_bfe1a8aa570d2a::t_7c370f12ab9114 31-74
+  s_bfe1a8aa570d2a::t_28f3d03856fcc0 28-30
+  s_bfe1a8aa570d2a::t_40c644b4fe8e0e 75-77
+apps/weekly/src/queries.ts
+  s_bfe1a8aa570d2a::t_3d490da08a39b3 4-27,33,40-41,44,46-47,50,52-53,56,62-63
+  s_bfe1a8aa570d2a::t_217dbe4371832e 1-3
+  s_bfe1a8aa570d2a::t_162ae0c8431498 28-32
+  s_bfe1a8aa570d2a::t_c0f2a4bbc187a4 34-39
+  s_bfe1a8aa570d2a::t_178cde92103dba 42-43
+  s_bfe1a8aa570d2a::t_9d7aa26136e2cc 45
+  s_bfe1a8aa570d2a::t_6d891d8def5364 48-49
+  s_bfe1a8aa570d2a::t_d0aff1666c1c7d 51
+  s_bfe1a8aa570d2a::t_c0a175f97e23f5 54-55
+  s_bfe1a8aa570d2a::t_65b896ea7c1b02 57-61
+apps/docs/src/content/native-select.tsx
+  s_bfe1a8aa570d2a::t_c6dc2bdaa7c4ce 1-54
+packages/ui/src/components/native-select.tsx
+  s_bfe1a8aa570d2a::t_dcb7e378437a8b 1-29,35-65
+  s_bfe1a8aa570d2a::t_10442e491d3b62 30-34
+tooling/portless.ts
+  s_bfe1a8aa570d2a::t_c1babba7eb49d8 60-65,68
+  s_bfe1a8aa570d2a::t_02922ae79b9a6d 19-26,53,59,77,95,99
+apps/docs/src/content/textarea.tsx
+  s_bfe1a8aa570d2a::t_e67d91e21969f7 1-66
+apps/docs/src/components/questionnaire-demo.tsx
+  s_bfe1a8aa570d2a::t_83db78c70b691d 1-95
+apps/weekly/src/public-response-questionnaire.tsx
+  s_bfe1a8aa570d2a::t_b375523cffd9c0 1-109
+apps/weekly/src/page-layout.tsx
+  s_bfe1a8aa570d2a::t_7c370f12ab9114 19
+  s_bfe1a8aa570d2a::t_ae4adf98611468 10-16,23-28,110,113,115
+  s_bfe1a8aa570d2a::t_8970830ece1bc8 7-9
+  s_bfe1a8aa570d2a::t_78e1c99db3a1e8 17-18
+  s_bfe1a8aa570d2a::t_64c0052621aea3 20-22
+  s_bfe1a8aa570d2a::t_a91368406cbdc3 29-31,107-109
+  s_bfe1a8aa570d2a::t_f84606ac870180 111-112
+  s_bfe1a8aa570d2a::t_c89aa630fdc1af 114
+  s_bfe1a8aa570d2a::t_980a2f0e985737 116-118
+vector.yaml
+  s_bfe1a8aa570d2a::t_02922ae79b9a6d 34
+  s_bfe1a8aa570d2a::t_7c370f12ab9114 30-33
+internal/vector/config/config.go
+  s_bfe1a8aa570d2a::t_02922ae79b9a6d 46
+apps/weekly/README.md
+  s_bfe1a8aa570d2a::t_02922ae79b9a6d 37
+  s_bfe1a8aa570d2a::t_7c370f12ab9114 1-3,50-52
+  s_bfe1a8aa570d2a::t_52d6dae3b4dfd2 21-22
+  s_bfe1a8aa570d2a::t_332adcc8beb715 4-6,18-20
+  s_bfe1a8aa570d2a::t_c8198649149ac5 23-25,34-36
+  s_bfe1a8aa570d2a::t_0a921e78235a26 38-40,47-49
+  s_bfe1a8aa570d2a::t_c084d2cbb7f00d 7-17,26-33,41-46
+packages/ui/src/components/questionnaire.tsx
+  s_bfe1a8aa570d2a::t_347d5bcd8c7660 1-4,6-125,130-325
+  s_bfe1a8aa570d2a::t_97aba63684fc06 5
+  s_bfe1a8aa570d2a::t_61515bb46a88cf 126-129
+packages/ui/src/components/field.tsx
+  s_bfe1a8aa570d2a::t_8c62d779b10df1 1-236
+apps/weekly/src/types.ts
+  s_bfe1a8aa570d2a::t_26a8bcd3d7ce7a 56,155-158
+  s_bfe1a8aa570d2a::t_3d490da08a39b3 4,9,14,18,21,24,32,35,37,39-40,43,47,54,62,69,74,76,81-82,85,89,91-92,95-97,99-100,102-110,126,129-130,141,161
+  s_bfe1a8aa570d2a::t_6d14283a8deca7 1-3
+  s_bfe1a8aa570d2a::t_fa31cc4b250d8d 5-8
+  s_bfe1a8aa570d2a::t_5842a9990b1a95 10-13
+  s_bfe1a8aa570d2a::t_f5459f37b8faff 15-17
+  s_bfe1a8aa570d2a::t_0b2b8487e447ae 19-20
+  s_bfe1a8aa570d2a::t_c9e3753a9272cd 22-23
+  s_bfe1a8aa570d2a::t_1efc7b673572ce 25-27,29-31
+  s_bfe1a8aa570d2a::t_7732a8b74f1860 33-34
+  s_bfe1a8aa570d2a::t_804a8fd3432422 36
+  s_bfe1a8aa570d2a::t_17923e7adf3d86 38
+  s_bfe1a8aa570d2a::t_b65b8622791b60 41-42
+  s_bfe1a8aa570d2a::t_32ae2ea8da1102 44-46
+  s_bfe1a8aa570d2a::t_7262df49d6c380 48-53
+  s_bfe1a8aa570d2a::t_e15e72cf5cdf33 55
+  s_bfe1a8aa570d2a::t_8eaef5e70ecdd7 57-61
+  s_bfe1a8aa570d2a::t_7a99dbd14396e1 63-68
+  s_bfe1a8aa570d2a::t_bc04d8dd7ce9bf 70-73
+  s_bfe1a8aa570d2a::t_855ecc6389eaae 75
+  s_bfe1a8aa570d2a::t_9cc8e6fd1eb6cd 77-80
+  s_bfe1a8aa570d2a::t_cf077ac94437ef 83-84
+  s_bfe1a8aa570d2a::t_34d2a4e4d6b773 86-88
+  s_bfe1a8aa570d2a::t_f40f8c9354ba62 90
+  s_bfe1a8aa570d2a::t_bb7bd9c113f68e 93-94
+  s_bfe1a8aa570d2a::t_4edc905808c181 98
+  s_bfe1a8aa570d2a::t_0031d1807fe2eb 101
+  s_bfe1a8aa570d2a::t_929b249b085071 111-113,123-125
+  s_bfe1a8aa570d2a::t_e8355cf3fbfc0a 127-128
+  s_bfe1a8aa570d2a::t_36b3299b331e71 131-133,138-140
+  s_bfe1a8aa570d2a::t_be4ab2b40a3bfc 142-144,152-154
+  s_bfe1a8aa570d2a::t_cd32147b95d29c 159-160
+apps/weekly/migrations/0002_option_answers.sql
+  s_bfe1a8aa570d2a::t_24e2fe1112c38d 1-132
+apps/docs/src/content/questionnaire.tsx
+  s_bfe1a8aa570d2a::t_97aba63684fc06 2-120
+  s_bfe1a8aa570d2a::t_83db78c70b691d 1
+apps/docs/src/content/sheet.tsx
+  s_bfe1a8aa570d2a::t_2c00c7f15ea5fb 1-30,32-72,74-84,86-101
+  s_bfe1a8aa570d2a::t_4f992899440964 31,73
+  s_bfe1a8aa570d2a::t_c73104678dc3fe 85
+apps/weekly/src/templates-page.tsx
+  s_bfe1a8aa570d2a::t_9d4655a04a0473 37,79-81,89,91-92,94,100,105-114,122-129,133,140-144,149-156,158-214,217-220,228-229,231-242,246-256,260-263,281,299,316-334,343-351,373,398-419
+  s_bfe1a8aa570d2a::t_c8e8cc43c71bbe 336-338,340-342
+  s_bfe1a8aa570d2a::t_d65581047566b0 31-35,47,311,339,422-455
+  s_bfe1a8aa570d2a::t_c73104678dc3fe 243-245,257-259,361-363
+  s_bfe1a8aa570d2a::t_536a04a44d33e3 13
+  s_bfe1a8aa570d2a::t_3fb716bb05ca22 1-12,14-30,36,50-51,54-76,85-88,90,93,95-99,101-104,115-121,130-132,134-139,145-148,157,215-216,221-227,230,264-280,282-298,300-310,312-315,335,352-360,364-372,374-397,420-421,456-464,468
+  s_bfe1a8aa570d2a::t_34f19e0f63a7ed 38-40,44-46
+  s_bfe1a8aa570d2a::t_c3ee298e744e56 48-49
+  s_bfe1a8aa570d2a::t_13ae71df419bef 52-53
+  s_bfe1a8aa570d2a::t_21fe5df7d26b2a 77-78
+  s_bfe1a8aa570d2a::t_ac85d805606ae8 82-84
+  s_bfe1a8aa570d2a::t_1bbc7b923566f7 465-467
+  s_bfe1a8aa570d2a::t_3fada9b25d9818 41-43
+apps/weekly/wrangler.jsonc
+  s_bfe1a8aa570d2a::t_7c370f12ab9114 3-19,22-23
+  s_bfe1a8aa570d2a::t_dcf14991ad22f5 1-2
+  s_bfe1a8aa570d2a::t_4c7dff5dfda2e0 20-21
+  s_bfe1a8aa570d2a::t_9ffffb1c553b11 24
+apps/weekly/worker/index.ts
+  s_bfe1a8aa570d2a::t_26a8bcd3d7ce7a 7,552,845-849,1037-1440
+  s_bfe1a8aa570d2a::t_61515bb46a88cf 862
+  s_bfe1a8aa570d2a::t_536a04a44d33e3 254,280,310,647,668,680,712,855,886,923,966,984,1004-1006,1603,1625,1638,1776,1791,1798,1806,1843
+  s_bfe1a8aa570d2a::t_7c370f12ab9114 41
+  s_bfe1a8aa570d2a::t_a6211944c8389a 4,11,16,19,24,30,32-40,53,65,68,71,74,78,81,84,90-91,98-99,107,110,113,117,120,125,128,131,134,137,141,144,151-152,155,162-163,167,171,174,177,180,183,187-206,224,226,237,249,260-263,270-271,274,292,294,304,312,314,341,363,376,388-389,428-429,433-434,441,450,458,461-463,465,473,481,488,492,497,501,509,515,522,531-532,536,544,548,554,558,573,576-578,580,583,585-586,590,594,599,601,604-606,608,611,618,625,632-633,636-638,640,642,652-656,658,661-663,665,673,686-689,692-693,696,715,720,731-732,735,740,747,752,756,758-761,766,768,780,785,793-796,799-801,803,807-811,813,815-816,818,821-823,830-831,841,864-866,870,874-876,889,897-922,924-965,967-972,975-976,978-979,988-989,991-998,1000-1002,1008-1009,1012-1013,1016,1022,1025,1028,1032,1035,1441-1442,1444-1445,1449-1453,1456-1593,1598,1607,1613,1616,1629,1641,1645-1646,1649-1650,1660,1665,1672,1680,1683,1696,1701,1708,1714,1730,1743,1751,1758,1764,1778,1784,1797,1799,1805,1807,1811,1820,1828,1837,1844,1852,1857,1863,1867,1873,1877-1878
+  s_bfe1a8aa570d2a::t_1f5223995c6069 1-3
+  s_bfe1a8aa570d2a::t_15cc793e63885e 5-6
+  s_bfe1a8aa570d2a::t_069588945f4cc8 8-10
+  s_bfe1a8aa570d2a::t_a92fb043ab6ffa 12-15
+  s_bfe1a8aa570d2a::t_50254d8a8628f4 17-18
+  s_bfe1a8aa570d2a::t_cc0e5036271b47 20-23
+  s_bfe1a8aa570d2a::t_1dd4c9702b3459 25-29
+  s_bfe1a8aa570d2a::t_8d6b1e7e4e0358 31
+  s_bfe1a8aa570d2a::t_1a0b795c33d248 42-44,50-52
+  s_bfe1a8aa570d2a::t_5fddb6e48bccaa 54-56,62-64
+  s_bfe1a8aa570d2a::t_f4d53564cba304 66-67
+  s_bfe1a8aa570d2a::t_dbd9a07c37c2ef 69-70
+  s_bfe1a8aa570d2a::t_eeef1f5f4f7c44 72-73
+  s_bfe1a8aa570d2a::t_949ef86aa50f53 75-77
+  s_bfe1a8aa570d2a::t_d75a37c41aad4e 79-80
+  s_bfe1a8aa570d2a::t_73e722569fcb15 82-83
+  s_bfe1a8aa570d2a::t_57bf3a34c3de7d 85-89
+  s_bfe1a8aa570d2a::t_bce6ef707f2d57 92-97
+  s_bfe1a8aa570d2a::t_458a97de168a5e 100-102,104-106
+  s_bfe1a8aa570d2a::t_fb8e96cbd0ec02 108-109
+  s_bfe1a8aa570d2a::t_6b00db52438291 111-112
+  s_bfe1a8aa570d2a::t_f8c58ed4c0988c 114-116
+  s_bfe1a8aa570d2a::t_2ea5a56a4e9f30 118-119
+  s_bfe1a8aa570d2a::t_a926947b5f36a8 121-124
+  s_bfe1a8aa570d2a::t_107140e683bce2 126-127
+  s_bfe1a8aa570d2a::t_1d753b044fb978 129-130
+  s_bfe1a8aa570d2a::t_c6e6c1699ec0dd 132-133
+  s_bfe1a8aa570d2a::t_af8ae1a552b644 135-136
+  s_bfe1a8aa570d2a::t_a687ae4385300e 138-140
+  s_bfe1a8aa570d2a::t_e12d525c4c5cda 142-143
+  s_bfe1a8aa570d2a::t_b7f47df15ed903 145-150
+  s_bfe1a8aa570d2a::t_73a6eb3da21c46 153-154
+  s_bfe1a8aa570d2a::t_de2287d13302e2 156-161
+  s_bfe1a8aa570d2a::t_a689f906218b5c 164-166
+  s_bfe1a8aa570d2a::t_13fdadc44e6016 168-170
+  s_bfe1a8aa570d2a::t_623eb538c52d62 172-173
+  s_bfe1a8aa570d2a::t_69dc38e17f21a9 175-176
+  s_bfe1a8aa570d2a::t_1b311c2094a128 178-179
+  s_bfe1a8aa570d2a::t_009f6b617c3b10 181-182
+  s_bfe1a8aa570d2a::t_953548e1fe4173 184-186
+  s_bfe1a8aa570d2a::t_02cb8824697e49 207-209,221-223
+  s_bfe1a8aa570d2a::t_1527f9bdb99a6d 225
+  s_bfe1a8aa570d2a::t_2cf11d49d7eefd 227-229,234-236
+  s_bfe1a8aa570d2a::t_06dc759ac94bb4 238-240,246-248
+  s_bfe1a8aa570d2a::t_ec45a4ce5174c1 250-253
+  s_bfe1a8aa570d2a::t_33037c53884995 255-259
+  s_bfe1a8aa570d2a::t_60a8d3f906e8a6 264-269
+  s_bfe1a8aa570d2a::t_2eb7176e021b12 272-273
+  s_bfe1a8aa570d2a::t_9b506ff55e2af6 275-279
+  s_bfe1a8aa570d2a::t_de02e7c1899bf8 281-283,289-291
+  s_bfe1a8aa570d2a::t_30f215b9c04662 293
+  s_bfe1a8aa570d2a::t_746bad74de5835 295-297,301-303
+  s_bfe1a8aa570d2a::t_5dfa5f1d9d17cd 305-309
+  s_bfe1a8aa570d2a::t_bab7d037eb0c40 311
+  s_bfe1a8aa570d2a::t_d5b83bb43d3d91 313
+  s_bfe1a8aa570d2a::t_43d499f42fdb65 315-317,338-340
+  s_bfe1a8aa570d2a::t_65182b5a68c767 342-344,360-362
+  s_bfe1a8aa570d2a::t_5909404c1f064e 364-366,373-375
+  s_bfe1a8aa570d2a::t_18ca4d3a53bdee 377-379,385-387
+  s_bfe1a8aa570d2a::t_24d4914fbbc383 390-392,425-427
+  s_bfe1a8aa570d2a::t_04b61715d036ca 430-432
+  s_bfe1a8aa570d2a::t_42c4291476a0c0 435-440
+  s_bfe1a8aa570d2a::t_86db95f4bef88e 442-444,447-449
+  s_bfe1a8aa570d2a::t_3d5a7ecf0d9fdb 451-453,455-457
+  s_bfe1a8aa570d2a::t_fa587ed6474743 459-460
+  s_bfe1a8aa570d2a::t_3fa3059f931ab7 464
+  s_bfe1a8aa570d2a::t_760bc7845fbae9 466-468,470-472
+  s_bfe1a8aa570d2a::t_acd4336962d69b 474-476,478-480
+  s_bfe1a8aa570d2a::t_3fafb6ca490110 482-487
+  s_bfe1a8aa570d2a::t_831edb21d2ea9f 489-491
+  s_bfe1a8aa570d2a::t_8bf38515ba5f3c 493-496
+  s_bfe1a8aa570d2a::t_71ffe342d0a7b4 498-500
+  s_bfe1a8aa570d2a::t_21d784398e0805 502-504,506-508
+  s_bfe1a8aa570d2a::t_8cf917468c6c13 510-514
+  s_bfe1a8aa570d2a::t_ed70fe3d57d838 516-521
+  s_bfe1a8aa570d2a::t_015e956717ca2c 523-525,528-530
+  s_bfe1a8aa570d2a::t_6937e06feb962a 533-535
+  s_bfe1a8aa570d2a::t_f6250f31b9df6b 537-539,541-543
+  s_bfe1a8aa570d2a::t_399f79aa6e0fb1 545-547
+  s_bfe1a8aa570d2a::t_5a400f01a7b7a4 549-551
+  s_bfe1a8aa570d2a::t_35c7f7f7b1e70e 553
+  s_bfe1a8aa570d2a::t_a5bf3b0f02f17a 555-557
+  s_bfe1a8aa570d2a::t_86304c2e9e53a1 559-561,570-572
+  s_bfe1a8aa570d2a::t_677dbd754d7f83 574-575
+  s_bfe1a8aa570d2a::t_544bad002911b8 579
+  s_bfe1a8aa570d2a::t_66637b7d1e65d6 581-582
+  s_bfe1a8aa570d2a::t_c0a926eea1ec65 584
+  s_bfe1a8aa570d2a::t_f647149fbbca94 587-589
+  s_bfe1a8aa570d2a::t_e89ab169424564 591-593
+  s_bfe1a8aa570d2a::t_6017d1b676a852 595-598
+  s_bfe1a8aa570d2a::t_6be894f3b532a3 600
+  s_bfe1a8aa570d2a::t_95819e97d71589 602-603
+  s_bfe1a8aa570d2a::t_2257ccf870284d 607
+  s_bfe1a8aa570d2a::t_f57716674db768 609-610
+  s_bfe1a8aa570d2a::t_0bbd75b596bfae 612-617
+  s_bfe1a8aa570d2a::t_b45271d8951425 619-624
+  s_bfe1a8aa570d2a::t_e190c6ba1f45be 626-631
+  s_bfe1a8aa570d2a::t_a0393ff22f062e 634-635
+  s_bfe1a8aa570d2a::t_743c0bada5e789 639
+  s_bfe1a8aa570d2a::t_914707c8a7f21e 641
+  s_bfe1a8aa570d2a::t_867ea63d4f99c3 643-646
+  s_bfe1a8aa570d2a::t_b7abb81052398e 648-651
+  s_bfe1a8aa570d2a::t_9b729b34ac0250 657
+  s_bfe1a8aa570d2a::t_de9932374ce618 659-660
+  s_bfe1a8aa570d2a::t_568da6a6bd3d5c 664
+  s_bfe1a8aa570d2a::t_ad1bc52ab3b498 666-667
+  s_bfe1a8aa570d2a::t_edfa96a52c8915 669-672
+  s_bfe1a8aa570d2a::t_9a24f593588029 674-679
+  s_bfe1a8aa570d2a::t_4eb396324f5cad 681-685
+  s_bfe1a8aa570d2a::t_4e36ca47a12fa7 690-691
+  s_bfe1a8aa570d2a::t_97ff806e57cbb2 694-695
+  s_bfe1a8aa570d2a::t_63d3baf159fc56 697-699,709-711
+  s_bfe1a8aa570d2a::t_f7e3632e2af750 713-714
+  s_bfe1a8aa570d2a::t_46f238383d6ff2 716-719
+  s_bfe1a8aa570d2a::t_05d49be20ed555 721-723,728-730
+  s_bfe1a8aa570d2a::t_c9a4f24c5b2b5b 733-734
+  s_bfe1a8aa570d2a::t_35947b19f613f5 736-739
+  s_bfe1a8aa570d2a::t_fe3c939ed28c3b 741-746
+  s_bfe1a8aa570d2a::t_8493208cd673d2 748-751
+  s_bfe1a8aa570d2a::t_0fe97d359f48e7 753-755
+  s_bfe1a8aa570d2a::t_20b0248c6f78ed 757
+  s_bfe1a8aa570d2a::t_121ab6b6bb11b7 762-765
+  s_bfe1a8aa570d2a::t_29e4b1ef8051ee 767
+  s_bfe1a8aa570d2a::t_b7fa2c55d8d3a0 769-771,777-779
+  s_bfe1a8aa570d2a::t_e9000895a21c7a 781-784
+  s_bfe1a8aa570d2a::t_3dc7b95bc8ac66 786-788,790-792
+  s_bfe1a8aa570d2a::t_4cc47cdcc4dc6f 797-798
+  s_bfe1a8aa570d2a::t_4a044df8d081f4 802
+  s_bfe1a8aa570d2a::t_927545ddc7752a 804-806
+  s_bfe1a8aa570d2a::t_e01ff0c36a1680 812
+  s_bfe1a8aa570d2a::t_fd6d65d1d0e374 814
+  s_bfe1a8aa570d2a::t_2ab340ba0e7de3 817
+  s_bfe1a8aa570d2a::t_3c9ac93a5bd222 819-820
+  s_bfe1a8aa570d2a::t_988ac99fdcf9d3 824-829
+  s_bfe1a8aa570d2a::t_5034c43689e1c6 832-834,838-840
+  s_bfe1a8aa570d2a::t_cb790f329d70fd 842-844
+  s_bfe1a8aa570d2a::t_5881306961c512 850-854
+  s_bfe1a8aa570d2a::t_c88870bcd6069b 856-861
+  s_bfe1a8aa570d2a::t_1dfae4822e2fb6 863
+  s_bfe1a8aa570d2a::t_773028763f2a4e 867-869
+  s_bfe1a8aa570d2a::t_d9d98c5dbc4708 871-873
+  s_bfe1a8aa570d2a::t_39f7fddbb2b296 877-879,883-885
+  s_bfe1a8aa570d2a::t_de3dc33f969dc8 887-888
+  s_bfe1a8aa570d2a::t_727258a7ee0be0 890-892,894-896
+  s_bfe1a8aa570d2a::t_a6ce17c6abb420 973-974
+  s_bfe1a8aa570d2a::t_addb6b1161ff2a 977
+  s_bfe1a8aa570d2a::t_feae0243e29f9e 980-983
+  s_bfe1a8aa570d2a::t_eed3ec66c1ddc9 985-987
+  s_bfe1a8aa570d2a::t_401ac8957d98c9 990
+  s_bfe1a8aa570d2a::t_55c87505aee366 999
+  s_bfe1a8aa570d2a::t_6b2735d620ace0 1003
+  s_bfe1a8aa570d2a::t_a1f7546c7827d1 1007
+  s_bfe1a8aa570d2a::t_4ba8dc65db52fe 1010-1011
+  s_bfe1a8aa570d2a::t_3da3fcb56f967f 1014-1015
+  s_bfe1a8aa570d2a::t_772056b97ac17c 1017-1021
+  s_bfe1a8aa570d2a::t_e46f94e06e67ee 1023-1024
+  s_bfe1a8aa570d2a::t_e0acf440e320bb 1026-1027
+  s_bfe1a8aa570d2a::t_56232a1c5a9689 1029-1031
+  s_bfe1a8aa570d2a::t_a5b1f4d16f0f59 1033-1034
+  s_bfe1a8aa570d2a::t_c066c779278607 1036
+  s_bfe1a8aa570d2a::t_096f3514faa221 1443
+  s_bfe1a8aa570d2a::t_5246030f873df4 1446-1448
+  s_bfe1a8aa570d2a::t_e7d7772dced37c 1454-1455
+  s_bfe1a8aa570d2a::t_959e2ffd630609 1594-1597
+  s_bfe1a8aa570d2a::t_20189b5168d0a1 1599-1602
+  s_bfe1a8aa570d2a::t_1eb9b22ed82c72 1604-1606
+  s_bfe1a8aa570d2a::t_4786ffc7af2c8e 1608-1612
+  s_bfe1a8aa570d2a::t_d00e5697e17644 1614-1615
+  s_bfe1a8aa570d2a::t_60bc3213a2cff2 1617-1619,1622-1624
+  s_bfe1a8aa570d2a::t_9f3d9f2e6a8e82 1626-1628
+  s_bfe1a8aa570d2a::t_52c05171bd43fd 1630-1632,1635-1637
+  s_bfe1a8aa570d2a::t_0924f181c76133 1639-1640
+  s_bfe1a8aa570d2a::t_20a8360c3d0f29 1642-1644
+  s_bfe1a8aa570d2a::t_1d5d8366983e41 1647-1648
+  s_bfe1a8aa570d2a::t_d6b2c4f19f3907 1651-1653,1657-1659
+  s_bfe1a8aa570d2a::t_2acb35417e3d86 1661-1664
+  s_bfe1a8aa570d2a::t_9bd374457a306a 1666-1671
+  s_bfe1a8aa570d2a::t_c6b7a070910a85 1673-1675,1677-1679
+  s_bfe1a8aa570d2a::t_547b7ee71d39b4 1681-1682
+  s_bfe1a8aa570d2a::t_a0eabf49ad559b 1684-1686,1693-1695
+  s_bfe1a8aa570d2a::t_25227945b9c25f 1697-1700
+  s_bfe1a8aa570d2a::t_93f5a9ef2f6bb5 1702-1707
+  s_bfe1a8aa570d2a::t_52ca1f8b018da5 1709-1713
+  s_bfe1a8aa570d2a::t_245624fac97e95 1715-1717,1727-1729
+  s_bfe1a8aa570d2a::t_f99ec9f8ec3f1b 1731-1733,1740-1742
+  s_bfe1a8aa570d2a::t_27f6825f30b1ad 1744-1746,1748-1750
+  s_bfe1a8aa570d2a::t_02c04e1ba2b39e 1752-1757
+  s_bfe1a8aa570d2a::t_cac5a8b45705d4 1759-1763
+  s_bfe1a8aa570d2a::t_ccb44de68c656e 1765-1767,1773-1775
+  s_bfe1a8aa570d2a::t_71308e007d87c5 1777
+  s_bfe1a8aa570d2a::t_7c9573a9dcb728 1779-1783
+  s_bfe1a8aa570d2a::t_5ace9c85338ea0 1785-1790
+  s_bfe1a8aa570d2a::t_e3d198a498e838 1792-1796
+  s_bfe1a8aa570d2a::t_7ab67f335b5365 1800-1804
+  s_bfe1a8aa570d2a::t_3cc9edb5a474bf 1808-1810
+  s_bfe1a8aa570d2a::t_daa62a29f159b2 1812-1814,1817-1819
+  s_bfe1a8aa570d2a::t_5b5d7fff5adc1f 1821-1823,1825-1827
+  s_bfe1a8aa570d2a::t_df03de6235d11f 1829-1831,1834-1836
+  s_bfe1a8aa570d2a::t_568cece2bc9539 1838-1842
+  s_bfe1a8aa570d2a::t_d956923812a0af 1845-1847,1849-1851
+  s_bfe1a8aa570d2a::t_09cb263c89290a 1853-1856
+  s_bfe1a8aa570d2a::t_528fc1fd0f0e67 1858-1862
+  s_bfe1a8aa570d2a::t_f48ad95b6750e4 1864-1866
+  s_bfe1a8aa570d2a::t_ed916382d12548 1868-1872
+  s_bfe1a8aa570d2a::t_42a0b82f9ed28e 1874-1876
+apps/weekly/src/questionnaire-builder.tsx
+  s_bfe1a8aa570d2a::t_f01bef63f9cc70 1-28,30-39,41-51,53-208
+  s_bfe1a8aa570d2a::t_b9bd2b0dad554a 29,40,52
+packages/ui/src/components/textarea.tsx
+  s_bfe1a8aa570d2a::t_6a16bcae1e9c50 1-18
+apps/docs/src/content/separator.tsx
+  s_bfe1a8aa570d2a::t_59541049b9606b 1-46
+apps/weekly/src/public-class-view.tsx
+  s_bfe1a8aa570d2a::t_77fd01243248ba 183,185-191
+  s_bfe1a8aa570d2a::t_02cfd1ba43028c 18-21,90-102
+  s_bfe1a8aa570d2a::t_5929b8b75ec4ef 184
+  s_bfe1a8aa570d2a::t_7c370f12ab9114 62,127
+  s_bfe1a8aa570d2a::t_8c00e806d733d7 15-17
+  s_bfe1a8aa570d2a::t_93edada5ecc0a7 22-24,59-61
+  s_bfe1a8aa570d2a::t_982fd5ca125350 63-65,87-89
+  s_bfe1a8aa570d2a::t_7ce5654fa3b16d 103-105,124-126
+  s_bfe1a8aa570d2a::t_ce5681def6516f 128-130,180-182
+  s_bfe1a8aa570d2a::t_299b948cc4a770 192-194
+packages/ui/package.json
+  s_bfe1a8aa570d2a::t_752a759eda5534 15
+apps/weekly/UI_AUDIT.md
+  s_bfe1a8aa570d2a::t_7c370f12ab9114 1-548
+  s_bfe1a8aa570d2a::t_2c572a0fb6eca0 549-551
+apps/weekly/src/new-question.ts
+  s_bfe1a8aa570d2a::t_04de7971ad2643 1-13
+process-compose.yaml
+  s_bfe1a8aa570d2a::t_2995f6ecdec90c 6,15,24,32-33
+  s_bfe1a8aa570d2a::t_59541049b9606b 30,35-38
+  s_bfe1a8aa570d2a::t_7c370f12ab9114 31,34
+apps/weekly/src/account-page.tsx
+  s_bfe1a8aa570d2a::t_7c370f12ab9114 47
+  s_bfe1a8aa570d2a::t_54eb06507feb4e 88-92
+  s_bfe1a8aa570d2a::t_6c95c3a0394d53 44-46
+  s_bfe1a8aa570d2a::t_a8ab45752103cf 48-50,85-87
+  s_bfe1a8aa570d2a::t_61856e58fe2f0c 93-95
+.env.example
+  s_bfe1a8aa570d2a::t_7c370f12ab9114 1-3
+internal/vector/runtime/runtime.go
+  s_bfe1a8aa570d2a::t_02922ae79b9a6d 158-164,175,263,265,274,281,308-313
+  s_bfe1a8aa570d2a::t_2995f6ecdec90c 260-262
+  s_bfe1a8aa570d2a::t_e283e714d2d131 314
+apps/weekly/src/router.tsx
+  s_bfe1a8aa570d2a::t_7c370f12ab9114 57
+  s_bfe1a8aa570d2a::t_4192e42d744a0f 245
+  s_bfe1a8aa570d2a::t_12b5457bc78e48 3,16,30,37-42,60-61,75,85,108,126,137,153,179,182,185,188,191,194,203,205-206,212,218,227,240,246,255,264,277,283,288,290-291,294,297,299-374,391,396-397
+  s_bfe1a8aa570d2a::t_5ccb1eb7eb4fd4 1-2
+  s_bfe1a8aa570d2a::t_abcfce9559fb93 4-6,13-15
+  s_bfe1a8aa570d2a::t_8a46d523335b18 17-19,27-29
+  s_bfe1a8aa570d2a::t_43c44be968cdbe 31-36
+  s_bfe1a8aa570d2a::t_c3b6bfc01c535b 43-45,54-56
+  s_bfe1a8aa570d2a::t_2f9496ba4da5dd 58-59
+  s_bfe1a8aa570d2a::t_457051d3b1338d 62-64,72-74
+  s_bfe1a8aa570d2a::t_4f8f7e5006dbbc 76-78,82-84
+  s_bfe1a8aa570d2a::t_d2720b04a3b111 86-88,105-107
+  s_bfe1a8aa570d2a::t_825498ef92e00b 109-111,123-125
+  s_bfe1a8aa570d2a::t_8ddf2eca50397e 127-129,134-136
+  s_bfe1a8aa570d2a::t_95096d13f027df 138-140,150-152
+  s_bfe1a8aa570d2a::t_9339c94893b036 154-156,176-178
+  s_bfe1a8aa570d2a::t_1e6a3af8f99111 180-181
+  s_bfe1a8aa570d2a::t_1d215ddb1311cd 183-184
+  s_bfe1a8aa570d2a::t_bcd9d6f858e622 186-187
+  s_bfe1a8aa570d2a::t_3cf6fdd02e362e 189-190
+  s_bfe1a8aa570d2a::t_d146e9a0a11e91 192-193
+  s_bfe1a8aa570d2a::t_5eaf1d45077817 195-197,200-202
+  s_bfe1a8aa570d2a::t_c7a220fe1c7ef1 204
+  s_bfe1a8aa570d2a::t_48f0597bce84a7 207-211
+  s_bfe1a8aa570d2a::t_a9f71c03b62a1f 213-217
+  s_bfe1a8aa570d2a::t_2a638995b12538 219-221,224-226
+  s_bfe1a8aa570d2a::t_c9bcbe4883cce5 228-230,237-239
+  s_bfe1a8aa570d2a::t_4c622cebe56137 241-244
+  s_bfe1a8aa570d2a::t_1bef448e730947 247-249,252-254
+  s_bfe1a8aa570d2a::t_89e01f442a799d 256-258,261-263
+  s_bfe1a8aa570d2a::t_91be9deaaf7902 265-267,274-276
+  s_bfe1a8aa570d2a::t_e2f0f5632c613f 278-282
+  s_bfe1a8aa570d2a::t_e325d7bf87d4dd 284-287
+  s_bfe1a8aa570d2a::t_9c15838da4443d 289
+  s_bfe1a8aa570d2a::t_76088575237167 292-293
+  s_bfe1a8aa570d2a::t_fb78d7a74c80ba 295-296
+  s_bfe1a8aa570d2a::t_342e76221388ee 298
+  s_bfe1a8aa570d2a::t_154c198b0636cf 375-377,388-390
+  s_bfe1a8aa570d2a::t_16ab75b88e2864 392-395
+  s_bfe1a8aa570d2a::t_f5fc1793df02d1 398-400
+apps/weekly/src/api.ts
+  s_bfe1a8aa570d2a::t_7c370f12ab9114 27
+  s_bfe1a8aa570d2a::t_8a756353f963c8 24-26
+  s_bfe1a8aa570d2a::t_adabfe99e69017 28-30
+apps/weekly/src/app-shell.tsx
+  s_bfe1a8aa570d2a::t_7c370f12ab9114 155-204
+  s_bfe1a8aa570d2a::t_bc0586b75d00ef 152-154
+  s_bfe1a8aa570d2a::t_d81a870e9dcbc7 205-207
+apps/weekly/migrations/0001_initial.sql
+  s_bfe1a8aa570d2a::t_24e2fe1112c38d 91-167
+  s_bfe1a8aa570d2a::t_e9782f29094dac 88-90
+  s_bfe1a8aa570d2a::t_e1706d5a4a0694 168-170
+tooling/services.ts
+  s_bfe1a8aa570d2a::t_7c370f12ab9114 33
+  s_bfe1a8aa570d2a::t_a3911259eb1fd1 111-134,229,249
+  s_bfe1a8aa570d2a::t_e8f68235d7f836 44-46
+  s_bfe1a8aa570d2a::t_2995f6ecdec90c 8,22-23,65,84,145-148,152,165,215
+  s_bfe1a8aa570d2a::t_8ff7414cdc7102 194
+  s_bfe1a8aa570d2a::t_02922ae79b9a6d 5-7,9-10,17-20,144,150,210
+  s_bfe1a8aa570d2a::t_7ab8aa951568c4 107-110,230-235
+  s_bfe1a8aa570d2a::t_4d61e7d92a1185 250
+apps/weekly/src/auth-screen.tsx
+  s_bfe1a8aa570d2a::t_7c370f12ab9114 69
+  s_bfe1a8aa570d2a::t_5945cea92d5dba 66-68
+  s_bfe1a8aa570d2a::t_129be534f460df 70-72
+apps/weekly/src/points-page.tsx
+  s_bfe1a8aa570d2a::t_91f8e097e9c666 1-174
+bun.lock
+  s_bfe1a8aa570d2a::t_865c6ca6ec566a 93-122,129,218-237,242-295,334-387,408-413,448-449,464-465,468-469,500-513,570-571,596-597,652-653,714-715,722-723,890-891,992-993,1052-1054,1132-1135,1142-1143,1186-1187,1228-1229,1268-1271,1274-1275,1286-1289,1298-1299,1330-1331,1368-1369,1372-1373,1380-1381
+packages/ui/src/components/separator.tsx
+  s_bfe1a8aa570d2a::t_1ac86551c0e8d3 1-25
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.20",
+  "base_commit_sha": "2cd6a809f6d9d7931d2776cc65db0239024cbfac",
+  "prompts": {},
+  "sessions": {
+    "s_bfe1a8aa570d2a": {
+      "agent_id": {
+        "tool": "opencode",
+        "id": "ses_fcfa25722ffe8MhZIdy6eH9W32",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Brandon Mathis <brandon@imathis.com>"
+    }
+  }
+}
