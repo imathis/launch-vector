@@ -1,0 +1,79 @@
+apps/weekly/src/app-shell.tsx
+  s_bfe1a8aa570d2a::t_2c196f86290365 98-111,153,158-159,161-162,310-312
+  s_bfe1a8aa570d2a::t_21436deaa3c839 112-152,160
+apps/weekly/migrations/0003_recoverable_deletion.sql
+  s_cdef03592b10ca::t_7f0ee31e74668c 1-16
+apps/weekly/worker/index.ts
+  s_cdef03592b10ca::t_320c5cb2d2e7c3 188-189
+  s_cdef03592b10ca::t_b80b25ad67410e 680,808,901-902,909-910,916,938,1042-1068,1123,1286,1298,1347-1349,1544,1547-1548
+  s_cdef03592b10ca::t_9a0cf32fbe0e2b 350-351
+  s_cdef03592b10ca::t_d961a7479d55ba 1069-1084
+  s_cdef03592b10ca::t_f95c4d3c135a0a 392,399,410-411,414,425,441,444-445,458,461-463,492,501,566-568,635-679,784-785,788-807
+  s_bfe1a8aa570d2a::t_5e4ce0da2fe23b 59-60
+  s_cdef03592b10ca::t_7f0ee31e74668c 16,135-143,152-160,217-222
+  s_bfe1a8aa570d2a::t_15d40c51619a9b 315-319,321-335
+  s_bfe1a8aa570d2a::t_21436deaa3c839 786-787,2015
+  s_cdef03592b10ca::t_ac28ae54a43f20 681,737,809,2016-2029,2034-2050,2056,2117-2119,2139,2141-2142
+  s_cdef03592b10ca::t_2b82039d9b09d8 682
+  s_cdef03592b10ca::t_d8c6adae0c55f8 810
+apps/weekly/src/survey-pages.tsx
+  s_bfe1a8aa570d2a::t_21436deaa3c839 141-144,178-180,185-186,201-202
+  s_bfe1a8aa570d2a::t_ab0eb5a64370af 844
+  s_bfe1a8aa570d2a::t_5a42ce85d9e451 40,71,75,81,128,145-167,182-184,189,210-262
+  s_bfe1a8aa570d2a::t_3935bb1dd343ee 263-265
+apps/weekly/src/class-pages.tsx
+  s_bfe1a8aa570d2a::t_a0744717f8e09f 895-897
+  s_bfe1a8aa570d2a::t_21436deaa3c839 124-126,131-132,163-164
+  s_bfe1a8aa570d2a::t_758a49071394c2 25,30,55-59,73-76,81-85,98-122,128-130,135,147,157-158,182-204
+  s_bfe1a8aa570d2a::t_5010776923ffa4 861-862,871-888,898-927,1005-1022,1025-1034
+apps/weekly/src/teacher-pages.tsx
+  s_bfe1a8aa570d2a::t_21436deaa3c839 95-97,124-125,161
+  s_bfe1a8aa570d2a::t_0275a9058d6ecb 156,159-160,173-190,200-228,329-363,367-378
+  s_bfe1a8aa570d2a::t_6581d936cfb3ed 16,19-23,31,35-39,46-50,56-60,71-92,98-102,105-120,122-123,126-137
+apps/weekly/README.md
+  s_bfe1a8aa570d2a::t_81047cb35d2822 69,80
+  s_cdef03592b10ca::t_7f0ee31e74668c 11-13,15-17,27-29,63-68
+  s_bfe1a8aa570d2a::t_aedd8ada0b0d56 70-79,83-89
+  s_bfe1a8aa570d2a::t_e10fea65c9ac2f 81-82,90-91
+apps/weekly/src/public-class-view.tsx
+  s_bfe1a8aa570d2a::t_d172777636efb4 10,110,121
+  s_bfe1a8aa570d2a::t_21436deaa3c839 31-33,135,207,294
+apps/weekly/src/queries.ts
+  s_bfe1a8aa570d2a::t_68eeb4e4b7286a 29-37,39,44
+apps/weekly/migrations/0004_single_admin.sql
+  s_bfe1a8aa570d2a::t_ae53fcaac6dea4 2
+  s_bfe1a8aa570d2a::t_2150c527abddd9 1
+apps/weekly/src/router.tsx
+  s_bfe1a8aa570d2a::t_d63c12bd70a239 185-188,249-251,253,389-392
+  s_bfe1a8aa570d2a::t_68eeb4e4b7286a 189-190,257-264,393-394
+apps/weekly/wrangler.jsonc
+  s_bfe1a8aa570d2a::t_81047cb35d2822 14
+  s_bfe1a8aa570d2a::t_d48a3f73b2a4be 22
+  s_bfe1a8aa570d2a::t_aedd8ada0b0d56 6-7
+apps/weekly/src/types.ts
+  s_bfe1a8aa570d2a::t_68eeb4e4b7286a 18,33,85
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.20",
+  "base_commit_sha": "e1fd821c6a9e0812ca1535661a12d7e14c0e9e02",
+  "prompts": {},
+  "sessions": {
+    "s_bfe1a8aa570d2a": {
+      "agent_id": {
+        "tool": "opencode",
+        "id": "ses_fcfa25722ffe8MhZIdy6eH9W32",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Brandon Mathis <brandon@imathis.com>"
+    },
+    "s_cdef03592b10ca": {
+      "agent_id": {
+        "tool": "opencode",
+        "id": "ses_f7ebb8160ffeMHmCrdkWUEgiet",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Brandon Mathis <brandon@imathis.com>"
+    }
+  }
+}
