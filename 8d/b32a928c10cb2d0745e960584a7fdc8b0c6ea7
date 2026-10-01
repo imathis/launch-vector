@@ -1,0 +1,188 @@
+README.md
+  s_8196376e188964::t_91688b5b867375 1,3-6,8,10-16,18-19,21,24-28,31-34,36-38,40,43-48,51-52,54,57-62,65,67,69,72-73,76-80,82,84-85,87-89,99-100
+  s_8196376e188964::t_ec1ce089e63b1b 94-96,98
+  s_8196376e188964::t_7373158319fd18 92-93
+skills/vector-add-component/SKILL.md
+  s_8196376e188964::t_70042a113b359f 1-87
+internal/vector/services/compose.go
+  s_8196376e188964::t_1571583a782cf6 39,43-44,46,50,52,73-74
+  s_8196376e188964::t_ff63a72c0a88de 1-38,40-42,45,47-49,51,53-72,75-120
+scripts/release.sh
+  s_8196376e188964::t_e63fb003deb2d3 1-38
+packages/lab/LICENSE
+  s_8196376e188964::t_328bbac8c50392 1-21
+internal/vector/services/services_test.go
+  s_8196376e188964::t_b178154ed0042d 1-17,19-20,22-26,28-38,40-41,46-59,61-63,65-67,69-88,91,97-100,102-119
+  s_8196376e188964::t_8a3655a159eba0 89-90,92-96
+  s_8196376e188964::t_1571583a782cf6 18,21,27,39,42-45,60,64,68,101
+packages/lab/README.md
+  s_8196376e188964::t_fa1141c8b412f7 1-17
+starter/apps/docs/package.json
+  s_8196376e188964::t_97ee46445da050 1-38
+Justfile
+  s_8196376e188964::t_911db8431cf8c9 1,3,6,8-13,15,17,19,21,23,25-27,29-31,38-39,42,45-50,52,57-59,62-66
+starter/apps/lab/src/main.tsx
+  s_8196376e188964::t_45b3506149bed1 1-12
+starter/.gitignore
+  s_8196376e188964::t_6b21e8fa403a6d 1-37
+cmd/vector/main.go
+  s_8196376e188964::t_fe03737f286668 6,10-11,21-22,26-27,41-44,46-60,68-70,75,77-79,89-97,102,140-167,250-258,260,264-266,280-284
+internal/vector/workspace/workspace.go
+  s_8196376e188964::t_a89e9d82d5f155 1-168
+embed_test.go
+  s_8196376e188964::t_ee171e2526d9ec 1-76
+.goreleaser.yaml
+  s_8196376e188964::t_492bfc19ea6456 1-28
+AGENTS.md
+  s_8196376e188964::t_bdd38af686733c 1-15,18,22-27
+internal/vector/managed/managed.go
+  s_8196376e188964::t_e80eb97dd6a8c3 1-12,14-137,139-165,167-259
+  s_8196376e188964::t_924d539bdfcbb4 13,138,166
+CLAUDE.md
+  s_8196376e188964::t_fa1141c8b412f7 1
+starter/apps/lab/src/fixtures/welcome/index.tsx
+  s_8196376e188964::t_45b3506149bed1 1-59
+internal/vector/runtime/runtime_test.go
+  s_8196376e188964::t_479484333244f6 5,73,76,116-127
+  s_8196376e188964::t_1571583a782cf6 84,86,89,94,96,99,106,109,112
+  s_8196376e188964::t_4e1b7c3963940d 128
+internal/vector/project/project.go
+  s_8196376e188964::t_81a79d7678571b 4-5,10,15-24,62-69,71-103,105
+starter/apps/lab/src/experiments/_template/index.tsx
+  s_8196376e188964::t_45b3506149bed1 1-30
+agents/AGENTS.md
+  s_8196376e188964::t_3f2107923c3f1a 1-14
+internal/vector/setup/setup.go
+  s_8196376e188964::t_a98d16561dfd16 1-114
+packages/lab/AGENTS.md
+  s_8196376e188964::t_4e42cf04a14f16 3-5,8-9,12-14
+internal/vector/workspace/workspace_test.go
+  s_8196376e188964::t_b7fc9a3c8b366c 45
+  s_8196376e188964::t_c1cbef74ad0685 51
+  s_8196376e188964::t_321efdfc91bf2d 1-44,46-50,52-167
+package.json
+  s_8196376e188964::t_fa1141c8b412f7 2-3,5,10,23-25
+starter/apps/lab/CLAUDE.md
+  s_8196376e188964::t_6c0cc33af183e7 1
+starter/AGENTS.md
+  s_8196376e188964::t_6b21e8fa403a6d 1-9
+internal/vector/selfupdate/selfupdate_test.go
+  s_8196376e188964::t_28a350b3084683 1-171
+LICENSE
+  s_8196376e188964::t_328bbac8c50392 1-21
+internal/vector/config/config_test.go
+  s_8196376e188964::t_6497eb1a87b1c9 6-7,11-12,17-18,20-21,23-24,27-28,49-50,52-54,57-65,69-73,75-77,82-83,85-86,88-90,92-95,97-100,102-105,107-115,117-122
+  s_8196376e188964::t_414c17e83c0e22 22,25-26,35-39,51,66-68,74,96,106,116,123-134
+internal/starter/pack/main.go
+  s_8196376e188964::t_efca5d5f9e1ef4 1-42
+starter/apps/lab/src/lab.css
+  s_8196376e188964::t_45b3506149bed1 1-3
+  s_8196376e188964::t_a23eef5b6581e5 4-6
+starter/apps/lab/README.md
+  s_8196376e188964::t_4e42cf04a14f16 1-103
+starter/vector.yaml
+  s_8196376e188964::t_b7fc9a3c8b366c 4,11-13
+  s_8196376e188964::t_6b21e8fa403a6d 1-3,5-10,14-28
+.github/workflows/ci.yml
+  s_8196376e188964::t_492bfc19ea6456 1-22
+starter/package.json
+  s_8196376e188964::t_6b21e8fa403a6d 1-26
+starter/apps/web/package.json
+  s_8196376e188964::t_97ee46445da050 1-34
+internal/vector/workspace/dependencies.go
+  s_8196376e188964::t_98bb0931c92b8d 1-53
+.github/workflows/release.yml
+  s_8196376e188964::t_492bfc19ea6456 1-8,10-35,38-39
+  s_8196376e188964::t_7373158319fd18 9,36-37,40-46
+.prettierrc
+  s_8196376e188964::t_fa1141c8b412f7 9
+install.sh
+  s_8196376e188964::t_32092cff2105df 1-83
+starter/apps/docs/README.md
+  s_8196376e188964::t_4e42cf04a14f16 1-13
+internal/vector/runtime/runtime.go
+  s_8196376e188964::t_c714af186d991a 157-160,167,170-172,185,276,278-279,287,289
+  s_8196376e188964::t_4d45af5c09cd74 61-62,64,71-77,270-271,273-275,277,283,293,298,308-312,328-330
+internal/vector/managed/managed_test.go
+  s_8196376e188964::t_8687da2d1ef3dd 1-160
+starter/.prettierrc
+  s_8196376e188964::t_6b21e8fa403a6d 1-11
+internal/vector/selfupdate/selfupdate.go
+  s_8196376e188964::t_beab7fceebba15 1-287
+embed.go
+  s_8196376e188964::t_8ca92331072dea 1-27
+starter/apps/lab/tsconfig.node.json
+  s_8196376e188964::t_efff9c49741adb 1-19
+internal/starter/starter.go
+  s_8196376e188964::t_f9b5adfa641ac7 1-157
+starter/apps/lab/AGENTS.md
+  s_8196376e188964::t_e356063c7f580c 1-11
+starter/apps/lab/src/experiment-registry.ts
+  s_8196376e188964::t_45b3506149bed1 1-18
+starter/apps/lab/vite.config.ts
+  s_8196376e188964::t_43e751008d78b6 5
+  s_8196376e188964::t_09f611916e5731 6
+  s_8196376e188964::t_5a99658903e250 10
+.gitignore
+  s_8196376e188964::t_e4ef01e705cc59 37,40-49
+  s_8196376e188964::t_c2caa25bdeb1d5 50
+starter/apps/lab/package.json
+  s_8196376e188964::t_0f50a8e09ca32a 7-15
+internal/vector/services/portless.go
+  s_8196376e188964::t_8a3655a159eba0 45-46,48,52
+  s_8196376e188964::t_a0e146c9b6e1d1 1-11,13-44,49-50,54-60,62,65-83,85-88,91-140
+  s_8196376e188964::t_1571583a782cf6 12,47,51,53,61,63-64,84,89-90
+packages/lab/package.json
+  s_8196376e188964::t_328bbac8c50392 17-18
+  s_8196376e188964::t_530bc11f64bae4 2-5,7-16,19,30-31,42
+internal/vector/source/source.go
+  s_8196376e188964::t_75bc97d27479d1 1-106
+skills/vector-design-lab/SKILL.md
+  s_8196376e188964::t_85e8c2958b83c8 1-91
+internal/vector/services/services.go
+  s_8196376e188964::t_1571583a782cf6 28,104,166,168,170
+  s_8196376e188964::t_5ee6e323ce6687 1-27,29-103,105-165,167,169,171-179,181,183-186,188-208,210-222
+  s_8196376e188964::t_3fd5784fc5af50 180,182,187,209
+internal/vector/project/project_test.go
+  s_8196376e188964::t_6131c75e56ca5b 6,16,18,31-32,41-77
+  s_8196376e188964::t_c1cbef74ad0685 17
+internal/vector/config/config.go
+  s_8196376e188964::t_414c17e83c0e22 9,20-25,46-52,127-128,147-152,188-192,194
+  s_8196376e188964::t_f2374428241c5e 8,16,26-28,30-34,54,63-64,66-68,72-75,80,82,84,86,91-119,122-125,139-146,187,193,195
+cmd/vector/workspace.go
+  s_8196376e188964::t_169da76464b25a 1-182,188-249
+  s_8196376e188964::t_f003fb9417c7ff 183-187
+scripts/smoke.sh
+  s_8196376e188964::t_e63fb003deb2d3 1-38
+starter/README.md
+  s_8196376e188964::t_3c50e79a77425c 1-67,71-83
+  s_8196376e188964::t_6c0cc33af183e7 68-70
+starter/apps/lab/src/lab-config.ts
+  s_8196376e188964::t_45b3506149bed1 1-25
+starter/packages/ui/src/styles/globals.css
+  s_8196376e188964::t_a23eef5b6581e5 1-136
+internal/vector/selfupdate/check.go
+  s_8196376e188964::t_d167ac9675110f 1-79
+starter/.prettierignore
+  s_8196376e188964::t_6b21e8fa403a6d 1-5
+starter/CLAUDE.md
+  s_8196376e188964::t_6b21e8fa403a6d 1
+bun.lock
+  s_8196376e188964::t_e64ca902941a44 14-16,18-23,36-38,43-47,49-50,53-56,77-79,81,83,103-104,127,274-275,416,418,420,422,892
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "8db32a928c10cb2d0745e960584a7fdc8b0c6ea7",
+  "prompts": {},
+  "sessions": {
+    "s_8196376e188964": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "c4ed37c4-f213-4022-a59c-e9fbbb331f04",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Brandon Mathis <brandon@imathis.com>"
+    }
+  }
+}
