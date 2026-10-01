@@ -1,0 +1,28 @@
+# Launch Vector workspace. `vector` reads this file to run your apps.
+version: 2
+
+# Apps are served at https://<route>.<project name>.localhost:<port>.
+project:
+  name: vector
+
+network:
+  port: 2187
+
+# Each app runs its `dev` script. `title` and `route` default to the name,
+# `command` to `bun run dev`. Set `host: <name>` to serve an app at
+# https://<name>.localhost:<port> instead.
+apps:
+  - name: web
+    title: Web
+    path: apps/web
+  - name: docs
+    title: UI Docs
+    path: apps/docs
+    route: ui
+  - name: lab
+    title: Design Lab
+    path: apps/lab
+
+tasks:
+  check: [bun, run, check]
+  doctor: [portless, doctor]

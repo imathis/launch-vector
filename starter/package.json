@@ -1,0 +1,26 @@
+{
+  "name": "vector-workspace",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "bun run --filter '*' build",
+    "lint": "bun run --filter '*' lint",
+    "format": "bun run --filter '*' format",
+    "typecheck": "bun run --filter '*' typecheck",
+    "check": "bun run typecheck && bun run lint && bun run build"
+  },
+  "devDependencies": {
+    "prettier": "^3.8.3",
+    "prettier-plugin-tailwindcss": "^0.8.0",
+    "typescript": "~6"
+  },
+  "packageManager": "bun@1.4.0",
+  "engines": {
+    "node": ">=24"
+  },
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ]
+}

@@ -34,9 +34,19 @@ tmp/
 *.local
 
 # Local runtime state
-.process-compose.sock
-.process-compose/
+.vector/
 *.vector-lab.zip
+
+# Generated at release time by `go generate ./internal/starter`
+/internal/starter/archive/*
+!/internal/starter/archive/.gitkeep
+
+# The starter runs inside this repository's Bun workspace
+/starter/bun.lock
+/starter/node_modules/
+
+# GoReleaser output
+/release/
 
 # Editors and operating systems
 .vscode/*

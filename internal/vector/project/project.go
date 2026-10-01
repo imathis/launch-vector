@@ -1,15 +1,27 @@
 package project
 
 import (
+	"crypto/sha256"
+	"encoding/hex"
 	"errors"
 	"fmt"
 	"os"
 	"path/filepath"
+	"strings"
 
 	"github.com/imathis/launch-vector/internal/vector/config"
 )
 
-const ConfigName = "vector.yaml"
+const (
+	ConfigName = "vector.yaml"
+	// StateDirName holds generated, machine-local files. Workspaces gitignore it.
+	StateDirName = ".vector"
+	// SourceFileName, inside the state dir, points at a local Launch Vector checkout.
+	SourceFileName = "source"
+
+	// Unix socket paths are limited to roughly 104 bytes on macOS.
+	maxSocketPath = 100
+)
 
 var ErrNotFound = errors.New("vector.yaml not found")
 
@@ -47,9 +59,48 @@ func Discover(start string) (Project, error) {
 	}
 }
 
+func (p Project) StateDir() string {
+	return filepath.Join(p.Root, StateDirName)
+}
+
+func (p Project) ComposePath() string {
+	return filepath.Join(p.StateDir(), "process-compose.yaml")
+}
+
 func (p Project) SocketPath() string {
-	if filepath.IsAbs(p.Config.ProcessCompose.Socket) {
-		return filepath.Clean(p.Config.ProcessCompose.Socket)
+	path := filepath.Join(p.StateDir(), "process-compose.sock")
+	if len(path) <= maxSocketPath {
+		return path
 	}
-	return filepath.Join(p.Root, p.Config.ProcessCompose.Socket)
+	sum := sha256.Sum256([]byte(p.Root))
+	return filepath.Join(os.TempDir(), "vector-"+hex.EncodeToString(sum[:])[:12]+".sock")
+}
+
+// Source returns the local Launch Vector checkout this workspace develops
+// against, or "" when it uses released packages.
+func (p Project) Source() string {
+	return ReadSource(p.Root)
+}
+
+func ReadSource(root string) string {
+	data, err := os.ReadFile(filepath.Join(root, StateDirName, SourceFileName))
+	if err != nil {
+		return ""
+	}
+	return strings.TrimSpace(string(data))
+}
+
+func WriteSource(root, source string) error {
+	dir := filepath.Join(root, StateDirName)
+	if source == "" {
+		err := os.Remove(filepath.Join(dir, SourceFileName))
+		if errors.Is(err, os.ErrNotExist) {
+			return nil
+		}
+		return err
+	}
+	if err := os.MkdirAll(dir, 0o755); err != nil {
+		return err
+	}
+	return os.WriteFile(filepath.Join(dir, SourceFileName), []byte(source+"\n"), 0o644)
 }

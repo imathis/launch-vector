@@ -58,13 +58,21 @@ func New(p project.Project) *Manager {
 	return &Manager{Project: p, urlCache: make(map[string]string)}
 }
 
+// LifecycleCommand re-invokes this binary so the dashboard can capture the output
+// of `vector up`, `down`, and `restart`.
 func (m *Manager) LifecycleCommand(action string, app *config.App) *exec.Cmd {
-	args := append([]string(nil), m.Project.Config.Lifecycle...)
-	args = append(args, action)
+	args := []string{executable(), action}
 	if app != nil {
 		args = append(args, app.Name)
 	}
 	return m.command(args)
+}
+
+func executable() string {
+	if path, err := os.Executable(); err == nil {
+		return path
+	}
+	return "vector"
 }
 
 func (m *Manager) TaskCommand(name string) (*exec.Cmd, error) {
@@ -146,13 +154,22 @@ func (m *Manager) OpenCommand(app config.App) (*exec.Cmd, string, error) {
 	return m.command(command), url, nil
 }
 
+// DefaultTLD is shared by every workspace, so one Portless proxy serves them
+// all without reconfiguring. VECTOR_TLD or PORTLESS_TLD override it.
+const DefaultTLD = "localhost"
+
 func (m *Manager) TLD() string {
 	for _, key := range []string{"VECTOR_TLD", "PORTLESS_TLD"} {
 		if value := strings.TrimSpace(os.Getenv(key)); value != "" {
 			return strings.TrimPrefix(value, ".")
 		}
 	}
-	return strings.TrimPrefix(m.Project.Config.Project.TLD, ".")
+	return DefaultTLD
+}
+
+// AppHost is the Portless name for an app, such as web.chelsea.
+func (m *Manager) AppHost(app config.App) string {
+	return m.Project.Config.AppHost(app)
 }
 
 func (m *Manager) Port() int {
@@ -165,7 +182,7 @@ func (m *Manager) Port() int {
 }
 
 func (m *Manager) DefaultURL(app config.App) string {
-	host := fmt.Sprintf("%s.%s", app.Route, m.TLD())
+	host := fmt.Sprintf("%s.%s", m.AppHost(app), m.TLD())
 	if m.Port() == 443 {
 		return "https://" + host
 	}
@@ -250,26 +267,35 @@ func ParseProcessList(output []byte) ([]ProcessState, error) {
 }
 
 func (m *Manager) RouteURL(ctx context.Context, app config.App) string {
-	m.mu.Lock()
-	if url := m.urlCache[app.Route]; url != "" {
-		m.mu.Unlock()
+	if url, ok := m.LookupRoute(ctx, app); ok {
 		return url
+	}
+	return m.DefaultURL(app)
+}
+
+// LookupRoute asks Portless for an app's URL.
+func (m *Manager) LookupRoute(ctx context.Context, app config.App) (string, bool) {
+	host := m.AppHost(app)
+	cacheKey := host + "." + m.TLD()
+	m.mu.Lock()
+	if url := m.urlCache[cacheKey]; url != "" {
+		m.mu.Unlock()
+		return url, true
 	}
 	m.mu.Unlock()
 
-	fallback := m.DefaultURL(app)
-	cmd := exec.CommandContext(ctx, "portless", "get", app.Route)
+	cmd := exec.CommandContext(ctx, "portless", "get", host)
 	cmd.Dir = m.Project.Root
 	cmd.Env = m.projectEnv()
 	output, err := cmd.Output()
 	url := strings.TrimSpace(string(output))
 	if err != nil || !(strings.HasPrefix(url, "https://") || strings.HasPrefix(url, "http://")) {
-		return fallback
+		return "", false
 	}
 	m.mu.Lock()
-	m.urlCache[app.Route] = url
+	m.urlCache[cacheKey] = url
 	m.mu.Unlock()
-	return url
+	return url, true
 }
 
 func (m *Manager) command(command []string) *exec.Cmd {
@@ -277,6 +303,11 @@ func (m *Manager) command(command []string) *exec.Cmd {
 	cmd.Dir = m.Project.Root
 	cmd.Env = m.projectEnv()
 	return cmd
+}
+
+// Env is the process environment with the workspace TLD and port applied.
+func (m *Manager) Env() []string {
+	return m.projectEnv()
 }
 
 func (m *Manager) projectEnv() []string {
@@ -292,6 +323,11 @@ func (m *Manager) projectEnv() []string {
 		env = envWith(env, key, value)
 	}
 	return env
+}
+
+// CommandWithContext copies a prepared command so it is cancelled with ctx.
+func CommandWithContext(ctx context.Context, source *exec.Cmd) *exec.Cmd {
+	return commandWithContext(ctx, source)
 }
 
 func commandWithContext(ctx context.Context, source *exec.Cmd) *exec.Cmd {

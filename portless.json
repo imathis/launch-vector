@@ -1,7 +1,0 @@
-{
-  "apps": {
-    "apps/web": { "name": "demo", "script": "dev:app" },
-    "apps/docs": { "name": "ui", "script": "dev:app" },
-    "apps/lab": { "name": "lab", "script": "dev:app" }
-  }
-}

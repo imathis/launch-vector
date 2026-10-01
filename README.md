@@ -1,239 +1,100 @@
-# Vector
+# Launch Vector
 
-Provisional workspace for small web apps, a shared Base UI design system,
-component documentation, and disposable design experiments.
+A starter kit for AI-assisted web development. `vector` creates a workspace
+with small web apps, a shared Base UI design system, component docs, and a
+Design Lab for disposable interface experiments, then runs every app behind a
+stable local HTTPS route.
 
-The name is intentionally kept out of package APIs. Shared code uses the
-rename-safe `@workspace/*` scope.
+Workspaces own their code. The framework updates itself:
 
-## How it works
+| Part                  | Lives in                                   | Updated by                  |
+| --------------------- | ------------------------------------------ | --------------------------- |
+| `vector` CLI          | `~/.local/bin/vector`                      | `vector update` (self)      |
+| Design Lab harness    | `node_modules/@launch-vector/lab`          | `vector update`             |
+| Agent skills          | `.agents/skills/vector-*` (+ `.claude` links) | `vector update`          |
+| Workspace rules       | the `vector:begin` block in `AGENTS.md`    | `vector update`             |
+| Apps, UI, docs, Lab experiments | the workspace                    | you                         |
 
-- **Just** is the human-facing command runner.
-- **Bun** installs dependencies and runs workspace scripts.
-- **Process Compose** supervises native development servers.
-- **Portless** gives each server a stable local HTTPS name.
-- **Vector** provides the project-aware CLI and interactive terminal dashboard.
+Skills use the open Agent Skills format, so Codex, Cursor, Copilot, Gemini
+CLI, Claude Code, and other agents all load them.
 
-The Vite applications run natively rather than in containers. If the workspace
-later needs Postgres, Redis, or other infrastructure, those services can be
-added through OrbStack without moving the frontend development servers.
-
-## First-time setup
-
-Install Homebrew and Just, clone the repository, then run setup:
+## Install
 
 ```bash
-brew install just
-just setup
+curl -fsSL https://raw.githubusercontent.com/imathis/launch-vector/master/install.sh | sh
+vector new my-apps
+cd my-apps
+vector setup    # installs Bun, Node, Process Compose, and Portless if missing
+vector up
 ```
 
-`just setup` uses Homebrew to install any missing system tools—Bun, Node.js,
-Go, and Process Compose—installs Portless through npm, installs all Bun
-workspace dependencies, and installs the `vector` command. Node.js 24 or newer
-is required by Portless.
+`vector setup` uses Homebrew on macOS. Node.js 24 or newer is required by
+Portless. The first Portless run may ask to trust its local certificate
+authority; routes use `.localhost` names on port `2187`, so no sudo or
+`/etc/hosts` changes are needed.
 
-The first Portless run may request approval to trust its local CA. Normal
-development uses `.localhost` names and unprivileged port `2187`, so starting
-and stopping apps does not require sudo or modify `/etc/hosts`.
+`vector` checks for a new release once a day and prints a notice. Run
+`vector update` inside a workspace to update the CLI, the Lab package, and the
+agent files together.
 
-## Run the workspace
-
-Start every application in the background:
-
-```bash
-just
-# or: just up
-```
-
-Start or stop one application independently:
-
-```bash
-just up lab
-just up docs
-just down lab
-```
-
-Selectors map to workspaces and Portless routes:
-
-| Selector | Workspace   | URL                                    |
-| -------- | ----------- | -------------------------------------- |
-| `demo`   | `apps/web`  | `https://demo.vector.localhost:2187`   |
-| `docs`   | `apps/docs` | `https://ui.vector.localhost:2187`     |
-| `lab`    | `apps/lab`  | `https://lab.vector.localhost:2187`    |
-
-Process Compose keeps the selected servers running after `just up` returns.
-Manage them from any terminal:
-
-```bash
-just status       # show all process states
-just logs lab     # follow one app; Ctrl-C only exits the log viewer
-just logs         # follow every app
-just attach       # open the interactive process dashboard
-just down docs    # stop one app
-just down         # stop the complete workspace supervisor
-```
-
-The one-time “Starting Process Compose in detached mode” message is expected.
-Detached mode is what lets the apps continue running after the command exits.
-
-Portless serves HTTPS on port `2187` by default. Override the safe defaults with
-`VECTOR_TLD` and `VECTOR_PORT`; the underlying `PORTLESS_TLD` and
-`PORTLESS_PORT` variables also work. Port 443 may require elevation, while a
-custom TLD such as `vector.dev` may require `/etc/hosts` synchronization.
-Stop the workspace before changing either network setting, then start it with
-the new environment.
-
-Use `vector doctor` for certificate, DNS, route, or proxy diagnostics.
-
-The Process Compose control socket lives at `.process-compose.sock` and is
-gitignored. `tooling/services.ts` owns lifecycle behavior; `process-compose.yaml`
-contains the actual app commands.
-
-## Vector command center
-
-Run `vector` anywhere inside the repository to open the interactive dashboard:
-
-```bash
-vector
-```
-
-The first version shows app state, PID, uptime, memory, and routes. It can start,
-stop, restart, open, and follow logs for individual apps; control every app;
-run checks and diagnostics; or attach the underlying Process Compose dashboard.
+## Repository layout
 
 ```text
-j/k or arrows   select app
-space           start or stop selected app
-u / U           start selected / all apps
-s / S           stop selected / all apps
-r / R           restart selected / all apps
-o               open selected route
-l or enter      expand mounted logs; Esc/l returns
-c / d           run checks / diagnostics in the output pane
-a               attach Process Compose
-?               expanded help
-q               close Vector; apps keep running
+cmd/vector, internal/   Go CLI: workspace lifecycle, dashboard, new/setup/update
+packages/lab            @launch-vector/lab, the Design Lab harness (npm)
+skills/vector-*         Managed Agent Skills copied into every workspace
+agents/AGENTS.md        Managed block written into every workspace AGENTS.md
+starter/                The workspace template `vector new` copies
+scripts/                Smoke test and release helpers
 ```
 
-Logs are always shown in the lower dashboard pane and update with the selected
-app. Lifecycle actions, checks, and diagnostics also render there instead of
-temporarily replacing the terminal. Opening or quitting Vector never starts or
-stops an app.
+`starter/` is a runnable workspace inside this repository's Bun workspace, so
+starter apps resolve `@launch-vector/lab` to `packages/lab`.
 
-The same interface is available noninteractively:
+## Develop the framework
 
 ```bash
-vector up lab
-vector down docs
-vector restart demo
-vector status
-vector logs lab
-vector open docs
-vector check
-vector doctor
+brew install just go
+just setup        # bun install, then build and install a development vector
+just lab-build    # the starter's lab app imports the built Lab package
+just up           # run the starter's apps (just up lab, just down, just status)
+just lab-watch    # rebuild the Lab package while the lab app runs
+just check        # Go tests, typecheck, lint, build, and smoke test
 ```
 
-`vector.yaml` is the compatibility contract between the installed CLI and this
-workspace. It describes app names, paths, routes, lifecycle commands, tasks,
-and the Process Compose socket. This is also the foundation for a future
-`vector init` scaffolder; project creation is not implemented yet.
+Development builds report version `dev` and never replace themselves.
 
-## Common commands
+### Try changes in a real workspace
+
+Point a workspace at this checkout instead of published packages:
 
 ```bash
-just setup       # install missing tools and all workspace dependencies
-just install     # install Bun dependencies only
-just format      # format source
-just typecheck   # typecheck tooling and every workspace
-just lint        # lint every workspace
-just build       # build every workspace
-just check       # typecheck, lint, and build
-just vector-check    # test and vet the Vector CLI
-just vector-install  # install the current CLI build
-just --list      # show every recipe
+vector new ~/workspace/my-site --from ~/workspace/launch-vector
+cd ~/workspace/my-site && vector setup
 ```
 
-## Workspace
+The workspace records the checkout in `.vector/source` (gitignored) and
+depends on `link:@launch-vector/lab`, so it uses this checkout's Lab build,
+skills, and AGENTS block. `vector update` refreshes them from the checkout.
+Run `vector update --release` to switch back to published packages, or
+`vector update --from <checkout>` to link an existing workspace.
 
-```text
-apps/web       Small integration app
-apps/docs      Lightweight component documentation
-apps/lab       Disposable prototype harness
-packages/ui    Shared shadcn/Base UI components and theme
-```
+## Release
 
-Import shared code through direct subpaths:
-
-```tsx
-import { Button } from "@workspace/ui/components/button"
-```
-
-## Add a component
-
-In Claude Code, restart after the initial checkout so project skills load, then
-run:
-
-```text
-/add-component <name>
-```
-
-The command inspects the Base UI project, installs exactly one component with
-the official shadcn CLI, generates its docs module, and verifies every
-workspace. The official shadcn skill is installed locally under
-`.claude/skills`.
-
-Component docs live in `apps/docs/src/content` and are discovered
-automatically. Use `_template.tsx` as the authoring contract.
-
-## Prototype an idea
-
-Ask an agent to explore an interface idea in the Lab. Give it the user problem,
-important constraints, and how many directions you want. The harness supplies
-the design-system and prototype instructions. The agent creates variants under
-`apps/lab/src/experiments`; those local experiments are gitignored by default.
-
-Refine promising directions with explicit sub-variants, then ask the agent to
-write a handoff for the accepted direction and reimplement it in the destination
-application. Prototype code is a high-fidelity mockup, not portable production
-code. `apps/lab/AGENTS.md` contains the workflow and is the place to add product
-and domain context.
-
-The Lab provides local experiment management while Vite is running: rename,
-archive, restore, recoverable delete, trusted ZIP import, and versioned
-`.vector-lab.zip` export. The New Experiment page contains prompt examples and
-the package importer. Experiment identity and display metadata live in each
-folder's `experiment.json` manifest.
-
-Lab pages have direct, history-backed routes: `/`, `/new`, `/labs/<slug>`, and
-`/labs/<slug>/present`. Browser Back and Forward navigate between pages and
-experiments; variant, scenario, comparison, canvas, and responsive presentation
-controls remain URL-backed without filling the history stack. Presentation uses
-a same-origin frame so configured preview widths trigger real viewport
-breakpoints.
-
-Map `apps/lab/src/lab-theme.css` to the destination product's semantic page
-tokens. Canvas presets are configured explicitly in `lab-config.ts`; the Lab
-does not assume that an application uses stark white or black backgrounds. The
-New Experiment page reports a missing mapping, and the canvas selector remains
-hidden until more than one preset exists.
-
-Experiments can render compact interfaces centered, page content with padding,
-or complete shells edge-to-edge. The experiment action menu can remount a
-prototype to reset its local state without changing review selections.
-
-Lab shortcuts ignore editable controls:
-
-- `1–0`: select a variant
-- `Option/Alt + 1–0`: select a scenario
-- `.`: toggle current/previous variant
-- `D`: toggle light/dark
-- `C`: focus/compare
-- `V`: next variant
-- `S`: next scenario
-- `F`: presentation mode
-
-## Verify
+The CLI, `@launch-vector/lab`, and the starter's Lab dependency share one
+version.
 
 ```bash
-just check
+just release 0.2.0           # sets versions, runs tests, commits, and tags
+git push origin HEAD v0.2.0  # CI builds the CLI release and publishes the Lab
 ```
+
+The release workflow publishes `@launch-vector/lab` through npm trusted
+publishing, so it needs no npm token. Publish the first version by hand
+(`cd packages/lab && npm publish --access public`), then add
+`imathis/launch-vector` and `release.yml` as the package's trusted publisher on
+npmjs.com. Later releases skip a Lab version that is already published.
+
+Release builds embed the git-tracked starter files
+(`go generate ./internal/starter`); a binary without them can still create
+workspaces with `--from`.

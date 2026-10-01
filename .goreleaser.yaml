@@ -1,0 +1,28 @@
+# Builds the vector CLI for GitHub Releases. `vector update` downloads these
+# archives and verifies them against checksums.txt.
+version: 2
+project_name: vector
+dist: release
+
+before:
+  hooks:
+    - go generate ./internal/starter
+
+builds:
+  - main: ./cmd/vector
+    binary: vector
+    env: [CGO_ENABLED=0]
+    goos: [darwin, linux]
+    goarch: [amd64, arm64]
+    ldflags:
+      - -s -w -X main.version={{ .Version }}
+
+archives:
+  - formats: [tar.gz]
+    name_template: "vector_{{ .Os }}_{{ .Arch }}"
+
+checksum:
+  name_template: checksums.txt
+
+changelog:
+  use: github

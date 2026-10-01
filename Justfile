@@ -1,71 +1,66 @@
-default: up
+default: check
 
-# Install system tools and workspace dependencies.
+# Install dependencies and the development vector CLI.
 setup:
-    @command -v brew >/dev/null || { echo "Homebrew is required: https://brew.sh" >&2; exit 1; }
-    @command -v bun >/dev/null || brew install oven-sh/bun/bun
-    @command -v node >/dev/null || brew install node
-    @command -v go >/dev/null || brew install go
-    @command -v process-compose >/dev/null || brew install f1bonacc1/tap/process-compose
-    @command -v portless >/dev/null || npm install --global portless@latest
-    @mkdir -p "${HOME}/.config/process-compose"
     bun install
-    GOBIN="$(brew --prefix)/bin" go install ./cmd/vector
+    just install-cli
 
-# Start every app, or one of: demo, docs, lab.
+# Build vector with the embedded starter and install it on PATH.
+install-cli:
+    go generate ./internal/starter
+    GOBIN="${GOBIN:-$(brew --prefix)/bin}" go install ./cmd/vector
+
+# Run the starter's apps in place: every app, or one of web, docs, lab.
 up app="":
-    @bun tooling/services.ts up "{{ app }}"
+    cd starter && vector up {{ app }}
 
-# Stop every app, or one of: demo, docs, lab.
+# Stop the starter's apps.
 down app="":
-    @bun tooling/services.ts down "{{ app }}"
+    cd starter && vector down {{ app }}
 
-# Show app process state.
+# Show the starter's app state.
 status:
-    @bun tooling/services.ts status
+    cd starter && vector status
 
-# Follow logs for every app, or one of: demo, docs, lab.
-logs app="":
-    @bun tooling/services.ts logs "{{ app }}"
+# Rebuild the Lab package on change while the starter's lab app runs.
+lab-watch:
+    bun run --filter @launch-vector/lab dev
 
-# Open the interactive process dashboard.
-attach:
-    @bun tooling/services.ts attach
-
-# Install JavaScript dependencies only.
-install:
-    bun install
+# Build the Lab package that the starter's lab app imports.
+lab-build:
+    bun run --filter @launch-vector/lab build
 
 # Format workspace source.
 format:
     bun run format
     go fmt ./...
 
-# Typecheck workspace source.
-typecheck:
+# Typecheck every package; the lab app needs the built Lab types.
+typecheck: lab-build
     bun run typecheck
 
-# Lint workspace source.
+# Lint every package and vet the CLI.
 lint:
     bun run lint
+    go vet ./...
 
-# Build every workspace.
+# Test the CLI and the Lab harness.
+test:
+    go test ./...
+    bun run --filter @launch-vector/lab test
+
+# Build every package and the CLI.
 build:
     bun run build
     go build ./...
 
-# Test and vet the Vector CLI.
-vector-check:
-    go test ./...
-    go vet ./...
-
-# Test Lab filesystem lifecycle and archive safety.
-lab-check:
-    bun run --filter @workspace/lab test
-
-# Install the current Vector CLI build.
-vector-install:
-    GOBIN="$(brew --prefix)/bin" go install ./cmd/vector
+# Create a workspace from this checkout, install it, and build it.
+smoke: lab-build
+    scripts/smoke.sh
 
 # Run non-mutating verification.
-check: typecheck lint build lab-check vector-check
+check: test typecheck lint build smoke
+
+# Prepare a release commit and tag: just release 0.2.0
+release version:
+    scripts/release.sh {{ version }}

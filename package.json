@@ -1,13 +1,13 @@
 {
-  "name": "vector",
-  "version": "0.0.1",
+  "name": "launch-vector",
+  "version": "0.1.0",
   "private": true,
+  "type": "module",
   "scripts": {
     "build": "bun run --filter '*' build",
-    "dev": "bun tooling/services.ts up",
     "lint": "bun run --filter '*' lint",
     "format": "bun run --filter '*' format",
-    "typecheck": "tsc --noEmit && bun run --filter '*' typecheck"
+    "typecheck": "bun run --filter '*' typecheck"
   },
   "devDependencies": {
     "@types/bun": "latest",
@@ -20,7 +20,8 @@
     "node": ">=24"
   },
   "workspaces": [
-    "apps/*",
-    "packages/*"
+    "packages/*",
+    "starter/apps/*",
+    "starter/packages/*"
   ]
 }

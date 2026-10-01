@@ -3,9 +3,12 @@ package main
 import (
 	"context"
 	"errors"
+	"flag"
 	"fmt"
 	"os"
 	"os/exec"
+	"os/signal"
+	"path/filepath"
 	"strings"
 	"text/tabwriter"
 	"time"
@@ -15,10 +18,13 @@ import (
 	"github.com/imathis/launch-vector/internal/vector/config"
 	"github.com/imathis/launch-vector/internal/vector/project"
 	vectorruntime "github.com/imathis/launch-vector/internal/vector/runtime"
+	"github.com/imathis/launch-vector/internal/vector/selfupdate"
+	"github.com/imathis/launch-vector/internal/vector/services"
 	"github.com/imathis/launch-vector/internal/vector/tui"
 )
 
-const version = "0.1.0"
+// version is set at release time with -ldflags "-X main.version=<version>".
+var version = "dev"
 
 func main() {
 	if err := run(os.Args[1:]); err != nil {
@@ -32,15 +38,26 @@ func main() {
 }
 
 func run(args []string) error {
+	ctx, stop := signal.NotifyContext(context.Background(), os.Interrupt)
+	defer stop()
+
+	command, rest := "", args
 	if len(args) > 0 {
-		switch args[0] {
-		case "help", "-h", "--help":
-			printHelp()
-			return nil
-		case "version", "--version":
-			fmt.Println("vector", version)
-			return nil
-		}
+		command, rest = args[0], args[1:]
+	}
+	switch command {
+	case "help", "-h", "--help":
+		printHelp()
+		return nil
+	case "version", "--version":
+		fmt.Println("vector", version)
+		return nil
+	case "new":
+		return runNew(ctx, rest)
+	case "setup":
+		return runSetup(ctx, rest)
+	case "update":
+		return runUpdate(ctx, rest)
 	}
 
 	cwd, err := os.Getwd()
@@ -48,30 +65,41 @@ func run(args []string) error {
 		return err
 	}
 	proj, err := project.Discover(cwd)
+	if errors.Is(err, project.ErrNotFound) {
+		return fmt.Errorf("%w; run inside a workspace or create one with: vector new <dir>", err)
+	}
 	if err != nil {
 		return err
 	}
 	manager := vectorruntime.New(proj)
+	lifecycle := services.New(manager, os.Stdout)
 
-	if len(args) == 0 {
+	switch command {
+	case "":
+		defer notifyUpdate(ctx)
 		if !term.IsTerminal(int(os.Stdin.Fd())) || !term.IsTerminal(int(os.Stdout.Fd())) {
 			return printStatus(manager)
 		}
 		return tui.Run(manager)
-	}
-
-	command, rest := args[0], args[1:]
-	switch command {
 	case "up", "down", "restart":
 		app, err := optionalApp(proj.Config, rest)
 		if err != nil {
 			return err
 		}
-		return manager.Run(manager.LifecycleCommand(command, app))
+		switch command {
+		case "up":
+			defer notifyUpdate(ctx)
+			return lifecycle.Up(ctx, app)
+		case "down":
+			return lifecycle.Down(ctx, app)
+		default:
+			return lifecycle.Restart(ctx, app)
+		}
 	case "status":
 		if err := noArgs(command, rest); err != nil {
 			return err
 		}
+		defer notifyUpdate(ctx)
 		return printStatus(manager)
 	case "logs":
 		app, err := optionalApp(proj.Config, rest)
@@ -106,6 +134,34 @@ func run(args []string) error {
 		return manager.Run(manager.AttachCommand())
 	default:
 		return fmt.Errorf("unknown command %q; run vector help", command)
+	}
+}
+
+// parseFlags lets flags appear before or after positional arguments.
+func parseFlags(flags *flag.FlagSet, args []string) ([]string, error) {
+	var positional []string
+	for {
+		if err := flags.Parse(args); err != nil {
+			return nil, err
+		}
+		if flags.NArg() == 0 {
+			return positional, nil
+		}
+		positional = append(positional, flags.Arg(0))
+		args = flags.Args()[1:]
+	}
+}
+
+// notifyUpdate prints a one-line notice when a newer release exists.
+func notifyUpdate(ctx context.Context) {
+	if !term.IsTerminal(int(os.Stderr.Fd())) {
+		return
+	}
+	latest := selfupdate.Available(ctx, version, func(ctx context.Context) (selfupdate.Release, error) {
+		return selfupdate.NewClient().Latest(ctx)
+	})
+	if latest != "" {
+		fmt.Fprintf(os.Stderr, "\nvector %s is available (you have %s). Run: vector update\n", latest, version)
 	}
 }
 
@@ -191,11 +247,23 @@ func plainValue(value string) string {
 	return value
 }
 
+func displayPath(path string) string {
+	if cwd, err := os.Getwd(); err == nil {
+		if rel, err := filepath.Rel(cwd, path); err == nil && !strings.HasPrefix(rel, "..") {
+			return rel
+		}
+	}
+	return path
+}
+
 func printHelp() {
-	fmt.Print(`vector controls this workspace's development apps.
+	fmt.Print(`vector creates Launch Vector workspaces and runs their apps.
 
 Usage:
   vector                         Open the interactive dashboard
+  vector new <dir>               Create a workspace (--no-lab, --name <name>)
+  vector setup                   Install tools, dependencies, and agent skills
+  vector update                  Update vector, the Lab, and agent skills
   vector up [app]                Start all apps or one app
   vector down [app]              Stop all apps or one app
   vector restart [app]           Restart all apps or one app
@@ -209,5 +277,10 @@ Usage:
   vector version                 Show the version
 
 App names and configured route aliases are accepted.
+
+Framework development:
+  --from <checkout>              With new, setup, or update: use a local Launch
+                                 Vector checkout and link its Lab package
+  --release                      With update: switch back to released packages
 `)
 }

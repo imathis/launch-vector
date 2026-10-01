@@ -1,0 +1,6 @@
+@import "@workspace/ui/globals.css";
+@import "@launch-vector/lab/styles.css";
+@import "./lab-theme.css";
+
+/* Experiments are gitignored, so Tailwind needs an explicit source. */
+@source "./experiments";

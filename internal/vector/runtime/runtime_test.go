@@ -2,6 +2,7 @@ package runtime
 
 import (
 	"context"
+	"os"
 	"strings"
 	"testing"
 
@@ -69,13 +70,10 @@ func TestCaptureCollectsStdoutAndStderr(t *testing.T) {
 }
 
 func TestTailLogsCommand(t *testing.T) {
-	manager := New(project.Project{
-		Root:   "/workspace",
-		Config: config.Config{ProcessCompose: config.ProcessCompose{Socket: ".process-compose.sock"}},
-	})
+	manager := New(project.Project{Root: "/workspace"})
 	cmd := manager.tailLogsCommand(config.App{Name: "docs"}, 25)
 	want := []string{
-		"process-compose", "--use-uds", "--unix-socket", "/workspace/.process-compose.sock",
+		"process-compose", "--use-uds", "--unix-socket", "/workspace/.vector/process-compose.sock",
 		"process", "logs", "docs", "--tail", "25", "--raw-log",
 	}
 	if strings.Join(cmd.Args, "\x00") != strings.Join(want, "\x00") {
@@ -83,24 +81,48 @@ func TestTailLogsCommand(t *testing.T) {
 	}
 }
 
-func TestDefaultURLUsesConfiguredNetwork(t *testing.T) {
+func TestDefaultURLIncludesProject(t *testing.T) {
 	manager := New(project.Project{Config: config.Config{
-		Project: config.Project{TLD: "vector.localhost"},
+		Project: config.Project{Name: "chelsea"},
 		Network: config.Network{Port: 2187},
 	}})
-	if got := manager.DefaultURL(config.App{Route: "docs"}); got != "https://docs.vector.localhost:2187" {
+	if got := manager.DefaultURL(config.App{Route: "docs"}); got != "https://docs.chelsea.localhost:2187" {
+		t.Fatalf("DefaultURL() = %q", got)
+	}
+}
+
+func TestDefaultURLUsesAppHost(t *testing.T) {
+	manager := New(project.Project{Config: config.Config{
+		Project: config.Project{Name: "chelsea"},
+		Network: config.Network{Port: 2187},
+	}})
+	app := config.App{Route: "weekly", Host: "weekly"}
+	if got := manager.DefaultURL(app); got != "https://weekly.localhost:2187" {
 		t.Fatalf("DefaultURL() = %q", got)
 	}
 }
 
 func TestNetworkEnvironmentOverridesConfiguration(t *testing.T) {
-	t.Setenv("VECTOR_TLD", "custom.localhost")
+	t.Setenv("VECTOR_TLD", "test")
 	t.Setenv("VECTOR_PORT", "443")
 	manager := New(project.Project{Config: config.Config{
-		Project: config.Project{TLD: "vector.localhost"},
+		Project: config.Project{Name: "chelsea"},
 		Network: config.Network{Port: 2187},
 	}})
-	if got := manager.DefaultURL(config.App{Route: "demo"}); got != "https://demo.custom.localhost" {
+	if got := manager.DefaultURL(config.App{Route: "web"}); got != "https://web.chelsea.test" {
 		t.Fatalf("DefaultURL() = %q", got)
+	}
+}
+
+func TestLifecycleCommandReinvokesVector(t *testing.T) {
+	manager := New(project.Project{Root: "/workspace"})
+	cmd := manager.LifecycleCommand("restart", &config.App{Name: "docs"})
+	executable, err := os.Executable()
+	if err != nil {
+		t.Fatal(err)
+	}
+	want := []string{executable, "restart", "docs"}
+	if strings.Join(cmd.Args, "\x00") != strings.Join(want, "\x00") || cmd.Dir != "/workspace" {
+		t.Fatalf("LifecycleCommand() = %q in %q", cmd.Args, cmd.Dir)
 	}
 }
