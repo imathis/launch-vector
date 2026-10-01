@@ -1,0 +1,69 @@
+Justfile
+  s_bfe1a8aa570d2a::t_bd3b1b2614f06f 15,19,27
+apps/docs/src/content/checkbox.tsx
+  s_bfe1a8aa570d2a::t_6e02a40dd252de 1-82
+apps/lab/eslint.config.js
+  s_8263386aed4fa7::t_efe7eb3d3afc46 9
+README.md
+  s_bfe1a8aa570d2a::t_02922ae79b9a6d 63
+  s_bfe1a8aa570d2a::t_c54ddc67af3179 142-145
+  s_bfe1a8aa570d2a::t_7c370f12ab9114 167
+packages/ui/src/components/checkbox.tsx
+  s_bfe1a8aa570d2a::t_15bd97d55c5111 11
+  s_bfe1a8aa570d2a::t_ed187f96b38f27 1-10,12-19,21-26
+  s_bfe1a8aa570d2a::t_ad052462dff883 20
+apps/weekly/package.json
+  s_39adfa3b9bb01e::t_aaca3b413ce57a 24-26
+apps/weekly/src/question-editor.tsx
+  s_39adfa3b9bb01e::t_3e70d6a2157d99 304-306,382-387,397-398,401-410,419-422,425-457,531
+  s_39adfa3b9bb01e::t_adf5f6d81ed2aa 1-16,20,40-41,303,307-318,376-381,388,392-396,399-400,411-418,423-424,458,502-513,516-530,532-538
+apps/lab/.prettierignore
+  s_8263386aed4fa7::t_efe7eb3d3afc46 1-2
+apps/weekly/README.md
+  s_39adfa3b9bb01e::t_adf5f6d81ed2aa 32-35
+apps/lab/tsconfig.app.json
+  s_8263386aed4fa7::t_efe7eb3d3afc46 24-25
+apps/lab/src/experiment-registry.ts
+  s_8263386aed4fa7::t_efe7eb3d3afc46 8-15
+  s_8263386aed4fa7::t_17bf767b4227df 5-7
+  s_8263386aed4fa7::t_5bb78cdcf2b824 16-18
+apps/lab/README.md
+  s_8263386aed4fa7::t_efe7eb3d3afc46 21-32
+apps/lab/AGENTS.md
+  s_8263386aed4fa7::t_efe7eb3d3afc46 69-76
+  s_8263386aed4fa7::t_3fe942c1d5b828 77
+bun.lock
+  s_39adfa3b9bb01e::t_ff20e713d57775 43,46,96-98,125-159,259,261,263,265,267,269,271,275-282,545,551,555,609-611,1003,1039,1179,1181,1315,1317
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "2c11e01f2524ca7bc3f6b4a3cb85944707f2d40e",
+  "prompts": {},
+  "sessions": {
+    "s_39adfa3b9bb01e": {
+      "agent_id": {
+        "tool": "opencode",
+        "id": "ses_f45e69230ffeqY51Iii9A8ufD3",
+        "model": "gpt-6-astra"
+      },
+      "human_author": "Brandon Mathis <brandon@imathis.com>"
+    },
+    "s_8263386aed4fa7": {
+      "agent_id": {
+        "tool": "opencode",
+        "id": "ses_fd59829b6ffelDjDJMrXPbKxA4",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Brandon Mathis <brandon@imathis.com>"
+    },
+    "s_bfe1a8aa570d2a": {
+      "agent_id": {
+        "tool": "opencode",
+        "id": "ses_fcfa25722ffe8MhZIdy6eH9W32",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "Brandon Mathis <brandon@imathis.com>"
+    }
+  }
+}
