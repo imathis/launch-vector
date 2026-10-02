@@ -1,0 +1,33 @@
+.goreleaser.yaml
+  s_8196376e188964::t_4051c4542043d0 29-50
+internal/vector/selfupdate/selfupdate.go
+  s_8196376e188964::t_a5ce379a8f82d6 30-32,198-199,220-227
+  s_8196376e188964::t_7874b6b5c46123 228-229
+internal/vector/selfupdate/selfupdate_test.go
+  s_8196376e188964::t_a5ce379a8f82d6 172-194,200-201
+  s_8196376e188964::t_6d90297c50f5b0 195-199
+cmd/vector/workspace.go
+  s_8196376e188964::t_fd59555e2146af 159-162,171-186
+  s_8196376e188964::t_39d2a65a5ed1e5 187-188
+README.md
+  s_8196376e188964::t_d9614cbc9f2c04 24-25,27-29,43-44,72-73,100-102
+  s_8196376e188964::t_5ef58a18d18474 103
+.github/workflows/release.yml
+  s_8196376e188964::t_d9614cbc9f2c04 36-37
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "ad71005fe4dd4fd470df6c6e92f316c33a3301f2",
+  "prompts": {},
+  "sessions": {
+    "s_8196376e188964": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "c4ed37c4-f213-4022-a59c-e9fbbb331f04",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Brandon Mathis <brandon@imathis.com>"
+    }
+  }
+}
