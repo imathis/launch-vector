@@ -1,0 +1,20 @@
+bun.lock
+  h_2a4a0fdc393ff7 16
+package.json
+  h_2a4a0fdc393ff7 3
+packages/lab/package.json
+  h_2a4a0fdc393ff7 3
+starter/apps/lab/package.json
+  h_2a4a0fdc393ff7 15
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "76225edb28cc45ab6d856bf746dec8b5d9739fb7",
+  "prompts": {},
+  "humans": {
+    "h_2a4a0fdc393ff7": {
+      "author": "Brandon Mathis <brandon@imathis.com>"
+    }
+  }
+}
