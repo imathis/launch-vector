@@ -1,6 +1,6 @@
 {
   "name": "@launch-vector/lab",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Design Lab harness for Launch Vector workspaces",
   "license": "MIT",
   "type": "module",
