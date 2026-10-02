@@ -27,7 +27,9 @@ import (
 const (
 	DefaultRepo = "imathis/launch-vector"
 	DefaultAPI  = "https://api.github.com"
-	binaryName  = "vector"
+	// HomebrewCask installs vector from the tap that releases publish to.
+	HomebrewCask = "imathis/tap/vector"
+	binaryName   = "vector"
 )
 
 type Client struct {
@@ -193,8 +195,8 @@ func replaceExecutable(target string, binary []byte) error {
 	if err != nil {
 		return err
 	}
-	if strings.Contains(resolved, "/Cellar/") {
-		return errors.New("vector is managed by Homebrew; run: brew upgrade vector")
+	if Homebrew(resolved) {
+		return errors.New("vector is managed by Homebrew; run: brew upgrade --cask " + HomebrewCask)
 	}
 	dir := filepath.Dir(resolved)
 	temp, err := os.CreateTemp(dir, ".vector-update-*")
@@ -213,6 +215,16 @@ func replaceExecutable(target string, binary []byte) error {
 		return err
 	}
 	return os.Rename(temp.Name(), resolved)
+}
+
+// Homebrew reports whether Homebrew installed the executable at path, in which
+// case Homebrew must perform upgrades so it keeps tracking the files.
+func Homebrew(path string) bool {
+	if resolved, err := filepath.EvalSymlinks(path); err == nil {
+		path = resolved
+	}
+	path = filepath.ToSlash(path)
+	return strings.Contains(path, "/Caskroom/") || strings.Contains(path, "/Cellar/")
 }
 
 // Newer reports whether version a is greater than b. Development builds are

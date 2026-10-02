@@ -26,3 +26,25 @@ checksum:
 
 changelog:
   use: github
+
+# Publishes Casks/vector.rb to imathis/homebrew-tap:
+#   brew install imathis/tap/vector
+homebrew_casks:
+  - name: vector
+    binaries: [vector]
+    directory: Casks
+    homepage: https://github.com/imathis/launch-vector
+    description: Create Launch Vector workspaces and run their apps
+    license: MIT
+    repository:
+      owner: imathis
+      name: homebrew-tap
+      token: "{{ .Env.HOMEBREW_TAP_GITHUB_TOKEN }}"
+    commit_msg_template: "vector {{ .Tag }}"
+    hooks:
+      post:
+        # The binary is not notarized; clear the quarantine flag so macOS runs it.
+        install: |
+          if system_command("/usr/bin/xattr", args: ["-h"]).exit_status == 0
+            system_command "/usr/bin/xattr", args: ["-dr", "com.apple.quarantine", "#{staged_path}/vector"]
+          end

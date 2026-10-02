@@ -156,12 +156,34 @@ func updateSelf(ctx context.Context) (string, error) {
 	if err != nil {
 		return "", err
 	}
+	if selfupdate.Homebrew(executable) {
+		fmt.Printf("Updating vector %s → %s with Homebrew…\n", version, latest.Version())
+		return brewUpgrade(ctx)
+	}
 	fmt.Printf("Updating vector %s → %s…\n", version, latest.Version())
 	if err := client.Apply(ctx, latest, executable); err != nil {
 		return "", err
 	}
 	selfupdate.Forget()
 	return executable, nil
+}
+
+// brewUpgrade upgrades the cask and returns Homebrew's link to the new
+// binary; the old versioned directory is gone after the upgrade.
+func brewUpgrade(ctx context.Context) (string, error) {
+	for _, args := range [][]string{{"update", "--quiet"}, {"upgrade", "--cask", selfupdate.HomebrewCask}} {
+		cmd := exec.CommandContext(ctx, "brew", args...)
+		cmd.Stdin, cmd.Stdout, cmd.Stderr = os.Stdin, os.Stdout, os.Stderr
+		if err := cmd.Run(); err != nil {
+			return "", fmt.Errorf("brew %s: %w", strings.Join(args, " "), err)
+		}
+	}
+	selfupdate.Forget()
+	prefix, err := exec.CommandContext(ctx, "brew", "--prefix").Output()
+	if err != nil {
+		return "", fmt.Errorf("brew --prefix: %w", err)
+	}
+	return filepath.Join(strings.TrimSpace(string(prefix)), "bin", "vector"), nil
 }
 
 func currentProject() (project.Project, bool, error) {

@@ -33,6 +33,8 @@ jobs:
           args: release --clean
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # Fine-grained token with contents write access to imathis/homebrew-tap
+          HOMEBREW_TAP_GITHUB_TOKEN: ${{ secrets.HOMEBREW_TAP_GITHUB_TOKEN }}
       # Trusted publishing (configured on npmjs.com) needs npm 11.5.1 or newer.
       - run: npm install --global npm@latest
       - name: Publish @launch-vector/lab

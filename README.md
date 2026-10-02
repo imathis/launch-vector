@@ -21,7 +21,12 @@ CLI, Claude Code, and other agents all load them.
 ## Install
 
 ```bash
+brew install imathis/tap/vector
+# or, without Homebrew:
 curl -fsSL https://raw.githubusercontent.com/imathis/launch-vector/master/install.sh | sh
+```
+
+```bash
 vector new my-apps
 cd my-apps
 vector setup    # installs Bun, Node, Process Compose, and Portless if missing
@@ -35,7 +40,8 @@ authority; routes use `.localhost` names on port `2187`, so no sudo or
 
 `vector` checks for a new release once a day and prints a notice. Run
 `vector update` inside a workspace to update the CLI, the Lab package, and the
-agent files together.
+agent files together. Homebrew installs upgrade through `brew`, so Homebrew
+keeps tracking the binary.
 
 ## Repository layout
 
@@ -63,6 +69,8 @@ just check        # Go tests, typecheck, lint, build, and smoke test
 ```
 
 Development builds report version `dev` and never replace themselves.
+`just install-cli` writes to `$(brew --prefix)/bin`, the same path a Homebrew
+install links to, so use one or the other on a machine.
 
 ### Try changes in a real workspace
 
@@ -88,6 +96,10 @@ version.
 just release 0.2.0           # sets versions, runs tests, commits, and tags
 git push origin HEAD v0.2.0  # CI builds the CLI release and publishes the Lab
 ```
+
+Releases also update `Casks/vector.rb` in
+[imathis/homebrew-tap](https://github.com/imathis/homebrew-tap), using the
+`HOMEBREW_TAP_GITHUB_TOKEN` secret.
 
 The release workflow publishes `@launch-vector/lab` through npm trusted
 publishing, so it needs no npm token. Publish the first version by hand

@@ -169,3 +169,33 @@ func TestAvailableCachesDailyCheck(t *testing.T) {
 		t.Fatalf("stale cache did not refresh; calls = %d", calls)
 	}
 }
+
+func TestHomebrewDetectsCaskSymlinks(t *testing.T) {
+	root := t.TempDir()
+	cask := filepath.Join(root, "Caskroom", "vector", "0.2.0", "vector")
+	if err := os.MkdirAll(filepath.Dir(cask), 0o755); err != nil {
+		t.Fatal(err)
+	}
+	if err := os.WriteFile(cask, []byte("bin"), 0o755); err != nil {
+		t.Fatal(err)
+	}
+	link := filepath.Join(root, "bin", "vector")
+	if err := os.MkdirAll(filepath.Dir(link), 0o755); err != nil {
+		t.Fatal(err)
+	}
+	if err := os.Symlink(cask, link); err != nil {
+		t.Fatal(err)
+	}
+	if !Homebrew(link) || !Homebrew(cask) {
+		t.Fatal("Homebrew() missed a cask install")
+	}
+	if Homebrew(filepath.Join(root, "bin")) {
+		t.Fatal("Homebrew() flagged a plain install")
+	}
+	if err := replaceExecutable(link, []byte("new")); err == nil {
+		t.Fatal("replaceExecutable() did not refuse a Homebrew install")
+	}
+	if data, _ := os.ReadFile(cask); string(data) != "bin" {
+		t.Fatalf("Homebrew binary changed to %q", data)
+	}
+}
