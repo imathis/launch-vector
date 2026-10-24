@@ -74,7 +74,6 @@ export function ExperimentChromeRow({
             label="Variant"
             value={variant}
             choices={variants}
-            showIndexShortcuts
             ariaKeyShortcuts={VARIANT_KEY_SHORTCUTS}
             onValueChange={onVariantChange}
           />

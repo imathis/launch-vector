@@ -1,5 +1,4 @@
 import { Tabs, TabsList, TabsTrigger } from "#/components/ui"
-import { indexShortcut } from "#/lib/index-shortcut"
 import { variantTabId } from "#/lib/variant-tab"
 
 import type { Choice } from "./choice-menu"
@@ -24,23 +23,20 @@ export function VariantTabs({
         className="max-w-full overflow-x-auto p-px"
         aria-label="Variant"
       >
-        {choices.map((choice, index) => {
-          const shortcut = indexShortcut(index)
-          return (
-            <TabsTrigger
-              key={choice.value}
-              id={variantTabId(choice.value)}
-              value={choice.value}
-              aria-keyshortcuts={shortcut}
-              className="shrink-0"
-            >
-              <span className="text-muted-foreground tabular-nums">
-                {choice.shortcut || shortcut}
-              </span>
-              {choice.label}
-            </TabsTrigger>
-          )
-        })}
+        {choices.map((choice) => (
+          <TabsTrigger
+            key={choice.value}
+            id={variantTabId(choice.value)}
+            value={choice.value}
+            aria-keyshortcuts={choice.shortcut}
+            className="shrink-0"
+          >
+            <span className="text-muted-foreground tabular-nums">
+              {choice.tag}
+            </span>
+            {choice.label}
+          </TabsTrigger>
+        ))}
       </TabsList>
     </Tabs>
   )

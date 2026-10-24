@@ -74,7 +74,6 @@ export function ExperimentPreview({
                     label={panel.label}
                     value={candidate}
                     choices={variantChoices}
-                    showIndexShortcuts
                     onValueChange={(nextVariant) =>
                       onCompareVariantChange(panel.index, nextVariant)
                     }

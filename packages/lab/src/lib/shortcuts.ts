@@ -4,6 +4,7 @@ import {
   indexShortcut,
   numberKeyIndex,
 } from "./index-shortcut"
+import { cycleGroup, type OrderedVariant } from "./variant-order"
 
 export type ShortcutAction =
   | { kind: "exit-presentation" }
@@ -46,6 +47,10 @@ type ShortcutEvent = Pick<
 
 export type ShortcutContext = {
   experiment: ExperimentDefinition | null
+  /** Visible variants in tab order. */
+  variants: readonly OrderedVariant[]
+  /** Empty when no single variant is on screen, so a digit starts at its group's first. */
+  currentVariant: string
   previousVariant: string
   immersive: boolean
 }
@@ -53,7 +58,13 @@ export type ShortcutContext = {
 /** Shared by the frame and parent so preventDefault matches the action that will run. */
 export function resolveShortcut(
   event: ShortcutEvent,
-  { experiment, previousVariant, immersive }: ShortcutContext
+  {
+    experiment,
+    variants,
+    currentVariant,
+    previousVariant,
+    immersive,
+  }: ShortcutContext
 ): ShortcutAction | null {
   if (event.repeat || event.metaKey || event.ctrlKey) return null
 
@@ -67,7 +78,7 @@ export function resolveShortcut(
       const scenario = Object.keys(experiment.scenarios)[optionIndex]
       return scenario ? { kind: "select-scenario", scenario } : null
     }
-    const variant = Object.keys(experiment.variants)[optionIndex]
+    const variant = cycleGroup(variants, optionIndex + 1, currentVariant)
     return variant ? { kind: "select-variant", variant } : null
   }
 
@@ -75,7 +86,7 @@ export function resolveShortcut(
     event.code === "Period" &&
     !event.altKey &&
     !event.shiftKey &&
-    experiment?.variants[previousVariant]
+    variants.some((variant) => variant.key === previousVariant)
   ) {
     return { kind: "previous-variant", variant: previousVariant }
   }

@@ -24,7 +24,7 @@ const prompts = [
   {
     step: "Choose",
     command: "Design Lab:",
-    request: "Accept variant 3b.",
+    request: "Accept 3b.",
   },
 ] as const
 

@@ -10,11 +10,12 @@ import {
   DropdownMenuRadioItem,
   DropdownMenuTrigger,
 } from "#/components/ui"
-import { indexShortcut } from "#/lib/index-shortcut"
 
 export type Choice = {
   value: string
   label: string
+  /** Leading ID such as a variant's `2a`; menus show it in place of `shortcut`. */
+  tag?: string
   shortcut?: string
 }
 
@@ -39,7 +40,6 @@ type ChoiceMenuProps = {
   choices: readonly Choice[]
   onValueChange: (value: string) => void
   ariaKeyShortcuts?: string
-  showIndexShortcuts?: boolean
 }
 
 function ChoiceMenuPopup({
@@ -47,13 +47,10 @@ function ChoiceMenuPopup({
   value,
   choices,
   onValueChange,
-  showIndexShortcuts = false,
-}: Pick<
-  ChoiceMenuProps,
-  "label" | "value" | "choices" | "onValueChange" | "showIndexShortcuts"
->) {
-  const showLeadingColumn =
-    showIndexShortcuts || choices.some((choice) => choice.shortcut)
+}: Pick<ChoiceMenuProps, "label" | "value" | "choices" | "onValueChange">) {
+  const showLeadingColumn = choices.some(
+    (choice) => choice.tag ?? choice.shortcut
+  )
 
   return (
     <DropdownMenuContent
@@ -68,12 +65,11 @@ function ChoiceMenuPopup({
           value={value}
           onValueChange={onValueChange}
         >
-          {choices.map((choice, index) => (
+          {choices.map((choice) => (
             <DropdownMenuRadioItem key={choice.value} value={choice.value}>
               {showLeadingColumn ? (
                 <span className="w-6 shrink-0 text-xs text-muted-foreground tabular-nums">
-                  {choice.shortcut ??
-                    (showIndexShortcuts ? indexShortcut(index) : undefined)}
+                  {choice.tag ?? choice.shortcut}
                 </span>
               ) : null}
               <span className="truncate font-medium">{choice.label}</span>
@@ -91,10 +87,8 @@ export function ChoiceMenu({
   choices,
   onValueChange,
   ariaKeyShortcuts,
-  showIndexShortcuts = false,
 }: ChoiceMenuProps) {
-  const selectedLabel =
-    choices.find((choice) => choice.value === value)?.label ?? "Unavailable"
+  const selected = choices.find((choice) => choice.value === value)
 
   return (
     <DropdownMenu>
@@ -108,7 +102,12 @@ export function ChoiceMenu({
             {label}
           </span>
           <span className="mt-1 block truncate text-sm font-medium">
-            {selectedLabel}
+            {selected?.tag ? (
+              <span className="text-muted-foreground tabular-nums">
+                {selected.tag}{" "}
+              </span>
+            ) : null}
+            {selected?.label ?? "Unavailable"}
           </span>
         </span>
         <ChevronDown
@@ -122,7 +121,6 @@ export function ChoiceMenu({
         value={value}
         choices={choices}
         onValueChange={onValueChange}
-        showIndexShortcuts={showIndexShortcuts}
       />
     </DropdownMenu>
   )
@@ -135,23 +133,28 @@ export function InlineChoiceMenu({
   choices,
   onValueChange,
   ariaKeyShortcuts,
-  showIndexShortcuts = false,
 }: ChoiceMenuProps & {
   icon: LucideIcon
   compact?: boolean
 }) {
-  const selectedLabel =
-    choices.find((choice) => choice.value === value)?.label ?? "Unavailable"
+  const selected = choices.find((choice) => choice.value === value)
+  const selectedLabel = selected?.label ?? "Unavailable"
+  const selectedName = selected?.tag
+    ? `${selected.tag} ${selectedLabel}`
+    : selectedLabel
 
   return (
     <DropdownMenu>
       <DropdownMenuTrigger
         render={<Button variant="ghost-muted" size="toolbar" />}
         aria-keyshortcuts={ariaKeyShortcuts}
-        aria-label={`${label}: ${selectedLabel}`}
+        aria-label={`${label}: ${selectedName}`}
         className="group max-w-full"
       >
         <Icon aria-hidden="true" />
+        {selected?.tag ? (
+          <span className="tabular-nums">{selected.tag}</span>
+        ) : null}
         <span className="truncate">{selectedLabel}</span>
         <ChevronDown
           className="transition-transform group-aria-expanded:rotate-180 motion-reduce:transition-none"
@@ -163,7 +166,6 @@ export function InlineChoiceMenu({
         value={value}
         choices={choices}
         onValueChange={onValueChange}
-        showIndexShortcuts={showIndexShortcuts}
       />
     </DropdownMenu>
   )

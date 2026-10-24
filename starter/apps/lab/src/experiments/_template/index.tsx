@@ -16,6 +16,7 @@ function Prototype({ variant, scenario, view }: ExperimentRenderProps) {
 }
 
 // Copy this directory, rename it, and keep variants/scenarios explicit.
+// Variant keys are lineage ids: directions "1", "2"; branches "2a", "2b" follow 2.
 // Prototypes are disposable; accepted work is reimplemented in its destination app.
 export default defineExperiment({
   metadata: {

@@ -12,7 +12,7 @@ import {
 } from "#/components/ui"
 
 const shortcuts = [
-  ["1–0", "Select variant"],
+  ["1–0", "Select variant (repeat for 2a, 2b)"],
   ["⌥ 1–0", "Select scenario"],
   [".", "Current / previous variant"],
   ["V", "Next variant"],

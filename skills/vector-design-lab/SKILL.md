@@ -63,7 +63,7 @@ additions go through the component workflow and docs, then the experiment.
 - Keep the experiment name, description, and default canvas in `experiment.json`. Import that manifest from `index.tsx` instead of duplicating lifecycle metadata in executable code.
 - Import real shared components through direct `@workspace/ui/*` subpaths. Do not recreate primitives inside an experiment.
 - Prefer structural alternatives over cosmetic permutations. Keep the approved variant count.
-- Variant **keys** are lineage ids, not labels. First directions are `1`, `2`, `3`. The Lab tab badge is that key. Keyboard 1–0 is tab order, not identity.
+- Variant **keys** are lineage ids, not labels. First directions are `1`, `2`, `3`. The Lab orders tabs by that id and shows it as the tab badge, so declaration order does not matter. Keep ids out of labels.
 - Keep variant labels short and scannable—usually two or three words. Put rationale and implementation detail in variant `notes`, not tab labels.
 - Keep scenarios stable across variants so reviewers can compare the idea rather than the sample data.
 - Compare mode presents two independently selected variants and applies one shared scenario to both. Do not build experiment-local comparison or scenario controls.
@@ -73,10 +73,10 @@ additions go through the component workflow and docs, then the experiment.
 
 ## Refine, accept, and hand off
 
-- When refining a direction, preserve the original. Add keys `2a`, `2b`, `2c` only when the user asks for branches of that direction (or names a branch count). Do not add `4` or a new numbered direction for a refinement. Never renumber existing keys; reviewers cite `2b`.
+- When refining a direction, preserve the original. Add keys `2a`, `2b`, `2c` only when the user asks for branches of that direction (or names a branch count). Do not add `4` or a new numbered direction for a refinement. One level only: refining `2a` adds another branch of 2, such as `2d`. Never renumber existing keys; reviewers cite `2b`.
 - If `experiment.json` lists `hiddenVariants`, the reviewer dismissed those keys. Delete them from `index.tsx` on the next Design Lab edit and clear `hiddenVariants`.
 - When a variant is accepted, write `HANDOFF.md` beside the experiment. Record behavior, design decisions, responsive rules, accessibility requirements, open questions, named shared-component API gaps, and prototype concessions. Include a blunt **Do not copy** list (fake data, invented widgets, class overrides, Lab-only shortcuts) and the product replacements.
-- A short acceptance such as `Design Lab: Accept variant 3b` is sufficient. Create the implementation-ready handoff and help reimplement the accepted direction without asking the user to specify the handoff format or production conventions.
+- A short acceptance such as `Design Lab: Accept 3b` is sufficient. Create the implementation-ready handoff and help reimplement the accepted direction without asking the user to specify the handoff format or production conventions.
 - Treat accepted prototypes as high-fidelity mockups. Reimplement them in the destination app using production architecture; do not copy classname overrides, fake data, shortcuts, or other Lab-only compromises.
 - Once the accepted direction is being implemented in product, stop editing the experiment. Follow-up UI notes go to the destination app. Resume Lab edits only when the user explicitly asks for Design Lab work.
 - Delete the experiment after integration. Move something to `apps/lab/src/fixtures` only when it should remain as committed Lab documentation, not as a promotion path into the product.

@@ -88,6 +88,14 @@ Each experiment can set a default canvas layout and optionally override it per
 variant: `centered` for dialogs and cards, `padded` for page content, or `full`
 for edge-to-edge shells and tables.
 
+Variant keys are lineage ids: directions `1`, `2`, `3` and branches `2a`, `2b`
+of direction 2. The Lab orders tabs by those ids, not declaration order, so
+tabs read `1`, `2`, `2a`, `2b`, `3`. Only one branch level is supported. Other
+keys become directions numbered after the highest id. Tabs, menus, Notes, and
+the page title show the ids, and removing a variant never renumbers the rest.
+Number keys select a direction and repeat through its branches; arrow keys and
+`V` step through every tab.
+
 Compare mode shows exactly two panels. Each panel selects its variant
 independently, while one shared scenario continues to affect both. The selected
 pair is URL-backed, and changing variants never resets the scenario.

@@ -18,9 +18,10 @@ Wait for approval. Do not add variants or shared components (or mock
 replacements) until the user chooses. Shared additions use the project
 component workflow and require documentation.
 
-Variant keys are lineage ids (`1`, `2`, `2a`), not the tab's keyboard order.
-Refine a direction with `2a`, `2b`, `2c` only when asked. Do not add `4` for a
-refinement of 2. Never renumber keys. When a direction is accepted, write
+Variant keys are lineage ids (`1`, `2`, `2a`); the Lab orders and labels tabs
+by them. Refine a direction with `2a`, `2b`, `2c` only when asked. Do not add
+`4` for a refinement of 2, and do not branch a branch: refining `2a` adds `2d`.
+Never renumber keys. When a direction is accepted, write
 `HANDOFF.md` and reimplement in the destination app. After that, stop editing
 this experiment unless the user asks for more Design Lab work.
 

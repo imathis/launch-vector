@@ -65,12 +65,12 @@ import {
   type FrameStateMessage,
 } from "./lib/frame-messages"
 import { indexShortcut } from "./lib/index-shortcut"
-import { variantBadge } from "./lib/variant-badge"
 import {
   resolveShortcut,
   shortcutPreventsDefault,
   type ShortcutAction,
 } from "./lib/shortcuts"
+import { orderVariants } from "./lib/variant-order"
 import { labRoutes, parseLabRoute } from "./routes"
 
 type Selection = {
@@ -154,8 +154,7 @@ function isEditableTarget(target: EventTarget | null) {
   )
 }
 
-function nextKey(record: Record<string, unknown>, current: string) {
-  const keys = Object.keys(record)
+function nextKey(keys: readonly string[], current: string) {
   const index = keys.indexOf(current)
   return keys[(index + 1) % keys.length] ?? current
 }
@@ -280,15 +279,52 @@ export function App() {
   const loading = !showStaticPage && !isCurrentExperiment
   const experimentTitleText =
     experiment?.metadata.title || formatExperimentName(selection.experiment)
-  const comparedVariantLabel =
+  const variantOrder = useMemo(
+    () =>
+      experiment
+        ? orderVariants(experiment.variants).filter(
+            (variant) => !hiddenVariantKeys.has(variant.key)
+          )
+        : [],
+    [experiment, hiddenVariantKeys]
+  )
+  const variantKeys = useMemo(
+    () => variantOrder.map((variant) => variant.key),
+    [variantOrder]
+  )
+  const variantChoices = useMemo<readonly Choice[]>(
+    () =>
+      variantOrder.map(({ key, id, group }, index) => ({
+        value: key,
+        label: experiment?.variants[key]?.label ?? key,
+        tag: id,
+        // A digit opens its group's first visible variant, then repeats through the rest.
+        shortcut:
+          variantOrder[index - 1]?.group === group
+            ? undefined
+            : indexShortcut(group - 1),
+      })),
+    [experiment, variantOrder]
+  )
+  const variantNames = useMemo(
+    () =>
+      new Map(
+        variantChoices.map((choice) => [
+          choice.value,
+          `${choice.tag} ${choice.label}`,
+        ])
+      ),
+    [variantChoices]
+  )
+  const selectedVariantName =
     selection.view === "compare"
       ? [
-          experiment?.variants[selection.compareLeft]?.label,
-          experiment?.variants[selection.compareRight]?.label,
+          variantNames.get(selection.compareLeft),
+          variantNames.get(selection.compareRight),
         ]
           .filter(Boolean)
           .join(" vs ")
-      : undefined
+      : variantNames.get(selection.variant)
 
   const updateSelection = useCallback(
     (patch: Partial<Selection>) => {
@@ -325,23 +361,21 @@ export function App() {
         })
         return
       }
-      const variantKeys = Object.keys(experiment?.variants ?? {})
       const compareLeft = selection.variant || variantKeys[0] || ""
       const compareRight =
-        selection.compareRight &&
         selection.compareRight !== compareLeft &&
-        experiment?.variants[selection.compareRight]
+        variantKeys.includes(selection.compareRight)
           ? selection.compareRight
           : (variantKeys.find((candidate) => candidate !== compareLeft) ??
             compareLeft)
       updateSelection({ view, compareLeft, compareRight })
     },
     [
-      experiment,
       selection.compareLeft,
       selection.compareRight,
       selection.variant,
       updateSelection,
+      variantKeys,
     ]
   )
 
@@ -494,26 +528,18 @@ export function App() {
 
   useEffect(() => {
     if (!experiment) return
-    const variantKeys = Object.keys(experiment.variants).filter(
-      (key) => !hiddenVariantKeys.has(key)
-    )
     const scenarioKeys = Object.keys(experiment.scenarios)
-    const variant =
-      experiment.variants[selection.variant] &&
-      !hiddenVariantKeys.has(selection.variant)
-        ? selection.variant
-        : (variantKeys[0] ?? "")
+    const variant = variantKeys.includes(selection.variant)
+      ? selection.variant
+      : (variantKeys[0] ?? "")
     const scenario = experiment.scenarios[selection.scenario]
       ? selection.scenario
       : (scenarioKeys[0] ?? "")
-    const compareLeft =
-      experiment.variants[selection.compareLeft] &&
-      !hiddenVariantKeys.has(selection.compareLeft)
-        ? selection.compareLeft
-        : variant
+    const compareLeft = variantKeys.includes(selection.compareLeft)
+      ? selection.compareLeft
+      : variant
     const compareRight =
-      experiment.variants[selection.compareRight] &&
-      !hiddenVariantKeys.has(selection.compareRight) &&
+      variantKeys.includes(selection.compareRight) &&
       selection.compareRight !== compareLeft
         ? selection.compareRight
         : (variantKeys.find((candidate) => candidate !== compareLeft) ??
@@ -529,12 +555,12 @@ export function App() {
     }
   }, [
     experiment,
-    hiddenVariantKeys,
     selection.compareLeft,
     selection.compareRight,
     selection.scenario,
     selection.variant,
     updateSelection,
+    variantKeys,
   ])
 
   useEffect(() => {
@@ -570,20 +596,10 @@ export function App() {
       return
     }
 
-    const variantTitle =
-      comparedVariantLabel ?? experiment?.variants[selection.variant]?.label
-    document.title = [variantTitle, experimentTitleText, title]
+    document.title = [selectedVariantName, experimentTitleText, title]
       .filter(Boolean)
       .join(" | ")
-  }, [
-    comparedVariantLabel,
-    experiment,
-    experimentTitleText,
-    selection.variant,
-    showAdd,
-    showGuide,
-    title,
-  ])
+  }, [experimentTitleText, selectedVariantName, showAdd, showGuide, title])
 
   useEffect(() => {
     if (previousImmersive.current === immersive) return
@@ -626,7 +642,7 @@ export function App() {
       case "next-variant":
         if (experiment) {
           updateSelection({
-            variant: nextKey(experiment.variants, selection.variant),
+            variant: nextKey(variantKeys, selection.variant),
             view: "focus",
           })
         }
@@ -634,7 +650,10 @@ export function App() {
       case "next-scenario":
         if (experiment) {
           updateSelection({
-            scenario: nextKey(experiment.scenarios, selection.scenario),
+            scenario: nextKey(
+              Object.keys(experiment.scenarios),
+              selection.scenario
+            ),
           })
         }
     }
@@ -642,6 +661,8 @@ export function App() {
 
   const shortcutContext = useEffectEvent(() => ({
     experiment,
+    variants: variantOrder,
+    currentVariant: selection.view === "focus" ? selection.variant : "",
     previousVariant: previousVariant.current,
     immersive,
   }))
@@ -716,15 +737,6 @@ export function App() {
     selection.compareLeft,
     selection.compareRight,
   ] as const
-  const variantChoices: readonly Choice[] = experiment
-    ? Object.entries(experiment.variants)
-        .filter(([value]) => !hiddenVariantKeys.has(value))
-        .map(([value, details], index) => ({
-          value,
-          label: details.label,
-          shortcut: variantBadge(value, index),
-        }))
-    : []
   const scenarioChoices: readonly Choice[] = experiment
     ? Object.entries(experiment.scenarios).map(([value, details], index) => {
         const shortcut = indexShortcut(index)
@@ -841,8 +853,8 @@ export function App() {
           },
           {
             value: "hide-variant",
-            label: selectedVariant
-              ? `Remove “${selectedVariant.label}”`
+            label: selectedVariantName
+              ? `Remove “${selectedVariantName}”`
               : "Remove this variant",
             description:
               variantChoices.length < 2
@@ -893,7 +905,7 @@ export function App() {
     hiddenVariantKeys,
     management,
     resetPrototype,
-    selectedVariant,
+    selectedVariantName,
     selection.experiment,
     selection.variant,
     variantChoices.length,
@@ -918,7 +930,7 @@ export function App() {
       title={experiment.metadata.title}
       description={experiment.metadata.description}
       notes={experiment.metadata.notes}
-      variantLabel={comparedVariantLabel ?? selectedVariant?.label}
+      variantLabel={selectedVariantName}
       variantNotes={
         selection.view === "focus" ? selectedVariant?.notes : undefined
       }
@@ -1120,7 +1132,7 @@ export function App() {
                   side: panel.side,
                   index: panel.index,
                   variant,
-                  label: experiment.variants[variant]?.label ?? variant,
+                  label: variantNames.get(variant) ?? variant,
                   src: frameSrcFor(variant, true),
                 }
               })}

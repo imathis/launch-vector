@@ -23,8 +23,8 @@ const phases = [
     number: "03",
     title: "Integrate",
     description:
-      "Accept a direction. The agent creates an implementation-ready handoff that separates the product decision from prototype-only code and helps reimplement it correctly.",
-    example: "Design Lab: Accept variant 2b.",
+      "Accept a direction by the ID on its tab. The agent creates an implementation-ready handoff that separates the product decision from prototype-only code and helps reimplement it correctly.",
+    example: "Design Lab: Accept 2b.",
   },
 ] as const
 

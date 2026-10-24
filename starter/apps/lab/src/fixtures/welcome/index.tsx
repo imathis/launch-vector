@@ -4,7 +4,7 @@ import { Button } from "@workspace/ui/components/button"
 import { defineExperiment, type ExperimentRenderProps } from "@launch-vector/lab"
 
 function Welcome({ variant, scenario }: ExperimentRenderProps) {
-  const isStrong = variant === "strong"
+  const isStrong = variant === "2" || variant === "2a"
 
   return (
     <section className="w-full max-w-xl rounded-2xl border border-border bg-card p-6 text-card-foreground sm:p-10">
@@ -15,11 +15,11 @@ function Welcome({ variant, scenario }: ExperimentRenderProps) {
         {scenario === "returning" ? "Welcome back." : "Welcome to the lab."}
       </h2>
       <p className="mt-3 max-w-md leading-7 text-muted-foreground">
-        This fixture proves discovery, variants, scenarios, and shared UI
-        without becoming a product prototype.
+        This fixture proves discovery, variants, branches, scenarios, and shared
+        UI without becoming a product prototype.
       </p>
       <Button
-        className="mt-6 min-h-11 px-4"
+        className={`mt-6 min-h-11 px-4 ${variant === "2a" ? "w-full" : ""}`}
         variant={isStrong ? "default" : "outline"}
       >
         {isStrong ? "Start exploring" : "View guidance"}
@@ -36,13 +36,18 @@ export default defineExperiment({
       "This fixture is intentionally generic. It demonstrates the harness without pretending to be product work.",
   },
   variants: {
-    quiet: {
+    "1": {
       label: "Quiet",
       notes: "Uses an outline action to keep the fixture visually restrained.",
     },
-    strong: {
+    "2": {
       label: "Strong",
       notes: "Promotes the action to the primary button treatment.",
+    },
+    "2a": {
+      label: "Full width",
+      notes:
+        "Branches Strong by stretching the primary action across the card.",
     },
   },
   scenarios: {
