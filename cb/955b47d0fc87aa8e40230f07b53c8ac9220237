@@ -1,0 +1,19 @@
+packages/lab/vite.config.ts
+  s_0dc3429253c3c9::t_c7997f7bfd028d 7-15,34-36
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "cb955b47d0fc87aa8e40230f07b53c8ac9220237",
+  "prompts": {},
+  "sessions": {
+    "s_0dc3429253c3c9": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "5f10a1b8-c288-48bd-948f-c0ba0b09c748",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Brandon Mathis <brandon@imathis.com>"
+    }
+  }
+}
