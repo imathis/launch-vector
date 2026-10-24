@@ -13,7 +13,7 @@
     },
     "packages/lab": {
       "name": "@launch-vector/lab",
-      "version": "0.2.0",
+      "version": "0.2.1",
       "dependencies": {
         "@base-ui/react": "^1.7.0",
         "class-variance-authority": "^0.7.1",
@@ -78,7 +78,7 @@
       "name": "@workspace/lab-app",
       "version": "0.0.0",
       "dependencies": {
-        "@launch-vector/lab": "^0.1.0",
+        "@launch-vector/lab": "^0.2.1",
         "@workspace/ui": "workspace:*",
         "lucide-react": "^1.33.0",
         "react": "^19.2.6",
