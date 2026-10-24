@@ -1,0 +1,25 @@
+bun.lock
+  s_0dc3429253c3c9::t_0c4a4b0dcaff8d 16,81
+package.json
+  s_0dc3429253c3c9::t_ba8b1f6f4d843c 3
+packages/lab/package.json
+  s_0dc3429253c3c9::t_c845cd815a0da2 3
+starter/apps/lab/package.json
+  s_0dc3429253c3c9::t_6c25c712e23997 15
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "859d977f90993fd92ebb44196fdae2f76e07b405",
+  "prompts": {},
+  "sessions": {
+    "s_0dc3429253c3c9": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "5f10a1b8-c288-48bd-948f-c0ba0b09c748",
+        "model": "unknown"
+      },
+      "human_author": "Brandon Mathis <brandon@imathis.com>"
+    }
+  }
+}
