@@ -8,6 +8,8 @@ const port = process.env.PORT ? Number(process.env.PORT) : undefined
 
 export default defineConfig({
   plugins: [react(), tailwindcss(), labPlugin()],
+  // A linked Lab checkout would otherwise load its own React.
+  resolve: { dedupe: ["react", "react-dom"] },
   server: {
     host: process.env.HOST,
     port,
