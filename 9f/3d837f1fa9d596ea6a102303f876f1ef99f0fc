@@ -1,0 +1,146 @@
+starter/apps/docs/index.html
+  s_0dc3429253c3c9::t_8b4c4206dcb62f 15
+packages/lab/eslint.config.js
+  s_0dc3429253c3c9::t_a4b4455da23a00 16
+starter/apps/lab/server.ts
+  s_0dc3429253c3c9::t_8b4c4206dcb62f 1-6
+packages/lab/src/management/server.ts
+  s_0dc3429253c3c9::t_a24ce7f7568b23 159,193
+  s_0dc3429253c3c9::t_0eb84fb5692c51 163
+  s_0dc3429253c3c9::t_eaed01913a9113 15-158,160-162,164-192,195-198
+packages/lab/README.md
+  s_0dc3429253c3c9::t_e0e22f4f24d7e4 12
+starter/apps/lab/README.md
+  s_0dc3429253c3c9::t_dbeebd57566660 24
+  s_0dc3429253c3c9::t_e0e22f4f24d7e4 23,49
+starter/apps/docs/eslint.config.js
+  s_0dc3429253c3c9::t_8b4c4206dcb62f 16
+starter/apps/lab/eslint.config.js
+  s_0dc3429253c3c9::t_8b4c4206dcb62f 16
+starter/apps/docs/build.ts
+  s_0dc3429253c3c9::t_8b4c4206dcb62f 1-3
+starter/apps/docs/tsconfig.node.json
+  s_0dc3429253c3c9::t_ae4d5951672eb1 6,10-11,23
+starter/packages/toolchain/client.d.ts
+  s_0dc3429253c3c9::t_550192da613fdb 1-16
+starter/packages/ui/eslint.config.js
+  s_0dc3429253c3c9::t_8b4c4206dcb62f 16
+starter/apps/lab/tsconfig.node.json
+  s_0dc3429253c3c9::t_ae4d5951672eb1 6,8-9,19
+packages/lab/src/management/server.test.ts
+  s_0dc3429253c3c9::t_e815146e411782 1-114
+packages/lab/src/lib/dev-server.ts
+  s_0dc3429253c3c9::t_a6e625348c2a97 1-38
+starter/apps/docs/bunfig.toml
+  s_0dc3429253c3c9::t_8b4c4206dcb62f 1-2,8
+  s_0dc3429253c3c9::t_f5048a726bc165 3-7
+packages/lab/AGENTS.md
+  s_0dc3429253c3c9::t_e0e22f4f24d7e4 12
+starter/README.md
+  s_0dc3429253c3c9::t_1347f6bd475e6f 43-51,54-57,61-62
+  s_0dc3429253c3c9::t_d1917999328bb7 52-53
+starter/packages/toolchain/src/dedupe.ts
+  s_0dc3429253c3c9::t_2b65c6594d2c7e 1-22
+packages/lab/src/css.d.ts
+  s_0dc3429253c3c9::t_d20cb28d4e443b 1-2
+starter/apps/web/bunfig.toml
+  s_0dc3429253c3c9::t_8b4c4206dcb62f 1-2,8
+  s_0dc3429253c3c9::t_f5048a726bc165 3-7
+starter/apps/web/build.ts
+  s_0dc3429253c3c9::t_8b4c4206dcb62f 1-3
+skills/vector-design-lab/SKILL.md
+  s_0dc3429253c3c9::t_e0e22f4f24d7e4 23,88
+packages/lab/build.ts
+  s_0dc3429253c3c9::t_4460460fca4663 1-26,28-58
+  s_0dc3429253c3c9::t_a2d595895d1172 27
+Justfile
+  s_0dc3429253c3c9::t_cbd9f546344426 47,51
+packages/lab/tsconfig.build.json
+  s_0dc3429253c3c9::t_d20cb28d4e443b 11
+packages/lab/src/hooks/use-experiment-management.ts
+  s_0dc3429253c3c9::t_d87b851ca03133 246
+  s_0dc3429253c3c9::t_f948d3102133e4 15
+packages/lab/src/App.tsx
+  s_0dc3429253c3c9::t_102ce510e78900 59
+  s_0dc3429253c3c9::t_51e07ad9197e45 185,187
+starter/packages/toolchain/src/tailwind.ts
+  s_0dc3429253c3c9::t_d76992a42e7862 1-3
+starter/apps/lab/index.html
+  s_0dc3429253c3c9::t_8b4c4206dcb62f 14
+starter/apps/lab/package.json
+  s_0dc3429253c3c9::t_ae4d5951672eb1 7-8,11,22,25,31
+starter/apps/web/eslint.config.js
+  s_0dc3429253c3c9::t_8b4c4206dcb62f 16
+starter/packages/toolchain/tsconfig.json
+  s_0dc3429253c3c9::t_544a93d8b0ea59 1-16
+packages/lab/tsconfig.json
+  s_0dc3429253c3c9::t_a4b4455da23a00 6
+starter/apps/web/index.html
+  s_0dc3429253c3c9::t_8b4c4206dcb62f 14
+starter/apps/web/package.json
+  s_0dc3429253c3c9::t_ae4d5951672eb1 7-8,11,20,23,29
+packages/lab/package.json
+  s_0dc3429253c3c9::t_a4b4455da23a00 24-25,38-40,42,46,58,62,71
+starter/apps/web/tsconfig.node.json
+  s_0dc3429253c3c9::t_ae4d5951672eb1 7,23
+starter/apps/web/tsconfig.app.json
+  s_0dc3429253c3c9::t_ae4d5951672eb1 7
+starter/packages/toolchain/src/glob.ts
+  s_0dc3429253c3c9::t_ffaddef92fa4bc 142
+  s_0dc3429253c3c9::t_6108f906f3195c 25
+  s_0dc3429253c3c9::t_3d61418bf16e3b 1,116,131,139-141
+  s_0dc3429253c3c9::t_a0a87f7565d622 2-24,26-42,46-115,117-130,132-138,143-168
+  s_0dc3429253c3c9::t_28115b480a2382 43-45
+packages/lab/src/server.ts
+  s_0dc3429253c3c9::t_58abec8bf0c8af 1
+starter/packages/toolchain/eslint.config.js
+  s_0dc3429253c3c9::t_645155970a6f25 1-12
+starter/apps/lab/build.ts
+  s_0dc3429253c3c9::t_8b4c4206dcb62f 1-3
+starter/packages/toolchain/src/glob.test.ts
+  s_0dc3429253c3c9::t_af673373dfe08f 1-96
+starter/apps/docs/tsconfig.app.json
+  s_0dc3429253c3c9::t_ae4d5951672eb1 7
+starter/apps/web/server.ts
+  s_0dc3429253c3c9::t_8b4c4206dcb62f 1-5
+starter/apps/lab/tsconfig.app.json
+  s_0dc3429253c3c9::t_ae4d5951672eb1 7
+starter/packages/toolchain/package.json
+  s_0dc3429253c3c9::t_2af64b4b8f01e5 18,28
+  s_0dc3429253c3c9::t_f5048a726bc165 26
+  s_0dc3429253c3c9::t_346f288cc4bef8 1-17,19-25,27,29-33
+starter/packages/toolchain/src/index.ts
+  s_0dc3429253c3c9::t_d7ac32e23a5ecc 16-17
+  s_0dc3429253c3c9::t_b8d0c2727b4e37 72-73
+  s_0dc3429253c3c9::t_83fa6d1f5f29d1 2-6,8-15,18-26,61-71,78,80,86-87,89,91-93
+  s_0dc3429253c3c9::t_c6ad13760033bc 1,29-60,88,90
+  s_0dc3429253c3c9::t_78e1d37147a340 74-77
+  s_0dc3429253c3c9::t_83bdb777983665 27-28
+  s_0dc3429253c3c9::t_f5048a726bc165 7,81-85
+  s_0dc3429253c3c9::t_a2d595895d1172 79
+starter/apps/docs/package.json
+  s_0dc3429253c3c9::t_ae4d5951672eb1 7-8,11,24,27,33
+starter/apps/docs/server.ts
+  s_0dc3429253c3c9::t_8b4c4206dcb62f 1-5
+starter/apps/lab/bunfig.toml
+  s_0dc3429253c3c9::t_f5048a726bc165 3-7
+  s_0dc3429253c3c9::t_8b4c4206dcb62f 1-2,8
+bun.lock
+  s_0dc3429253c3c9::t_042232ee17cf56 27,31,61,64,85,88,107,110,117-131,360-361,398-399
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "9f3d837f1fa9d596ea6a102303f876f1ef99f0fc",
+  "prompts": {},
+  "sessions": {
+    "s_0dc3429253c3c9": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "5f10a1b8-c288-48bd-948f-c0ba0b09c748",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Brandon Mathis <brandon@imathis.com>"
+    }
+  }
+}
