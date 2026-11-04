@@ -1,0 +1,51 @@
+starter/packages/ui/src/components/field.tsx
+  s_0dc3429253c3c9::t_5d82ee48f82e47 4
+starter/packages/ui/src/components/checkbox.tsx
+  s_0dc3429253c3c9::t_5d82ee48f82e47 3
+starter/packages/ui/eslint.config.js
+  s_0dc3429253c3c9::t_5d82ee48f82e47 22-26
+starter/packages/ui/src/components/sheet.tsx
+  s_0dc3429253c3c9::t_5d82ee48f82e47 5
+starter/packages/ui/src/components/dialog.tsx
+  s_0dc3429253c3c9::t_5d82ee48f82e47 4
+starter/packages/ui/src/components/dropdown-menu.tsx
+  s_0dc3429253c3c9::t_5d82ee48f82e47 3
+starter/packages/ui/src/components/native-select.tsx
+  s_0dc3429253c3c9::t_5d82ee48f82e47 3
+starter/packages/ui/src/lib/utils.ts
+  s_0dc3429253c3c9::t_5d82ee48f82e47 1
+starter/packages/ui/src/components/switch.tsx
+  s_0dc3429253c3c9::t_5d82ee48f82e47 3
+starter/packages/ui/src/components/label.tsx
+  s_0dc3429253c3c9::t_5d82ee48f82e47 3
+starter/packages/ui/src/components/textarea.tsx
+  s_0dc3429253c3c9::t_5d82ee48f82e47 3
+starter/packages/ui/src/components/questionnaire.tsx
+  s_0dc3429253c3c9::t_5d82ee48f82e47 5
+starter/packages/ui/src/components/input.tsx
+  s_0dc3429253c3c9::t_5d82ee48f82e47 4
+starter/packages/ui/src/components/button.tsx
+  s_0dc3429253c3c9::t_5d82ee48f82e47 3
+starter/packages/ui/src/components/separator.tsx
+  s_0dc3429253c3c9::t_5d82ee48f82e47 5
+starter/packages/ui/package.json
+  s_0dc3429253c3c9::t_cc6c1470f2d289 17
+bun.lock
+  s_0dc3429253c3c9::t_43b05acae8eb81 135,485-486
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "09365d2f743211ede4da58f771588a09b1bb78a8",
+  "prompts": {},
+  "sessions": {
+    "s_0dc3429253c3c9": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "5f10a1b8-c288-48bd-948f-c0ba0b09c748",
+        "model": "claude-opus-5-5"
+      },
+      "human_author": "Brandon Mathis <brandon@imathis.com>"
+    }
+  }
+}
